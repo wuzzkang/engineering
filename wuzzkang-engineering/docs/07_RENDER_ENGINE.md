@@ -613,3 +613,66 @@ cd wuzzkang-lp && python3 -m http.server 5000
 3. Klik tombol desain baru → klik **"Lihat Contoh Desain"**
 4. Modal akan membuka iframe dari `/preview/index.html` yang load template dari `/preview/templates/`
 5. Pastikan template tampil tanpa error di console
+
+---
+
+## 📡 Tracking Pixel Integration (Phase 5)
+
+### Mekanisme
+
+Wuzzkang mendukung injeksi tracking script secara otomatis ke setiap landing page melalui mekanisme **Profile-Centric Tracking** yang terdiri dari 3 lapisan:
+
+```
+User simpan pixel ID → profiles.tracking_config (DB)
+                                 ↓
+           POST /api/generate (API merge tracking_config ke pageData.meta)
+                                 ↓
+          projects.page_data.meta.facebook_pixel_id, dll (disimpan di DB)
+                                 ↓
+      wuzzkang-lp/script.js baca pageConfig.meta → inject <script> tag
+```
+
+### Platform yang Didukung
+
+| Pixel/Tag | Field Key | Contoh Nilai | Script Source |
+|---|---|---|---|
+| Facebook / Meta Pixel | `facebook_pixel_id` | `1234567890` | `connect.facebook.net` |
+| Google Analytics 4 | `google_analytics_id` | `G-XXXXXXXXXX` | `googletagmanager.com` |
+| Google Ads | `google_ads_id` | `AW-XXXXXXXXXX` | `googletagmanager.com` |
+| TikTok Pixel | `tiktok_pixel_id` | `CXXXXXXXXXXXXXXXXX` | `analytics.tiktok.com` |
+
+### Lokasi Kode
+
+- **Database:** `public.profiles.tracking_config` (JSONB, migration: `20260704_add_tracking_config_to_profiles.sql`)
+- **API endpoint:** `PATCH /api/profile/tracking` — simpan/update pixel config
+- **API merge:** `wuzzkang-api/src/routes/generator.route.js` — merge tracking ke `pageData.meta` sebelum simpan
+- **Schema:** `wuzzkang-api/src/utils/schema.js` — semua `meta` schema memiliki field tracking opsional
+- **LP Runtime:** `wuzzkang-lp/script.js` — fungsi `injectFacebookPixel()`, `injectGoogleTag()`, `injectTikTokPixel()` dipanggil setelah `renderPage()`
+- **Dashboard UI:** `wuzzkang-dashboard/src/app/profile/page.js` — halaman profil dengan form tracking
+- **Generate Banner:** `wuzzkang-dashboard/src/app/generate/page.js` — banner read-only status pixel dengan link ke `/profile#tracking`
+
+### Custom Domain Readiness
+
+> **Desain ini sudah custom-domain-ready.**
+
+Injeksi tracking terjadi di `wuzzkang-lp/script.js` (LP runtime), bukan di level template atau routing. Script membaca `pageConfig.meta` yang sudah berisi pixel ID, kemudian menambahkan `<script>` tag ke `document.head`. Karena:
+- Tidak ada hardcoded domain assumption di script injector
+- Google Tag (`gtag.js`) dan TikTok Pixel menggunakan CDN eksternal yang domain-agnostic
+- Facebook Pixel tidak terikat ke origin URL
+
+Maka tracking akan bekerja identik pada:
+- GitHub Pages slug (`siluet.web.id/?slug=xxx`)
+- Subdomain staging (`xxx.bmstaging.id`)
+- Custom domain apapun yang dipasang di masa depan
+
+### Penambahan Platform Baru
+
+Untuk menambahkan platform tracking baru (misal: Snapchat Pixel):
+1. Tambah field baru di `profiles.tracking_config` schema — tidak perlu migration baru (JSONB flexible)
+2. Tambah field di `TrackingConfigSchema` di `profile.route.js`
+3. Tambah field opsional di semua `meta` schema di `schema.js`
+4. Tambah merge logic di `generator.route.js`
+5. Tambah fungsi `injectSnapchatPixel()` di `script.js` dan panggil di injection block
+6. Tambah field di `TRACKING_FIELDS` array di `profile/page.js`
+7. Bump `LP_VERSION` di `script.js` dan `PREVIEW_VERSION` di `preview/index.html`
+8. Jalankan `npm run sync:templates`

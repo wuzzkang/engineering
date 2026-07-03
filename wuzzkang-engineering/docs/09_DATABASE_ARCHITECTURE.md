@@ -204,6 +204,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `avatar_url` | `TEXT` | `NULL` | - | Cached avatar metadata, synchronized from `auth.users` on insert. |
 | `daily_ai_limit` | `INTEGER` | `NULL` | `NULL` | Maximum daily free AI quota. If `NULL`, falls back to system settings default. |
 | `ai_generate_cost` | `BIGINT` | `NULL` | `NULL` | Unit cost in Credits per AI generation after quota. If `NULL`, falls back to system settings default. |
+| `tracking_config` | `JSONB` | `NULL` | `NULL` | Tracking pixel configuration object. Keys: `facebook_pixel_id`, `google_analytics_id`, `google_ads_id`, `tiktok_pixel_id`. Merged into `page_data.meta` at generate-time. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Timestamp of last row mutation. Automatically updated via `handle_updated_at` trigger. |
 
 ### 8.2 projects
@@ -639,6 +640,7 @@ $$;
 16. `20260629105100_add_toko_online_product.sql` — Seeds e-commerce store item.
 17. `20260629160000_create_system_settings.sql` — Global default limits configuration.
 18. `20260703131200_convert_balance_to_credits.sql` — Convert wallet balances and product costs to credits, add credit_price_idr.
+19. `20260704_add_tracking_config_to_profiles.sql` — Adds `tracking_config JSONB` column to `public.profiles` for storing user-level pixel/analytics tracking IDs (Facebook Pixel, Google Analytics, Google Ads, TikTok Pixel).
 
 ### 17.2 Database Seeds
 * **Products:**

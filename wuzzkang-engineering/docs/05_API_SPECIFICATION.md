@@ -331,7 +331,7 @@ Represents discount validations:
 ### 9.1 Profile & Catalog Endpoints
 
 #### `GET /api/profile`
-* **Purpose:** Retrieve the profile configuration, wallet balance, and AI usage quotas of the authenticated user.
+* **Purpose:** Retrieve the profile configuration, wallet balance, AI usage quotas, and tracking pixel configuration of the authenticated user.
 * **Authentication Required:** Yes (Bearer JWT).
 * **Headers:** `Authorization: Bearer <access_token>`
 * **Success Response (200 OK):**
@@ -348,12 +348,49 @@ Represents discount validations:
       "ai_generate_cost": 1,
       "credit_price_idr": 100,
       "remainingFree": 12,
+      "tracking_config": {
+        "facebook_pixel_id": "1234567890",
+        "google_analytics_id": "G-XXXXXXXXXX",
+        "google_ads_id": "AW-XXXXXXXXXX",
+        "tiktok_pixel_id": "CXXXXXXXXXXXXXXXXX"
+      },
       "updated_at": "2026-07-01T12:00:00.000Z"
     }
   }
   ```
 * **Exception Triggers:**
   * `401 Unauthorized`: Token is missing or validation signature checks fail.
+
+#### `PATCH /api/profile/tracking`
+* **Purpose:** Save or update the user's tracking pixel configuration. These IDs are stored once in `profiles.tracking_config` and automatically merged into every generated `page_data.meta` at request-time, so they apply to all landing pages without re-entry.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Headers:** `Authorization: Bearer <access_token>`, `Content-Type: application/json`
+* **Request Body Schema (all fields optional, pass `null` to clear):**
+  ```json
+  {
+    "facebook_pixel_id": "string | null",
+    "google_analytics_id": "string | null",
+    "google_ads_id": "string | null",
+    "tiktok_pixel_id": "string | null"
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "tracking_config": {
+        "facebook_pixel_id": "1234567890",
+        "google_analytics_id": "G-XXXXXXXXXX",
+        "google_ads_id": null,
+        "tiktok_pixel_id": null
+      }
+    }
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Invalid field values (e.g. value exceeds 100 chars).
+  * `401 Unauthorized`: Token is missing or expired.
 
 #### `GET /api/products`
 * **Purpose:** Retrieve the listing of template products with their associated cost configurations.

@@ -138,6 +138,13 @@ Future designs belong to later documents.
 - Products
 - Coupons
 
+## Landing Page Templates
+
+- Wedding: `sage-green`, `floral-pink`, `classic-love`
+- Birthday: `cute-balloon`, `elegant-gold`
+- Toko Online: `modern-clean`, `midnight-dark`
+- Campaign: `neon-conversion`, `clean-trust`
+
 ---
 
 # Existing Components
@@ -160,6 +167,12 @@ Future designs belong to later documents.
 
 - Dynamic Template Loader
 
+## Dashboard Pages
+
+- `/generate` — AI landing page generator form (all template types)
+- `/login` — Authentication
+- `/topup` — Wallet top-up via Winpay VA
+
 ---
 
 # Disabled Features
@@ -174,6 +187,23 @@ Future designs belong to later documents.
 - Custom Domain
 - PaymentFactory Refactor
 - IP Whitelisting
+
+---
+
+# In-Progress Features
+
+## Profile-Centric Tracking Pixel Integration (Phase 5)
+
+> Status: IN PROGRESS — being implemented by AI engineer session (2026-07-04)
+
+- User Profile page (`/profile`) — account info, security, tracking config
+- Tracking config stored in `profiles.tracking_config` (JSONB column) — **migration pending**
+- `PATCH /api/profile/tracking` endpoint — saves FB Pixel, GA4, Google Ads, TikTok Pixel IDs
+- `GET /api/generate` form shows read-only tracking banner + "Edit di Profil" link
+- At generate time, API merges `tracking_config` from profile into `page_data.meta` before saving
+- `wuzzkang-lp/script.js` reads `pageConfig.meta` and injects tracking scripts dynamically
+- Design is custom-domain-ready: injection happens at LP runtime, not per-template, so it works across GitHub Pages slugs and future custom domains without changes
+- LP_VERSION bump required after changes to script.js
 
 ---
 
