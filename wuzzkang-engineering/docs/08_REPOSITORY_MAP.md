@@ -49,6 +49,7 @@ wuzzkang-api/
 │       └── schema.js             # Skema validasi PageSchema Zod global
 ├── tests/
 │   └── unit/                     # Unit testing (project, wallet, & coupon services)
+├── docker-compose.yml            # Konfigurasi container Redis lokal
 ├── .env                          # Konfigurasi kunci API, model AI, dan port lokal
 ├── server.js                     # Berkas inisialisasi & entrypoint utama HTTP server
 └── package.json                  # Dependencies backend

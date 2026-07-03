@@ -91,11 +91,51 @@ Sebelum mendeploy backend, pastikan database Supabase sudah diinisialisasi:
 4. Buat bucket penyimpanan publik baru bernama `wuzzkang-bucket` di menu Storage.
 
 ### 3.2 Langkah 2: Deploy Backend API (`wuzzkang-api`)
-Jika mendeploy ke **Railway**:
+
+#### Opsi A: Deploy ke Railway / PaaS Cloud
 1. Hubungkan akun GitHub Anda ke Railway.
 2. Buat project baru dan pilih repositori `wuzzkang-api`.
 3. Masukkan seluruh variabel lingkungan dari Bagian 2.1 ke tab **Variables**.
 4. Railway akan mendeteksi `start` script di `package.json` secara otomatis dan menjalankan server di port yang diberikan (`PORT`).
+
+#### Opsi B: Deploy ke VPS Mandiri (Self-Hosted via PM2 & Docker)
+Jika Anda menggunakan server VPS berbasis Linux (Ubuntu/Debian), gunakan metode **Semi-Dockerized** dengan **PM2** untuk efisiensi RAM dan skalabilitas optimal:
+
+1. **Persiapan Perangkat Lunak di VPS:**
+   * Pasang **Docker & Docker Compose** (untuk menjalankan container Redis).
+   * Pasang **Node.js (versi 22)** & **Nginx** (sebagai Reverse Proxy & SSL).
+   * Pasang PM2 secara global: `npm install -g pm2`
+
+2. **Kloning Proyek & Pasang Dependensi:**
+   ```bash
+   git clone <URL_REPOSITORI_WUZZKANG_API> wuzzkang-api
+   cd wuzzkang-api
+   npm install --omit=dev
+   ```
+
+3. **Konfigurasi Variabel Lingkungan (.env):**
+   Buat file `.env` di root folder proyek: `nano .env`
+   Masukkan konfigurasi produksi, pastikan diisi dengan:
+   ```env
+   PORT=3026
+   REDIS_URL=redis://localhost:6379
+   ENABLE_BG_WORKER=true
+   ```
+
+4. **Nyalakan Layanan Redis lokal (Docker):**
+   ```bash
+   docker compose up -d
+   ```
+   *Perintah ini akan menyalakan container Redis 7 secara latar belakang menggunakan berkas [docker-compose.yml](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/docker-compose.yml).*
+
+5. **Jalankan Backend Server API (PM2):**
+   ```bash
+   pm2 start server.js --name "wuzzkang-api"
+   ```
+   *Express API sekarang aktif dan dipantau oleh PM2. Untuk melihat log aktivitas: `pm2 logs`.*
+
+6. **Konfigurasi Reverse Proxy Nginx & SSL:**
+   Konfigurasi Nginx proxy_pass di `/etc/nginx/sites-available/default` untuk memetakan port `3026` ke domain HTTPS Anda (menggunakan Let's Encrypt / Certbot).
 
 ### 3.3 Langkah 3: Deploy Runtime Renderer (`wuzzkang-lp`)
 Mendeploy ke **GitHub Pages**:

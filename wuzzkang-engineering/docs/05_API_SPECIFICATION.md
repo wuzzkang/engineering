@@ -531,6 +531,25 @@ Represents discount validations:
   }
   ```
 
+#### `GET /api/jobs/:id/status`
+* **Purpose:** Retrieve the current status, progress, and result of a queued BullMQ background job.
+* **Authentication Required:** Yes (Bearer JWT).
+* **URL Parameters:**
+  * `id`: string (the unique job queue identifier).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "jobId": "string",
+    "state": "string (completed | failed | active | delayed | waiting)",
+    "progress": "number | object",
+    "failedReason": "string (only if failed)",
+    "result": "object (returnValue from job execution, if completed)"
+  }
+  ```
+* **Exception Triggers:**
+  * `404 Not Found`: If the job with the requested ID does not exist in the queue.
+
 ---
 
 ### 9.3 AI Generation & Payment Endpoints
