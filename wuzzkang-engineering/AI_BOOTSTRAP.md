@@ -27,6 +27,16 @@ Read the following documents in order before writing any code:
 10. `docs/11_DEPLOYMENT.md` — Production topology and `.env` specifications.
 11. `docs/12_CODING_STANDARD.md` — Coding guidelines and ESM/error patterns.
 12. `docs/92_AI_PROMPT_LIBRARY.md` — Reusable prompts for AI coding assistant.
+13. `docs/13_ROADMAP.md` — Asynchronous queue architecture plan and future development roadmap.
+
+---
+
+## Current Development Task & Next Steps
+
+When onboarding to a new task, check the status of the project:
+- Refer to `docs/02_CURRENT_STATE.md` to understand what features are active or partially implemented.
+- Refer to `docs/13_ROADMAP.md` for the next planned development phase (introducing Redis + BullMQ asynchronous queues for heavy API tasks).
+- Locate the active checklist at `task.md` or `implementation_plan.md` in the brain app data directory if you are picking up an ongoing task.
 
 ---
 
