@@ -31,7 +31,7 @@ User isi form structured (dashboard)
 
 | `template_type` | Deskripsi | `design_key` tersedia | Form |
 |---|---|---|---|
-| `wedding` | Undangan Pernikahan | `sage-green`, `floral-pink` | Structured form |
+| `wedding` | Undangan Pernikahan | `sage-green`, `floral-pink`, `classic-love` | Structured form |
 | `birthday` | Undangan Ulang Tahun | `cute-balloon`, `elegant-gold` | Structured form |
 | `toko-online` | Landing Page Toko Online | `modern-clean`, `midnight-dark` | Structured form + AI assist field |
 | `campaign` | Campaign Landing Page | `neon-conversion`, `clean-trust` | Structured form (high conversion) |
@@ -48,7 +48,8 @@ wuzzkang-lp/
 └── templates/
     ├── wedding/
     │   ├── sage-green.js       ← design_key: sage-green
-    │   └── floral-pink.js      ← design_key: floral-pink
+    │   ├── floral-pink.js      ← design_key: floral-pink
+    │   └── classic-love.js     ← design_key: classic-love
     ├── birthday/
     │   ├── cute-balloon.js     ← design_key: cute-balloon
     │   └── elegant-gold.js     ← design_key: elegant-gold
