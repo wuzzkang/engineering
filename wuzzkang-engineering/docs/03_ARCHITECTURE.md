@@ -501,6 +501,8 @@ The following rules govern which layers may depend on which.
 | POST   | /api/generate                 | Yes           | generator.route                 |
 | POST   | /api/generate/field           | Yes           | generator.route                 |
 | POST   | /api/generate-image           | Yes           | image.route                     |
+| POST   | /api/media/process            | Yes           | image.route                     |
+| POST   | /api/media/upload             | Yes           | image.route                     |
 | GET    | /api/profile                  | Yes           | profile.route                   |
 | GET    | /api/products                 | Yes           | product.route                   |
 | POST   | /api/coupons/validate         | Yes           | coupon.route                    |
@@ -1155,6 +1157,10 @@ Current deployment targets for each component are documented in `02_CURRENT_STAT
 ## Related Documents
 
 - `00_FOUNDATION.md` — Engineering philosophy and principles
-- `01_SYSTEM_OVERVIEW.md` — High-level system description
 - `02_CURRENT_STATE.md` — Current implementation status
-- `WUZZKANG_AUDIT_v2.md` — Security and architecture findings
+- `05_API_SPECIFICATION.md` — Core API Specification
+- `08_REPOSITORY_MAP.md` — Monorepo folders map
+- `06_FLOW_MAP.md` — Runtime workflow diagrams
+- `07_RENDER_ENGINE.md` — Template & Render Engine Guide
+- `10_AI_GUIDE.md` — AI & billing details
+- `audit/DATABASE_AUDIT_2026_07_01.md` — Database security & audit findings

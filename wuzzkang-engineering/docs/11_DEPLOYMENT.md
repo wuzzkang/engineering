@@ -1,0 +1,122 @@
+# 🚀 Panduan Deployment — Wuzzkang
+
+Dokumen ini merinci arsitektur deployment fisik, variabel lingkungan (environment variables), serta langkah-langkah untuk mendeploy ketiga repositori Wuzzkang (`wuzzkang-api`, `wuzzkang-dashboard`, dan `wuzzkang-lp`) ke lingkungan produksi.
+
+---
+
+## 1. Topologi Deployment Produksi
+
+Wuzzkang berjalan di atas infrastruktur terdistribusi cloud untuk performa optimal dan efisiensi biaya:
+
+*   **`wuzzkang-dashboard`**: Dideploy ke **Vercel** atau **Amplify** (Next.js serverless runtime).
+*   **`wuzzkang-api`**: Dideploy ke **Railway** atau **Render** (Node.js VPS/PaaS container, terhubung ke Redis).
+*   **`wuzzkang-lp`**: Dideploy ke **GitHub Pages** (Hosting HTML/JS statis, performa cepat dengan CDN global gratis).
+*   **Database & Storage**: Di-host di **Supabase Cloud** (PostgreSQL + GoTrue Auth + Storage Bucket).
+
+---
+
+## 2. Spesifikasi Konfigurasi (.env)
+
+Setiap lingkungan memerlukan variabel lingkungan spesifik yang harus dikonfigurasi sebelum deployment.
+
+### 2.1 Backend API (`wuzzkang-api`)
+Konfigurasi file `.env` di server produksi:
+
+```bash
+# Server Port
+PORT=3026
+
+# Supabase Credentials (Service Role Key bypasses RLS)
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsIn...
+
+# Redis Connection (Kuota AI)
+REDIS_URL=redis://default:password@host:port
+
+# AI Text Configuration
+AI_PROVIDER=sumopod # groq | sumopod
+AI_TEXT_MODEL=meta-llama/llama-4-maverick:free
+GROQ_API_KEY=gsk_...
+SUMOPOD_API_KEY=sp_...
+
+# AI Image Configuration
+IMAGE_AI_PROVIDER=openai # openai | sumopod
+IMAGE_AI_MODEL=gpt-image-1
+OPENAI_API_KEY=sk-proj-...
+
+# External Image Processing
+REMOVE_BG_API_KEY=your-remove-bg-key
+REPLICATE_API_TOKEN=r8_...
+
+# Payment Gateway (Winpay)
+WINPAY_API_KEY=winpay-key
+WINPAY_MERCHANT_ID=merchant-123
+```
+
+### 2.2 Dashboard UI (`wuzzkang-dashboard`)
+Konfigurasi file `.env.production` untuk build build-time:
+
+```bash
+# Target API URL
+NEXT_PUBLIC_API_URL=https://api.wuzzkang.com/api
+
+# Supabase Public Client Credentials (Subject to RLS)
+NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5...
+
+# Image Upload Configuration (Client Compression)
+NEXT_PUBLIC_IMAGE_MAX_WIDTH=800
+NEXT_PUBLIC_IMAGE_MAX_HEIGHT=800
+NEXT_PUBLIC_IMAGE_QUALITY=0.8
+NEXT_PUBLIC_MAX_IMAGE_SIZE_KB=300
+```
+
+### 2.3 Landing Page (`wuzzkang-lp`)
+Tidak menggunakan file `.env` karena berupa static HTML. Kredensial dimasukkan langsung pada konfigurasi script.js atau file aset publik:
+*   **Supabase URL & Anon Key**: Dikonfigurasi langsung di dalam `wuzzkang-lp/script.js` pada inisialisasi client:
+    ```javascript
+    const supabaseUrl = 'https://your-project.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5c...';
+    ```
+
+---
+
+## 3. Langkah-Langkah Deployment
+
+### 3.1 Langkah 1: Migrasi Database (Supabase)
+Sebelum mendeploy backend, pastikan database Supabase sudah diinisialisasi:
+1. Buka dashboard Supabase Anda.
+2. Jalankan berkas SQL migrasi schema (dari `wuzzkang-api` atau backup remote schema) di SQL Editor Supabase.
+3. Pastikan RPC function `deduct_user_balance` dan trigger `on_auth_user_created` sudah terdaftar dan aktif.
+4. Buat bucket penyimpanan publik baru bernama `wuzzkang-bucket` di menu Storage.
+
+### 3.2 Langkah 2: Deploy Backend API (`wuzzkang-api`)
+Jika mendeploy ke **Railway**:
+1. Hubungkan akun GitHub Anda ke Railway.
+2. Buat project baru dan pilih repositori `wuzzkang-api`.
+3. Masukkan seluruh variabel lingkungan dari Bagian 2.1 ke tab **Variables**.
+4. Railway akan mendeteksi `start` script di `package.json` secara otomatis dan menjalankan server di port yang diberikan (`PORT`).
+
+### 3.3 Langkah 3: Deploy Runtime Renderer (`wuzzkang-lp`)
+Mendeploy ke **GitHub Pages**:
+1. Buat repositori baru di GitHub khusus untuk `wuzzkang-lp` (atau gunakan fitur custom domain / branch).
+2. Pastikan file `wuzzkang-lp/script.js` sudah menggunakan URL Supabase produksi.
+3. Masuk ke setelan repositori GitHub -> **Pages**.
+4. Di bagian Build and deployment, pilih source: **Deploy from a branch** (pilih branch `main` / root).
+5. Simpan. Halaman runtime akan aktif di alamat `https://username.github.io/wuzzkang-lp` atau custom domain `https://siluet.web.id`.
+
+### 3.4 Langkah 4: Deploy Dashboard (`wuzzkang-dashboard`)
+Mendeploy ke **Vercel**:
+1. Pastikan Anda sudah menjalankan perintah `npm run sync:templates` untuk menyalin aset template terbaru ke Next.js.
+2. Hubungkan repositori GitHub `wuzzkang-dashboard` ke Vercel.
+3. Masukkan seluruh variabel lingkungan Next.js dari Bagian 2.2 ke tab **Environment Variables** di Vercel.
+4. Klik **Deploy**. Vercel akan mem-build halaman Next.js dan meluncurkannya ke URL publik produksi (e.g., `https://dashboard.wuzzkang.com`).
+
+---
+
+## 4. Verifikasi Pasca-Deployment
+
+Setelah semua komponen aktif, lakukan pengecekan berikut:
+1.  Buka dashboard Next.js, buat akun baru, dan pastikan baris profil baru otomatis terbuat di tabel `profiles` Supabase (wallet balance awal Rp 0).
+2.  Lakukan simulasi pembuatan landing page di editor dashboard, panggil fitur "Generate AI", dan pastikan kuota gratis berkurang secara real-time.
+3.  Simpan proyek sebagai draft, kemudian publikasikan halaman. Pastikan live URL terbentuk (e.g. `https://siluet.web.id/?slug=nama-slug-anda`) dan halaman tersebut menampilkan template pilihan secara akurat di browser.

@@ -1,0 +1,20 @@
+# Wuzzkang AI Coding Rules & Definition of Done
+
+You are an AI Assistant working on the Wuzzkang monorepo.
+To ensure quality and consistency, you MUST follow the rules in this workspace:
+
+## 1. Onboarding & Core Philosophy
+- Before making any code changes, read the entry point: `wuzzkang-engineering/AI_BOOTSTRAP.md`.
+- Read and adhere to the engineering constitution defined in `wuzzkang-engineering/docs/00_FOUNDATION.md`.
+
+## 2. Definition of Done (Document Updates)
+Every time you complete a task or modify the codebase, you MUST identify and update the corresponding documentation files in `wuzzkang-engineering/docs/` before ending your turn:
+- **Routes / API Changes**: Update `wuzzkang-engineering/docs/05_API_SPECIFICATION.md` (schemas, parameters, response status).
+- **Database / Schema / Trigger Changes**: Update `wuzzkang-engineering/docs/09_DATABASE_ARCHITECTURE.md`.
+- **Render Engine / Product Templates / Design Keys**: Update `wuzzkang-engineering/docs/07_RENDER_ENGINE.md`.
+- **General Project Status / Tech Debt Tracker**: Update `wuzzkang-engineering/docs/02_CURRENT_STATE.md`.
+- **Monorepo Folder Structures**: Update `wuzzkang-engineering/docs/08_REPOSITORY_MAP.md`.
+
+## 3. Communication
+- Respond to the user in **Bahasa Indonesia** for chat communication.
+- Keep engineering documentation files in **English** unless requested otherwise.

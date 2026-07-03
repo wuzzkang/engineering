@@ -1354,8 +1354,9 @@ The following entities or capabilities are recognized as potential future additi
 ## Related Documents
 
 - `00_FOUNDATION.md` — Engineering philosophy and core principles
-- `01_SYSTEM_OVERVIEW.md` — High-level system description
 - `02_CURRENT_STATE.md` — Current implementation status
 - `03_ARCHITECTURE.md` — Repository boundaries and structural architecture
-- `09_DATABASE_ARCHITECTURE.md` — Physical database schema and implementation (planned)
+- `05_API_SPECIFICATION.md` — Core API Specification
+- `09_DATABASE_ARCHITECTURE.md` — Physical database schema and implementation
+- `audit/DATABASE_AUDIT_2026_07_01.md` — Database security & audit findings
 

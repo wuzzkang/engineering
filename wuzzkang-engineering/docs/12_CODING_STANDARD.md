@@ -1,0 +1,105 @@
+# 💻 Standar Pengodean (Coding Standard) — Wuzzkang
+
+Dokumen ini mendefinisikan pedoman, konvensi penulisan kode, dan arsitektur pengodean yang wajib diikuti oleh seluruh developer dan AI Coding Assistant di platform Wuzzkang.
+
+---
+
+## 1. Konvensi Umum JavaScript & ESM
+
+Semua repositori dalam monorepo Wuzzkang menggunakan standar JavaScript modern (ES6+) dengan aturan modul ES Modules (ESM):
+
+### 1.1 Ekstensi Berkas & Path Impor
+*   **Wajib Menggunakan Suffix `.js`**: Sesuai dengan aturan ESM node, setiap modul lokal yang diimpor wajib menyertakan ekstensi `.js` secara eksplisit pada path impornya.
+    *   *Benar*: `import { config } from '../config/index.js';`
+    *   *Salah*: `import { config } from '../config/index';`
+*   **Destructuring**: Gunakan destructuring untuk impor variabel/fungsi spesifik guna mengurangi bobot memori.
+
+### 1.2 Pola Asinkronus (Async/Await)
+*   Hindari penggunaan Promise `.then()` dan `.catch()` berantai secara mentah. Selalu gunakan struktur **`async / await`** dengan pembungkus **`try / catch`** untuk penanganan eror yang bersih dan mudah dibaca.
+    *   *Contoh*:
+        ```javascript
+        try {
+            const profile = await supabaseService.getProfile(userId);
+            return profile;
+        } catch (err) {
+            console.error(`[ProfileService] Gagal memuat profil: ${err.message}`);
+            throw err;
+        }
+        ```
+
+---
+
+## 2. Standar Validasi Input (API Boundary)
+
+Setiap request payload (body, query, params) yang masuk ke router API **wajib divalidasi** menggunakan skema **Zod** di batas router (router boundary) sebelum diteruskan ke service layer.
+
+*   Mencegah data kotor atau tidak lengkap masuk ke logika bisnis atau kueri database.
+*   *Contoh implementasi Zod di Router*:
+    ```javascript
+    const GenerateRequestSchema = z.object({
+        name: z.string().min(2),
+        template_type: z.enum(['wedding', 'birthday', 'toko-online', 'campaign']),
+    });
+
+    router.post('/generate', async (req, res, next) => {
+        const validation = GenerateRequestSchema.safeParse(req.body);
+        if (!validation.success) {
+            return res.status(400).json({
+                success: false,
+                error: validation.error.flatten().fieldErrors,
+            });
+        }
+        // ...
+    });
+    ```
+
+---
+
+## 3. Penanganan Eror Terpusat (Error Handling)
+
+API backend menggunakan middleware penanganan eror Express terpusat (`errorMiddleware.js`). 
+
+*   **Jangan Lakukan `res.status(500)` di Controller**: Jika terjadi unhandled error, teruskan eror tersebut ke middleware menggunakan callback `next(error)`.
+*   **Respon Eror Standar**: Pastikan payload eror konsisten dengan bentuk:
+    ```json
+    {
+      "success": false,
+      "error": "Pesan deskripsi eror untuk pengguna"
+    }
+    ```
+
+---
+
+## 4. Pemisahan Query Database (Database Isolation)
+
+Kueri database ke Supabase/PostgreSQL **tidak boleh ditulis secara langsung** di dalam router controller (`routes/`).
+
+*   Semua interaksi database wajib diisolasi di dalam file **`src/services/supabase.service.js`**.
+*   Router hanya boleh memanggil fungsi service pembungkus (wrapper) seperti `supabaseService.getProject(id)`. Hal ini memudahkan pemeliharaan kueri dan mocking saat unit testing.
+
+---
+
+## 5. Konvensi Logging (Structured Logging)
+
+Semua log di terminal backend harus ditulis secara terstruktur menggunakan prefix penanda komponen agar mempermudah debugging log produksi:
+
+*   **Format**: `[NamaKomponen/NamaService] Deskripsi log | Parameter Tambahan`
+*   *Contoh*:
+    *   `console.log('[MediaProcess] Incoming request - User ID: 123 | Mode: "generate_avatar"');`
+    *   `console.error('[ProjectService] Error during direct deployment: DEPLOY_ERROR');`
+
+---
+
+## 6. Aturan Rendering Statis (wuzzkang-lp)
+
+*   **Vanilla JS**: Kode di `wuzzkang-lp` harus bebas dari library eksternal berbayar atau bundler build-step. Gunakan vanilla DOM API.
+*   **CSS Terisolasi**: Setiap template wajib menginjeksi elemen `<style>` dengan ID unik untuk menghindari tabrakan gaya visual (CSS collision) saat berpindah template di preview dashboard:
+    ```javascript
+    let styleEl = document.getElementById('theme-unique-id');
+    if (!styleEl) {
+        styleEl = document.createElement('style');
+        styleEl.id = 'theme-unique-id';
+        styleEl.innerHTML = `...`;
+        document.head.appendChild(styleEl);
+    }
+    ```
