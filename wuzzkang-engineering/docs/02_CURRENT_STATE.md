@@ -111,6 +111,12 @@ Future designs belong to later documents.
 - Project editing
 - Live preview
 
+## Asynchronous Processing (BullMQ & Redis)
+
+- Asynchronous AI Image Generation (Avatar queue with automatic wallet refunds on failure)
+- Asynchronous AI Text Copywriting (Field copywriting queue)
+- Asynchronous Payment Webhook Processing (Winpay webhook instant response offloading)
+
 ## Billing
 
 - Wallet (Credits-based with dynamic Rupiah conversion rate setting)
@@ -148,7 +154,7 @@ Future designs belong to later documents.
 
 ## Queue
 
-- BullMQ (Disabled)
+- BullMQ (Enabled for AI Image, AI Text, and Payment Webhook tasks)
 
 ## Rendering
 
@@ -159,7 +165,6 @@ Future designs belong to later documents.
 # Disabled Features
 
 - GitHub Deployment Worker
-- Queue Deployment
 - Legacy Deploy Endpoint
 
 ---
@@ -182,7 +187,6 @@ Future designs belong to later documents.
 - Manual LP versioning
 - Legacy "Siluet" naming
 - Hardcoded customerNo
-- BullMQ infrastructure currently unused
 
 ---
 
