@@ -343,9 +343,10 @@ Represents discount validations:
       "email": "user@example.com",
       "full_name": "Jhon Doe",
       "avatar_url": null,
-      "balance": 150000,
+      "balance": 1500,
       "daily_ai_limit": 15,
-      "ai_generate_cost": 100,
+      "ai_generate_cost": 1,
+      "credit_price_idr": 100,
       "remainingFree": 12,
       "updated_at": "2026-07-01T12:00:00.000Z"
     }
@@ -364,12 +365,12 @@ Represents discount validations:
     "data": [
       {
         "id": "wedding",
-        "cost": 100000,
+        "cost": 190,
         "active": true
       },
       {
         "id": "birthday",
-        "cost": 75000,
+        "cost": 190,
         "active": true
       }
     ]
@@ -715,7 +716,7 @@ Represents discount validations:
   {
     "id": "uuid",
     "user_id": "uuid",
-    "amount": 50000,
+    "amount": 500,
     "type": "topup",
     "status": "PENDING",
     "order_id": "INV-1719888888",
@@ -724,7 +725,9 @@ Represents discount validations:
     "metadata": {
       "channel": "CIMB",
       "customerNo": "081234567890",
-      "winpay": { ... }
+      "cash_amount": 50000,
+      "credit_price": 100,
+      "winpay": { "responseCode": "2002700", "responseDescription": "Success", "virtualAccountData": { "partnerServiceId": "88301", "customerNo": "081234567890", "virtualAccountNo": "88301081234567890", "virtualAccountName": "Wuzzkang User" } }
     }
   }
   ```

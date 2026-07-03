@@ -113,11 +113,11 @@ Future designs belong to later documents.
 
 ## Billing
 
-- Wallet
+- Wallet (Credits-based with dynamic Rupiah conversion rate setting)
 - Coupon
 - Winpay
 - Refund
-- Transaction
+- Transaction (Logs Credit amount and stores IDR raw values in metadata)
 
 ## Authentication
 

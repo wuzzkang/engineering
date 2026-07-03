@@ -198,12 +198,12 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
 |---|---|---|---|---|
 | `id` | `UUID` | `NOT NULL` | - | Primary Key. References `auth.users(id)` via `ON DELETE CASCADE`. |
-| `balance` | `BIGINT` | `NOT NULL` | `0` | Total user wallet balance stored in minor units (e.g. IDR). |
+| `balance` | `BIGINT` | `NOT NULL` | `0` | Total user wallet balance stored in Credit units. |
 | `email` | `TEXT` | `NULL` | - | Cached user email, synchronized from `auth.users` on insert. |
 | `full_name` | `TEXT` | `NULL` | - | Cached full name metadata, synchronized from `auth.users` on insert. |
 | `avatar_url` | `TEXT` | `NULL` | - | Cached avatar metadata, synchronized from `auth.users` on insert. |
 | `daily_ai_limit` | `INTEGER` | `NULL` | `NULL` | Maximum daily free AI quota. If `NULL`, falls back to system settings default. |
-| `ai_generate_cost` | `BIGINT` | `NULL` | `NULL` | Unit cost per AI generation after quota. If `NULL`, falls back to system settings default. |
+| `ai_generate_cost` | `BIGINT` | `NULL` | `NULL` | Unit cost in Credits per AI generation after quota. If `NULL`, falls back to system settings default. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Timestamp of last row mutation. Automatically updated via `handle_updated_at` trigger. |
 
 ### 8.2 projects
@@ -239,7 +239,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 |---|---|---|---|---|
 | `id` | `UUID` | `NOT NULL` | `gen_random_uuid()` | Primary Key. |
 | `user_id` | `UUID` | `NOT NULL` | - | References `auth.users(id)` via `ON DELETE CASCADE`. |
-| `amount` | `BIGINT` | `NOT NULL` | - | Balance change value. Credit top-ups are positive, debit deployments are negative. |
+| `amount` | `BIGINT` | `NOT NULL` | - | Balance change value in Credits. Credit top-ups are positive, debit deployments are negative. Raw cash values and prices are stored in metadata. |
 | `type` | `TEXT` | `NOT NULL` | - | Transaction category identifier (e.g. `'topup'`, `'deployment'`, `'refund'`, `'ai_generation'`). |
 | `project_id` | `UUID` | `NULL` | - | Optional project link. References `public.projects(id)` via `ON DELETE SET NULL`. |
 | `description` | `TEXT` | `NULL` | - | Audit trail description. |
@@ -292,7 +292,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `id` | `TEXT` | `NOT NULL` | - | Primary Key (stores template identifiers, e.g. `'wedding'`, `'birthday'`, `'toko-online'`). |
 | `name` | `TEXT` | `NOT NULL` | - | Catalog product description. |
 | `is_active` | `BOOLEAN` | `NULL` | `TRUE` | Status flag. |
-| `cost` | `INTEGER` | `NULL` | `10000` | Minor unit cost per deployment. |
+| `cost` | `INTEGER` | `NULL` | `100` | Cost per deployment in Credits. |
 | `unit` | `TEXT` | `NULL` | `'Halaman'` | Product denominator unit label. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record insertion timestamp. |
 
@@ -638,16 +638,19 @@ $$;
 15. `20260629082000_add_ai_quota_to_profiles.sql` — Profiles-specific AI limits.
 16. `20260629105100_add_toko_online_product.sql` — Seeds e-commerce store item.
 17. `20260629160000_create_system_settings.sql` — Global default limits configuration.
+18. `20260703131200_convert_balance_to_credits.sql` — Convert wallet balances and product costs to credits, add credit_price_idr.
 
 ### 17.2 Database Seeds
 * **Products:**
-  * `'store'` | `'Toko Online / Bisnis'` | Cost: `10000` | Unit: `'Toko'`
-  * `'wedding'` | `'Undangan Pernikahan'` | Cost: `10000` | Unit: `'Undangan'`
-  * `'birthday'` | `'Undangan Ulang Tahun'` | Cost: `19000` | Unit: `'Undangan'`
-  * `'toko-online'` | `'Toko Online'` | Cost: `10000` | Unit: `'Toko'`
+  * `'store'` | `'Toko Online / Bisnis'` | Cost: `100` | Unit: `'Toko'`
+  * `'wedding'` | `'Undangan Pernikahan'` | Cost: `190` | Unit: `'Undangan'`
+  * `'birthday'` | `'Undangan Ulang Tahun'` | Cost: `190` | Unit: `'Undangan'`
+  * `'toko-online'` | `'Toko Online'` | Cost: `490` | Unit: `'Toko'`
+  * `'campaign'` | `'Campaign'` | Cost: `150` | Unit: `'Campaign'`
 * **System Settings:**
   * `'daily_ai_limit'` | Value: `15`
-  * `'ai_generate_cost'` | Value: `100`
+  * `'ai_generate_cost'` | Value: `1`
+  * `'credit_price_idr'` | Value: `100`
 * **Coupons:**
   * `'DISKON100'` | 100% percentage discount
   * `'DISKON50'` | 50% percentage discount
