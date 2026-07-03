@@ -561,7 +561,7 @@ Sistem Wuzzkang menyediakan asisten berbasis AI untuk copywriting teks dan pembu
   - Di-handle oleh helper `renderAIAvatarButton(...)` (untuk Wedding/Birthday).
   - Melakukan panggilan ke `/api/generate-image`.
 - **Interaksi & Quota Update**:
-  - Tombol-tombol AI akan otomatis mendeteksi sisa limit harian: `✨ AI Generate (Gratis: X)` atau `✨ AI Generate (Rp Y)`.
+  - Tombol-tombol AI akan otomatis mendeteksi sisa limit harian: `✨ AI Generate (Gratis: X)` atau `✨ AI Generate (Y Credit)`.
   - Sebelum menagih (jika gratis = 0), dashboard memicu popup dialog `window.confirm` untuk mengonfirmasi pemotongan saldo.
   - Setelah generate sukses, dashboard memanggil `await refreshProfile()` untuk menyelaraskan sisa kuota dan saldo user di UI secara real-time.
 

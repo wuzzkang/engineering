@@ -132,7 +132,7 @@ sequenceDiagram
     participant API as Wuzzkang API
     participant PG as Payment Gateway (Winpay)
 
-    User->>DB: Pilih nominal top-up (e.g. Rp 50.000) & Bank VA
+    User->>DB: Pilih jumlah top-up (e.g. 500 Credit) & Bank VA
     DB->>API: POST /api/payments/create
     Note over API: Buat baris transaksi baru status PENDING di DB
     API->>PG: Minta VA (API Request)

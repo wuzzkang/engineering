@@ -706,7 +706,7 @@ Represents discount validations:
 * **Request Body Schema:**
   ```json
   {
-    "amount": "integer (positive)",
+    "amount": "integer (positive credit count to purchase, e.g. 100)",
     "userId": "uuid",
     "channel": "string (payment channel description, e.g. CIMB)"
   }
