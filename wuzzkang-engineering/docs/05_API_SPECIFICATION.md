@@ -617,6 +617,88 @@ Represents discount validations:
 * **Exception Triggers:**
   * `500 Internal Server Error`: OpenAI service communication failures or image download/upload error.
 
+#### `POST /api/media/process`
+* **Purpose:** Unified endpoint for dynamic image/media processing with built-in graceful fallback logic.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Request Body Schema:**
+  ```json
+  {
+    "mode": "generate_avatar | search_unsplash | merge_couple | change_background",
+    "params": {
+      "prompt": "string (required for generate_avatar)",
+      "query": "string (optional for search_unsplash)",
+      "category": "string (optional for search_unsplash)",
+      "image_url_1": "string (required for merge_couple)",
+      "image_url_2": "string (required for merge_couple)",
+      "image_url": "string (required for change_background)",
+      "background_prompt": "string (optional for change_background, e.g. white)"
+    }
+  }
+  ```
+* **Success Response (200 OK):**
+  * *For generate_avatar:*
+    ```json
+    {
+      "success": true,
+      "url": "https://supabase-url/wuzzkang-bucket/uploads/filename.png",
+      "remainingFree": 11,
+      "charged": 0
+    }
+    ```
+  * *For search_unsplash:*
+    ```json
+    {
+      "success": true,
+      "url": "https://images.unsplash.com/photo-1519741497674-611481863552?...",
+      "urls": [
+        "https://images.unsplash.com/photo-1519741497674-611481863552?...",
+        "..."
+      ],
+      "fallback": true
+    }
+    ```
+  * *For merge_couple:*
+    ```json
+    {
+      "success": true,
+      "message": "Pemrosesan penggabungan foto AI telah dimulai.",
+      "predictionId": "string",
+      "url": "https://source-image-url.jpg",
+      "fallback": true
+    }
+    ```
+  * *For change_background:*
+    ```json
+    {
+      "success": true,
+      "url": "https://supabase-url/wuzzkang-bucket/uploads/bgremoved-filename.png",
+      "fallback": true
+    }
+    ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Validation failure (missing mode or required mode parameters).
+  * `402 Payment Required`: Daily AI quota exhausted and balance is insufficient.
+
+#### `POST /api/media/upload`
+* **Purpose:** Mediated backend endpoint to receive binary file uploads from the dashboard client, upload them to Supabase Storage, and return the hosted public URL.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Headers:**
+  * `Authorization: Bearer <access_token>`
+  * `Content-Type: <mime-type (e.g. image/jpeg, image/png)>`
+  * `x-file-name: <original-filename (e.g. avatar.jpg)>`
+* **Request Body:** Raw binary file payload (stream/octet-stream).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "url": "https://supabase-url/wuzzkang-bucket/uploads/1783047641634-gya9gs.jpg"
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Empty file payload.
+  * `401 Unauthorized`: Token is missing or validation signature checks fail.
+  * `500 Internal Server Error`: Backend error uploading to Supabase Storage.
+
 #### `POST /api/payments/create`
 * **Purpose:** Create a new pending top-up transaction record and generate a virtual account payment number.
 * **Authentication Required:** Yes (Bearer JWT).
