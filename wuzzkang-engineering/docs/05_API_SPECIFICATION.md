@@ -443,6 +443,33 @@ Represents discount validations:
 
 ### 9.2 Project Management & Deployment Endpoints
 
+#### `POST /api/projects/draft`
+* **Purpose:** Persist a pre-compiled `pageData` as a new draft project record after asynchronous AI Platform generation completes. No AI is invoked — the caller must supply a fully compiled `pageData` object obtained from the task result.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Usage Context:** Called exclusively by the wedding template async flow in the dashboard after `GET /api/v1/ai/task/:id` returns `completed` and the compiled `pageData` is downloaded from `result_url`.
+* **Request Body Schema:**
+  ```json
+  {
+    "name": "string (2-100 characters)",
+    "template_type": "string (default: 'wedding')",
+    "pageData": "object (compiled pageData from AI Platform task result)"
+  }
+  ```
+* **Success Response (201 Created):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "31b9d4cf-2321-4f11-9a74-9f874bcde102",
+      "projectId": "31b9d4cf-2321-4f11-9a74-9f874bcde102",
+      "name": "Pernikahan Budi & Ani",
+      "pageData": { "..." }
+    }
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Missing or invalid `name` or `pageData` fields.
+
 #### `GET /api/projects`
 * **Purpose:** List all projects (drafts and deployed) owned by the authenticated user.
 * **Authentication Required:** Yes (Bearer JWT).
@@ -790,7 +817,90 @@ Represents discount validations:
 * **Exception Triggers:**
   * `400 Bad Request`: Missing required payload properties (amount, userId, or channel).
 
+---
+
+### 9.4 AI Platform (Task Orchestration) Endpoints
+
+#### `POST /api/v1/ai/execute`
+* **Purpose:** Submit a new AI rendering task. Performs idempotency deduplication, atomic wallet deduction, and enqueues the task for background processing.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Idempotency:** Requests sharing the same `idempotencyKey` within a 60-second window return the original task without re-charging the wallet.
+* **Request Body Schema:**
+  ```json
+  {
+    "idempotencyKey": "string (min: 8, max: 128) — required",
+    "projectId": "uuid | null (optional)",
+    "templateType": "string (e.g. 'wedding', 'birthday', 'product') — required",
+    "styleKey": "string (e.g. 'prewedding', 'artistic') — required",
+    "providerKey": "string (default: 'gemini') — optional",
+    "inputAssets": [
+      { "url": "string (valid URL)", "role": "string (e.g. 'groom', 'bride')" }
+    ],
+    "inputContext": "object (optional, arbitrary key-values for compiler)",
+    "async": "boolean (default: true)"
+  }
+  ```
+* **Success Response (202 Accepted) — New task:**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "taskId": "uuid",
+      "status": "queued",
+      "technicalStatus": "none",
+      "creditsUsed": 4,
+      "isIdempotent": false
+    }
+  }
+  ```
+* **Success Response (200 OK) — Idempotent duplicate:**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "taskId": "uuid",
+      "status": "queued",
+      "technicalStatus": "none",
+      "creditsUsed": 4,
+      "isIdempotent": true
+    }
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Missing or invalid fields (idempotencyKey, inputAssets[].url format, etc.).
+  * `402 Payment Required`: Insufficient wallet credits (`INSUFFICIENT_FUNDS`).
+  * `500 Internal Server Error`: Task record creation failed (wallet refund issued automatically).
+
+---
+
+#### `GET /api/v1/ai/task/:id`
+* **Purpose:** Poll the current status of an AI rendering task. Results are scoped to the authenticated user — users cannot read other users' tasks.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Path Parameters:** `id` (UUID)
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "taskId": "uuid",
+      "status": "queued | processing | completed | failed",
+      "technicalStatus": "none | uploading_assets | building_prompt | calling_provider | saving_result",
+      "errorMessage": "string | null",
+      "resultUrl": "string | null",
+      "creditsUsed": 4,
+      "createdAt": "2026-07-05T00:00:00.000Z",
+      "updatedAt": "2026-07-05T00:01:00.000Z"
+    }
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: `id` path parameter is not a valid UUID format.
+  * `404 Not Found`: Task does not exist or does not belong to the authenticated user.
+
+---
+
 ## Part 10 — Webhook Specifications
+
 * **Purpose:** Specify asynchronous event contracts sent to or received from external platforms.
 * **Scope:** Webhook payload formats, authentication signatures, payload validations (e.g. WinPay notification schemas), and retry behaviors.
 * **Out of Scope:** External gateway webhook dispatcher engines or proxy routing settings.
@@ -1060,6 +1170,14 @@ To ensure continuity of frontend dashboard modules and rendering runtimes, all e
 #### Version 1.0.0 (Released 2026-07-01)
 * **Status:** Released
 * **Changes:** Initial release of the Wuzzkang Core API Specification including standard endpoint shapes, security headers, and webhook callback schemas.
+
+#### Version 1.1.0 (Released 2026-07-05)
+* **Status:** Released
+* **Changes:**
+  * Added **Section 9.4** — AI Platform (Task Orchestration) Endpoints:
+    * `POST /api/v1/ai/execute` — Submit AI rendering task with idempotency dedup, wallet billing, and async queue dispatch.
+    * `GET /api/v1/ai/task/:id` — Poll AI task execution status (user-scoped).
+  * Both endpoints mount under `/api` with `authMiddleware` (Bearer JWT required).
 
 ---
 

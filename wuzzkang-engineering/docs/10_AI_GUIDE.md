@@ -89,3 +89,39 @@ Setiap panggilan ke `/api/generate/field` atau `/api/media/process` (`generate_a
     *   Sistem memeriksa saldo pengguna di tabel `profiles.balance`.
     *   Jika `balance < ai_generate_cost`, request ditolak dengan respons **`402 Payment Required`**.
     *   Jika saldo cukup, sistem memotong saldo secara langsung lewat `walletService.deductBalance` dengan deskripsi audit mutasi transaksi (e.g. `AI Image Generate: [Prompt...]`), kemudian request dijalankan secara **BERBAYAR**.
+
+---
+
+## 5. Komponen Platform AI Terpadu (Milestone 4)
+
+Untuk mendukung antrean asinkron berskala besar dan pemrosesan multi-vendor, sistem menerapkan pola *Adapter* berbasis interface contract:
+
+### 5.1 Storage Adapter (`SupabaseStorageProvider`)
+*   **Tujuan**: Mengabstraksi unggahan gambar hasil olahan AI ke Supabase Storage.
+*   **Fitur**:
+    *   Mendukung input berupa `Buffer` maupun `ReadableStream`.
+    *   Validasi ketat tipe MIME (`image/jpeg`, `image/png`, `image/webp`, `image/gif`).
+    *   Batasan ukuran berkas maksimal sebesar 10 MB untuk mencegah kehabisan memori buffer.
+
+### 5.2 AI Service Provider (`GeminiProvider`)
+*   **Tujuan**: Mengintegrasikan SDK resmi Google Generative AI (`@google/generative-ai`) ke platform.
+*   **Fitur**:
+    *   Inisialisasi cepat dengan deteksi ketiadaan `GEMINI_API_KEY` (fail-fast).
+    *   Mendukung input multimodal (teks dan gambar base64).
+    *   Penerapan aturan batas waktu eksekusi otomatis (*timeout* 60 detik) dan dukungan `AbortSignal` untuk pembatalan request di tengah jalan.
+    *   Setelan filter keamanan (*safety settings*) yang seimbang untuk konten undangan pernikahan artistik.
+
+### 5.3 Domain Compiler (`WeddingTaskCompiler`)
+*   **Tujuan**: Menerjemahkan data masukan undangan pernikahan terstruktur (profil mempelai, gaya artistik, dll.) ke format payload prompt multimodal yang dikenali oleh `GeminiProvider`.
+*   **Gaya Visual yang Didukung**:
+    *   `prewedding`: Tampilan romantis outdoor dengan pencahayaan golden hour.
+    *   `formal`: Potret studio formal yang elegan dengan palet emas/putih.
+    *   `traditional`: Tampilan adat upacara tradisional Indonesia (kebaya/batik).
+    *   `artistic`: Tampilan dramatis dengan kontras warna bold bergaya editorial film.
+*   **Output Skema JSON**:
+    *   `banner_tagline`: Tagline undangan singkat untuk banner utama.
+    *   `invitation_intro`: Pembuka undangan yang hangat.
+    *   `closing_message`: Pesan penutup undangan yang elegan.
+    *   `style_palette`: Rekomendasi palet warna desain.
+    *   `scene_description`: Komposisi visual cover undangan.
+

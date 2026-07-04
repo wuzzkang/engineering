@@ -62,6 +62,7 @@ The Wuzzkang database consists of the following objects, verified against migrat
   * `public.coupons`
   * `public.coupon_usages`
   * `public.system_settings`
+  * `public.ai_tasks`
 * **Views:** None (no views are defined in the schema migrations).
 * **Enums:** `public.transaction_status` (values: `'PENDING'`, `'PAID'`, `'EXPIRED'`, `'FAILED'`).
 * **Functions:**
@@ -72,13 +73,17 @@ The Wuzzkang database consists of the following objects, verified against migrat
 * **Triggers:**
   * `set_profiles_updated_at` ON `public.profiles` (BEFORE UPDATE)
   * `on_auth_user_created` ON `auth.users` (AFTER INSERT)
+  * `set_ai_tasks_updated_at` ON `public.ai_tasks` (BEFORE UPDATE)
 * **Indexes:**
   * `idx_projects_user_id` ON `public.projects` (user_id)
   * `idx_projects_slug` ON `public.projects` (slug)
   * `idx_transactions_order_id` ON `public.transactions` (order_id)
   * `idx_coupons_code_lower` ON `public.coupons` (LOWER(code))
   * `idx_coupon_usages_user_id_coupon_id` ON `public.coupon_usages` (user_id, coupon_id)
-* **RLS Policies:** Explicit policies are configured on `profiles`, `projects`, `transactions`, `products`, `coupons`, `coupon_usages`, and `system_settings` tables (detailed in Part 13).
+  * `idx_ai_tasks_user_status` ON `public.ai_tasks` (user_id, status)
+  * `idx_ai_tasks_provider_model` ON `public.ai_tasks` (provider, model)
+  * `idx_ai_tasks_project_id` ON `public.ai_tasks` (project_id)
+* **RLS Policies:** Explicit policies are configured on `profiles`, `projects`, `transactions`, `products`, `coupons`, `coupon_usages`, `system_settings`, and `ai_tasks` tables (detailed in Part 13).
 * **Storage Buckets:** `wuzzkang-bucket` (public bucket for static media assets).
 * **Extensions:** `pgcrypto`, `uuid-ossp`, `pg_stat_statements`, `supabase_vault`.
 
@@ -311,7 +316,34 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record creation timestamp. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Last modified timestamp. Automatically updated via trigger handler. |
 
-### 8.8 user_domains
+### 8.8 ai_tasks
+* **Purpose:** Document the physical schema of the `public.ai_tasks` table tracking all AI task executions.
+* **Scope:** Column names, SQL data types, nullability, default values, and column-level descriptions.
+* **Out of Scope:** Application-level AI providers and registries logic.
+
+#### Table Definition: `public.ai_tasks`
+| Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
+|---|---|---|---|---|
+| `id` | `UUID` | `NOT NULL` | `gen_random_uuid()` | Primary Key. |
+| `user_id` | `UUID` | `NOT NULL` | - | Owner identifier. References `public.profiles(id)` via `ON DELETE CASCADE`. |
+| `project_id` | `UUID` | `NULL` | - | Optional project link. References `public.projects(id)` via `ON DELETE SET NULL`. |
+| `idempotency_key` | `TEXT` | `NULL` | - | Unique request identifier to prevent duplicate execution/billing. Enforced by unique constraint. |
+| `status` | `TEXT` | `NOT NULL` | `'queued'` | Business lifecycle status. Check constraint: `'queued'`, `'processing'`, `'completed'`, `'failed'`, `'cancelled'`. |
+| `technical_status` | `TEXT` | `NOT NULL` | `'none'` | Granular technical status. Check constraint: `'none'`, `'uploading_assets'`, `'building_prompt'`, `'calling_provider'`, `'saving_result'`, `'retrying'`. |
+| `credits_used` | `BIGINT` | `NOT NULL` | `0` | Wallet credits consumed by this task. |
+| `provider` | `TEXT` | `NOT NULL` | `''` | Name of the AI provider utilized (e.g. `'gemini'`). |
+| `model` | `TEXT` | `NOT NULL` | `''` | Model name/version utilized (e.g. `'gemini-2.5-flash'`). |
+| `result_url` | `TEXT` | `NULL` | - | Public URL to the generated output asset (if successful). |
+| `error_message` | `TEXT` | `NULL` | - | Execution error message (if task failed). |
+| `request_payload` | `JSONB` | `NOT NULL` | `'{}'::jsonb` | Complete input payload (assets role lists, params). |
+| `provider_response` | `JSONB` | `NOT NULL` | `'{}'::jsonb` | Complete raw JSON response payload returned by the AI provider. |
+| `execution_metadata` | `JSONB` | `NOT NULL` | `'{}'::jsonb` | Telemetry logs (seed, processing time, token counts). |
+| `debug_metadata` | `JSONB` | `NOT NULL` | `'{}'::jsonb` | Trace correlation IDs and diagnostic logging. |
+| `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record creation timestamp. |
+| `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Last modified timestamp. Automatically updated via trigger. |
+| `completed_at` | `TIMESTAMPTZ` | `NULL` | - | Task completion/termination timestamp. |
+
+### 8.9 user_domains
 * **Purpose:** Document the physical schema of the `public.user_domains` table.
 * **Scope:** Column names, SQL data types, nullability, default values, and column-level descriptions.
 * **Out of Scope:** UserDomain entity logical definition.
@@ -328,6 +360,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `status` | `TEXT` | `NULL` | `'pending'` | Registration lifecycle status. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record insertion timestamp. |
 
+
 ## Part 9 — Table Relationships
 * **Purpose:** Explain the logical and physical relationship rules linking tables before implementing constraints.
 * **Scope:** Documentation of Ownership Relationships, One-to-One Relationships, One-to-Many Relationships, Optional Relationships, and a Relationship Cardinality Summary.
@@ -337,7 +370,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 Ownership is established through explicit physical or logical user linkages:
 * **User Identity Ownership:** The table `auth.users` owns `public.profiles`. The profile record cannot exist without its corresponding auth record.
 * **Financial Ledger Ownership:** The table `auth.users` owns all `public.transactions` ledger entries. Each transaction represents a balance mutation for a specific user identity.
-* **Project and Asset Ownership:** User profiles own `public.projects` and `public.user_domains`. All actions on these resources verify the owning user context.
+* **Project and Asset Ownership:** User profiles own `public.projects`, `public.user_domains`, and `public.ai_tasks`. All actions on these resources verify the owning user context.
 * **Redemption Logs Ownership:** User profiles own `public.coupon_usages` logs, tracking which user redeemed a coupon code.
 
 ### 9.2 One-to-One Relationships
@@ -346,11 +379,13 @@ Ownership is established through explicit physical or logical user linkages:
 ### 9.3 One-to-Many Relationships
 * **`auth.users` ↔ `public.transactions` (1:N):** A user account can execute multiple billing top-ups, wallet deductions, or refunds, generating many transaction records over time.
 * **`public.profiles` ↔ `public.projects` (1:N):** A user profile can create and manage multiple independent landing page projects.
+* **`public.profiles` ↔ `public.ai_tasks` (1:N):** A user profile can spawn multiple AI generation tasks.
 * **`public.coupons` ↔ `public.coupon_usages` (1:N):** A single promotional coupon can be redeemed multiple times by different users, creating multiple usage records.
 * **`auth.users` ↔ `public.user_domains` (1:N):** A user can manage multiple custom domains pointing to different projects.
 
 ### 9.4 Optional Relationships
 * **`public.projects` ↔ `public.transactions` (1:N Optional):** Transactions can optionally reference a project ID (e.g. to link a deployment charge to its target project). If the project is deleted, the transaction log is retained but the `project_id` reference is nullified.
+* **`public.projects` ↔ `public.ai_tasks` (1:N Optional):** AI tasks can optionally reference a project ID. If the project is deleted, the execution log is retained but the `project_id` reference is nullified.
 
 ### 9.5 Relationship Cardinality Summary
 The database enforces referential behaviors across these boundaries as summarized below:
@@ -364,6 +399,9 @@ The database enforces referential behaviors across these boundaries as summarize
 | `public.coupon_usages` | `public.profiles` | N:1 | No (Logical Only) | - |
 | `public.projects` | `public.profiles` | N:1 | No (Logical Only) | - |
 | `public.user_domains` | `auth.users` | N:1 | Yes | `ON DELETE CASCADE` |
+| `public.ai_tasks` | `public.profiles` | N:1 | Yes | `ON DELETE CASCADE` |
+| `public.ai_tasks` | `public.projects` | N:1 (Optional) | Yes | `ON DELETE SET NULL` |
+
 
 ---
 
@@ -395,6 +433,7 @@ If query complexity increases, database views may be introduced under the follow
 * `products_pkey` ON `public.products (id)`
 * `system_settings_pkey` ON `public.system_settings (key)`
 * `user_domains_pkey` ON `public.user_domains (id)`
+* `ai_tasks_pkey` ON `public.ai_tasks (id)`
 
 ### 11.2 Foreign Key Constraints & Referential Actions
 * `profiles_id_fkey` ON `public.profiles (id)` references `auth.users(id) ON DELETE CASCADE`.
@@ -402,15 +441,20 @@ If query complexity increases, database views may be introduced under the follow
 * `transactions_project_id_fkey` ON `public.transactions (project_id)` references `public.projects(id) ON DELETE SET NULL`.
 * `coupon_usages_coupon_id_fkey` ON `public.coupon_usages (coupon_id)` references `public.coupons(id) ON DELETE CASCADE`.
 * `user_domains_user_id_fkey` ON `public.user_domains (user_id)` references `auth.users(id) ON DELETE CASCADE`.
+* `ai_tasks_user_id_fkey` ON `public.ai_tasks (user_id)` references `public.profiles(id) ON DELETE CASCADE`.
+* `ai_tasks_project_id_fkey` ON `public.ai_tasks (project_id)` references `public.projects(id) ON DELETE SET NULL`.
 
 ### 11.3 Unique Constraints
 * `projects_slug_key` ON `public.projects (slug)` (Unique constraint).
 * `coupons_code_key` ON `public.coupons (code)` (Unique constraint).
 * `user_domains_domain_name_key` ON `public.user_domains (domain_name)` (Unique constraint).
 * `unique_order_id` ON `public.transactions (order_id)` (Unique constraint preventing duplicate top-ups).
+* `ai_tasks_idempotency_key_key` ON `public.ai_tasks (idempotency_key)` (Unique constraint preventing duplicate AI task processing).
 
 ### 11.4 Check Constraints
 * No custom Check Constraints are physically declared in the database migration scripts. Invariants such as balance checks (`balance >= 0`) are validated programmatically at the API layer and within database stored procedures.
+* `ai_tasks.status` is checked to be in `'queued'`, `'processing'`, `'completed'`, `'failed'`, `'cancelled'`.
+* `ai_tasks.technical_status` is checked to be in `'none'`, `'uploading_assets'`, `'building_prompt'`, `'calling_provider'`, `'saving_result'`, `'retrying'`.
 
 ---
 
@@ -424,6 +468,9 @@ If query complexity increases, database views may be introduced under the follow
 * `idx_projects_slug` ON `public.projects (slug)` — Optimizes public routing lookups for rendering landing pages.
 * `idx_transactions_order_id` ON `public.transactions (order_id)` — Optimizes lookup operations during webhook settlements and idempotency verifications.
 * `idx_coupon_usages_user_id_coupon_id` ON `public.coupon_usages (user_id, coupon_id)` — Composite index optimizing verification of coupon usage limits per user.
+* `idx_ai_tasks_user_status` ON `public.ai_tasks (user_id, status)` — Composite B-Tree index optimizing user's task history lookups on the dashboard.
+* `idx_ai_tasks_provider_model` ON `public.ai_tasks (provider, model)` — B-Tree index optimizing telemetry and provider analytics queries.
+* `idx_ai_tasks_project_id` ON `public.ai_tasks (project_id)` — B-Tree index optimizing referential cascading checks when a project is deleted.
 
 ### 12.2 Unique Expression Indexes
 * `idx_coupons_code_lower` ON `public.coupons (LOWER(code))` — Unique index enforcing case-insensitivity on coupon codes and optimizing case-insensitive searches.
@@ -469,6 +516,10 @@ Row-Level Security (RLS) is enabled for all tables in the `public` schema.
 * `Users can view own domains`: `FOR SELECT USING (auth.uid() = user_id)`
 * `Users can manage own domains`: `FOR ALL USING (auth.uid() = user_id)`
 
+#### Table: `public.ai_tasks`
+* `Users can view their own AI tasks`: `FOR SELECT USING (auth.uid() = user_id)`
+* `Users can create their own AI tasks`: `FOR INSERT WITH CHECK (auth.uid() = user_id)`
+
 ---
 
 ## Part 14 — Triggers & Trigger Functions
@@ -487,6 +538,12 @@ Row-Level Security (RLS) is enabled for all tables in the `public` schema.
 * **Execution Timing:** `AFTER INSERT FOR EACH ROW`
 * **Trigger Function:** Executed using `public.handle_new_user()`.
 * **Behavior:** Automatically synchronizes new user registration records from Supabase Auth to `public.profiles`, writing the initial balance and caching key metadata.
+
+### 14.3 `set_ai_tasks_updated_at` Trigger
+* **Trigger Target:** `public.ai_tasks`
+* **Execution Timing:** `BEFORE UPDATE FOR EACH ROW`
+* **Trigger Function:** Executed using `public.handle_updated_at()`.
+* **Behavior:** Automatically updates the `updated_at` timestamp of the task record immediately before an update is committed.
 
 ## Part 15 — Stored Procedures & RPC Functions
 * **Purpose:** Document server-side functions executed via Supabase RPC.
@@ -640,7 +697,9 @@ $$;
 16. `20260629105100_add_toko_online_product.sql` — Seeds e-commerce store item.
 17. `20260629160000_create_system_settings.sql` — Global default limits configuration.
 18. `20260703131200_convert_balance_to_credits.sql` — Convert wallet balances and product costs to credits, add credit_price_idr.
-19. `20260704_add_tracking_config_to_profiles.sql` — Adds `tracking_config JSONB` column to `public.profiles` for storing user-level pixel/analytics tracking IDs (Facebook Pixel, Google Analytics, Google Ads, TikTok Pixel).
+19. `20260704_add_tracking_config_to_profiles.sql` — Adds `tracking_config JSONB` column to `public.profiles` for storing user-level pixel/analytics tracking IDs.
+20. `20260705000000_create_ai_tasks.sql` — Creates `public.ai_tasks` table, indexes, RLS policies, trigger, and seeds `pricing_rules` matrix.
+21. `20260705000100_add_project_id_index_to_ai_tasks.sql` — Adds B-Tree index on `project_id` and alters `credits_used` to `BIGINT`.
 
 ### 17.2 Database Seeds
 * **Products:**
@@ -653,10 +712,12 @@ $$;
   * `'daily_ai_limit'` | Value: `15`
   * `'ai_generate_cost'` | Value: `1`
   * `'credit_price_idr'` | Value: `100`
+  * `'pricing_rules'` | Value: `{ "base_rendering_rate": 2, "asset_surcharge_per_extra": 1, "max_surcharge_cap": 5, "template_rates": { "wedding": { ... }, "birthday": { ... }, "product": { ... } } }`
 * **Coupons:**
   * `'DISKON100'` | 100% percentage discount
   * `'DISKON50'` | 50% percentage discount
   * `'POTONG5000'` | Fixed `5000` IDR deduction
+
 
 ---
 
@@ -674,7 +735,9 @@ erDiagram
     "auth.users" ||--o{ user_domains : "user_id (1:N)"
     profiles ||--o{ projects : "user_id (1:N logical)"
     profiles ||--o{ coupon_usages : "user_id (1:N logical for CouponRedemption)"
+    profiles ||--o{ ai_tasks : "user_id (1:N)"
     projects ||--o{ transactions : "project_id (1:N optional)"
+    projects ||--o{ ai_tasks : "project_id (1:N optional)"
     coupons ||--o{ coupon_usages : "coupon_id (1:N for CouponRedemption)"
 ```
 *[Note]*: The physical table `coupon_usages` implements the logical `CouponRedemption` domain entity defined in `04_DOMAIN_MODEL.md`.
@@ -690,6 +753,8 @@ graph TD
     users --> transactions["public.transactions"]
     users --> user_domains["public.user_domains"]
     projects["public.projects"] --> transactions
+    projects --> ai_tasks["public.ai_tasks"]
+    profiles --> ai_tasks
     coupons["public.coupons"] --> coupon_usages["public.coupon_usages"]
     products["public.products (standalone lookup)"]
 ```

@@ -5,10 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 1.0 |
-| Status | Draft |
+| Version | 2.0 |
+| Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
+| Last Updated | 2026-07-04 (Milestone 6 — AI Platform Frontend Integration) |
 
 ---
 
@@ -62,13 +63,25 @@ Future designs belong to later documents.
 
 # Current Runtime Flow
 
-## Project Generation
+## Project Generation (Legacy — non-wedding templates)
 
-1. Dashboard
-2. API
-3. AI
-4. Validation
-5. Save Draft
+1. Dashboard fills form
+2. `POST /api/generate` → AI generates `pageData` synchronously
+3. Validate + save draft to Supabase
+4. Return `projectId` + `pageData` to dashboard
+
+---
+
+## Project Generation (AI Platform — wedding templates)
+
+1. Dashboard fills wedding form + uploads images
+2. `POST /api/v1/ai/execute` → creates `ai_tasks` row + BullMQ job, returns `taskId`
+3. Dashboard polls `GET /api/v1/ai/task/:id` every 3 seconds
+4. Worker executes: `WeddingCompiler.compile()` → GeminiProvider/SumopodProvider → Supabase Storage uploads
+5. Task status transitions: `queued → processing → completed`
+6. Dashboard fetches `result_url` → parses compiled `pageData`
+7. `POST /api/projects/draft` → persists `pageData` to `projects` table
+8. Renders live preview + enables Publish flow
 
 ---
 
@@ -116,6 +129,7 @@ Future designs belong to later documents.
 - Asynchronous AI Image Generation (Avatar queue with automatic wallet refunds on failure)
 - Asynchronous AI Text Copywriting (Field copywriting queue)
 - Asynchronous Payment Webhook Processing (Winpay webhook instant response offloading)
+- **AI Platform — Asynchronous Wedding Generation** (registry-based architecture, BullMQ worker, Gemini AI, image compilation via Supabase Storage)
 
 ## Billing
 
@@ -137,6 +151,8 @@ Future designs belong to later documents.
 - Transactions
 - Products
 - Coupons
+- System Settings
+- AI Tasks
 
 ## Landing Page Templates
 
@@ -153,6 +169,18 @@ Future designs belong to later documents.
 
 - Sumopod
 - Groq
+- **Gemini** (AI Platform — `GeminiProvider`, configured via `GEMINI_API_KEY`)
+
+## AI Platform (Registry-Based)
+
+- `AIOrchestrationService` — central coordinator, routes task types to compilers and providers
+- `ProviderRegistry` — runtime registry for AI providers (`gemini`, `sumopod`)
+- `TaskCompilerRegistry` — runtime registry for task compilers by type (`wedding`)
+- `WeddingCompiler` — compiles wedding form data + AI content into full `pageData`
+- `BullMQQueueAdapter` — concrete adapter wrapping BullMQ for async job dispatch
+- `AITaskRepository` — Supabase-backed persistence layer for `ai_tasks` table
+- `SupabaseStorageProvider` — handles image uploading to Supabase Storage for AI-processed assets
+- `aiTaskWorker.js` — BullMQ worker process that consumes and executes AI tasks
 
 ## Payment
 
@@ -161,7 +189,7 @@ Future designs belong to later documents.
 
 ## Queue
 
-- BullMQ (Enabled for AI Image, AI Text, and Payment Webhook tasks)
+- BullMQ (Enabled for AI Image, AI Text, Payment Webhook tasks, and AI Platform jobs)
 
 ## Rendering
 
@@ -169,7 +197,7 @@ Future designs belong to later documents.
 
 ## Dashboard Pages
 
-- `/generate` — AI landing page generator form (all template types)
+- `/generate` — AI landing page generator form (all template types; wedding uses async AI Platform flow)
 - `/login` — Authentication
 - `/topup` — Wallet top-up via Winpay VA
 
@@ -205,6 +233,10 @@ Future designs belong to later documents.
 - Design is custom-domain-ready: injection happens at LP runtime, not per-template, so it works across GitHub Pages slugs and future custom domains without changes
 - LP_VERSION bump required after changes to script.js
 
+## AI Platform — Additional Template Compilers
+
+> Status: PLANNED — only `wedding` compiler is implemented; other template types (birthday, toko-online, campaign) still use the legacy synchronous `/generate` route
+
 ---
 
 # Known Technical Debt
@@ -224,7 +256,6 @@ Future designs belong to later documents.
 
 Areas that require manual verification.
 
-- Large Dashboard Generate Page
 - Individual Templates
 - Sidebar
 - Login
@@ -232,6 +263,7 @@ Areas that require manual verification.
 - Migration Verification
 - Test Coverage
 - Production Infrastructure
+- AI Platform worker stability at production scale (Redis eviction, BullMQ job TTL)
 
 ---
 
