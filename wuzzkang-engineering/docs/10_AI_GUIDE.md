@@ -104,12 +104,12 @@ Untuk mendukung antrean asinkron berskala besar dan pemrosesan multi-vendor, sis
     *   Batasan ukuran berkas maksimal sebesar 10 MB untuk mencegah kehabisan memori buffer.
 
 ### 5.2 AI Service Provider (`GeminiProvider`)
-*   **Tujuan**: Mengintegrasikan SDK resmi Google Generative AI (`@google/generative-ai`) ke platform.
+*   **Tujuan**: Mengintegrasikan SDK terpadu Google Gen AI (`@google/genai`) ke platform.
 *   **Fitur**:
-    *   Inisialisasi cepat dengan deteksi ketiadaan `GEMINI_API_KEY` (fail-fast).
+    *   Inisialisasi terpusat menggunakan `GoogleGenAI` client baru (fail-fast jika `GEMINI_API_KEY` tidak tersedia).
     *   Mendukung input multimodal (teks dan gambar base64).
-    *   Penerapan aturan batas waktu eksekusi otomatis (*timeout* 60 detik) dan dukungan `AbortSignal` untuk pembatalan request di tengah jalan.
-    *   Setelan filter keamanan (*safety settings*) yang seimbang untuk konten undangan pernikahan artistik.
+    *   Penerapan aturan batas waktu eksekusi otomatis (*timeout* 60 detik) dan dukungan `AbortSignal` pembatalan request (dibungkus via helper internal agar tetap andal lintas versi SDK).
+    *   Setelan filter keamanan (*safety settings*) langsung dilewatkan di dalam konfigurasi parameter API.
 
 ### 5.3 Domain Compiler (`WeddingTaskCompiler`)
 *   **Tujuan**: Menerjemahkan data masukan undangan pernikahan terstruktur (profil mempelai, gaya artistik, dll.) ke format payload prompt multimodal yang dikenali oleh `GeminiProvider`.
