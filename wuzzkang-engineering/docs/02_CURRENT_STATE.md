@@ -9,7 +9,7 @@
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-04 (Milestone 6 — AI Platform Frontend Integration) |
+| Last Updated | 2026-07-05 (AI Prewedding Photo Integration) |
 
 ---
 
@@ -156,7 +156,7 @@ Future designs belong to later documents.
 
 ## Landing Page Templates
 
-- Wedding: `sage-green`, `floral-pink`, `classic-love`
+- Wedding: `sage-green`, `floral-pink`, `classic-love` (supports dynamic AI-generated prewedding photo background)
 - Birthday: `cute-balloon`, `elegant-gold`
 - Toko Online: `modern-clean`, `midnight-dark`
 - Campaign: `neon-conversion`, `clean-trust`
@@ -170,6 +170,7 @@ Future designs belong to later documents.
 - Sumopod
 - Groq
 - **Gemini** (AI Platform — `GeminiProvider`, configured via `GEMINI_API_KEY`)
+- **Gemini Imagen 3** (AI Platform — `GeminiImageProvider`, handles image generation and fallbacks)
 
 ## AI Platform (Registry-Based)
 

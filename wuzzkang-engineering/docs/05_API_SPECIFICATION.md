@@ -763,6 +763,29 @@ Represents discount validations:
   * `400 Bad Request`: Validation failure (missing mode or required mode parameters).
   * `402 Payment Required`: Daily AI quota exhausted and balance is insufficient.
 
+#### `POST /api/media/prewedding`
+* **Purpose:** Two-step AI pipeline to analyze uploaded groom & bride photos via Gemini 2.5 Flash and generate a composite romantic prewedding-style image using Gemini Imagen 3 (with automatic fallback to OpenAI/Sumopod/Aesthetic Stock Photos).
+* **Authentication Required:** Yes (Bearer JWT).
+* **Request Body Schema:**
+  ```json
+  {
+    "groomImageUrl": "string (required, public URL of groom photo)",
+    "brideImageUrl": "string (required, public URL of bride photo)",
+    "style": "string (optional, visual style hint, e.g. 'elegant romantic')"
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "preweddingPhotoUrl": "https://supabase-url/wuzzkang-bucket/prewedding-filename.png",
+    "promptUsed": "string (AI-generated scene prompt)"
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Missing groomImageUrl or brideImageUrl.
+  * `500 Internal Server Error`: All generator and stock image fallbacks failed.
+
 #### `POST /api/media/upload`
 * **Purpose:** Mediated backend endpoint to receive binary file uploads from the dashboard client, upload them to Supabase Storage, and return the hosted public URL.
 * **Authentication Required:** Yes (Bearer JWT).
