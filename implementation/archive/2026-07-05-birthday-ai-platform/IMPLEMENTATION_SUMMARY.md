@@ -1,0 +1,23 @@
+# Implementation Summary - Birthday Template Migration
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** Birthday Template AI Orchestration Migration
+- **Status:** Completed
+- **Current Milestone:** M4 - Verification & Handover
+- **Progress:** 
+  - [x] M1: Research & Plan Approval
+  - [x] M2: Backend BirthdayTaskCompiler Implementation & Registration
+  - [x] M3: Frontend Dashboard Integration
+  - [x] M4: Verification & Handover
+- **Architecture Overview:** 
+  - Migration of the 'birthday' template generation flow from synchronous `ai.service.js` using OpenAI/Groq to asynchronous queue-based `AIOrchestrationService` (via `POST /api/v1/ai/execute`) utilizing `GeminiProvider` (`gemini-2.5-flash`).
+- **Major Decisions:**
+  - Map AI-generated `invitation_intro` as the `quote` field of the birthday content schema to preserve visual styling and Zod schema compatibility.
+- **Modified Files:**
+  - `wuzzkang-api/src/services/ai-platform/compilers/BirthdayTaskCompiler.js` (NEW)
+  - `wuzzkang-api/src/services/ai-platform/register.js` (MODIFY)
+  - `wuzzkang-dashboard/src/app/generate/page.js` (MODIFY)
+- **Pending Work:** None.
+- **Known Issues:** None.
+- **Next Action:** Perform archive procedure under the protocol guidelines.
+- **Last Updated:** 2026-07-05T15:05:00+07:00

@@ -129,7 +129,7 @@ Future designs belong to later documents.
 - Asynchronous AI Image Generation (Avatar queue with automatic wallet refunds on failure)
 - Asynchronous AI Text Copywriting (Field copywriting queue)
 - Asynchronous Payment Webhook Processing (Winpay webhook instant response offloading)
-- **AI Platform — Asynchronous Wedding Generation** (registry-based architecture, BullMQ worker, Gemini AI, image compilation via Supabase Storage)
+- **AI Platform — Asynchronous Project Generation** (registry-based architecture, BullMQ worker, Gemini AI, image compilation via Supabase Storage. Templates supported: wedding, campaign, birthday)
 
 ## Billing
 
@@ -236,7 +236,7 @@ Future designs belong to later documents.
 
 ## AI Platform — Additional Template Compilers
 
-> Status: PLANNED — only `wedding` compiler is implemented; other template types (birthday, toko-online, campaign) still use the legacy synchronous `/generate` route
+> Status: PARTIALLY COMPLETED — `wedding`, `campaign`, and `birthday` compilers are fully implemented on the async AI Platform queue flow. Only the `toko-online` template type still uses the legacy synchronous `/generate` route.
 
 ---
 
