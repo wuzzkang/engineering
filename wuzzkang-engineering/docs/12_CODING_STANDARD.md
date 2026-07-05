@@ -103,3 +103,35 @@ Semua log di terminal backend harus ditulis secara terstruktur menggunakan prefi
         document.head.appendChild(styleEl);
     }
     ```
+
+---
+
+## 7. Komponen UI Reusable (wuzzkang-dashboard)
+
+Sebelum menulis UI baru di `generate/page.js`, **wajib periksa** apakah ada komponen reusable yang sudah tersedia di:
+
+```
+wuzzkang-dashboard/src/components/
+```
+
+### Kapan Membuat Komponen Baru
+
+Buat komponen reusable jika:
+*   UI yang **identik** digunakan di lebih dari satu template
+*   Komponen **tidak mengandung business logic** — hanya rendering dan API call sederhana
+*   State utama tetap dikelola di parent (`page.js`)
+
+### Komponen yang Tersedia
+
+Lihat dokumentasi lengkap di [`14_COMPONENT_LIBRARY.md`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/docs/14_COMPONENT_LIBRARY.md).
+
+| Komponen             | File                    | Deskripsi                                      |
+|----------------------|-------------------------|------------------------------------------------|
+| `Sidebar`            | `Sidebar.js`            | Navigasi sidebar utama dashboard               |
+| `ImagePickerField`   | `ImagePickerField.js`   | Field gambar: checkbox + Unsplash/Upload tabs  |
+
+### Aturan Penggunaan
+
+*   **Jangan duplikat kode**: Jika UI sudah ada sebagai komponen, gunakan komponen tersebut. Jangan copy-paste JSX ke tempat baru.
+*   **State di parent**: Komponen UI bersifat controlled. State dan callback dikirim via props dari `page.js`.
+*   **Dokumentasikan**: Setiap komponen baru **wajib** ditambahkan ke `14_COMPONENT_LIBRARY.md` beserta props API dan contoh penggunaan.

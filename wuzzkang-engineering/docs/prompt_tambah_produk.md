@@ -4,7 +4,7 @@ Dokumen ini berisi contoh prompt siap pakai untuk diberikan ke AI coding assista
 ketika ingin menambah produk baru atau template baru ke sistem wuzzkang.
 
 > [!NOTE]
-> Dokumen ini terakhir diperbarui setelah migrasi Campaign selesai (2026-07-05).
+> Dokumen ini terakhir diperbarui: 2026-07-05 (refactor ImagePickerField + verifikasi fungsi).
 > Semua nama model, endpoint, dan pola implementasi mengikuti kondisi sistem terkini.
 
 ---
@@ -112,8 +112,7 @@ Migrasikan produk "Birthday" dari sistem AI lama ke sistem AI Platform baru wuzz
    `if (templateType === 'wedding' || templateType === 'campaign' || templateType === 'birthday')`
    Susun payload `executePayload` dan kompilasi `compiledPageData` mengikuti pola Campaign yang sudah ada.
 
-4. Jangan hapus kode lama di `ai.service.js` and `generator.route.js` dulu —
-   jalankan keduanya secara paralel sampai frontend siap diupdate.
+4. Update `assembledContent` dan dependency array `useEffect` di `page.js` mengikuti pola Campaign.
 
 **Referensi pola:** Ikuti `CampaignTaskCompiler.js` dan pola Wedding di `page.js` sepenuhnya.
 ```
@@ -159,16 +158,18 @@ Tambahkan fitur "AI Assist" per field untuk produk baru "Khitanan" di wuzzkang.
 
 **Yang harus dikerjakan di Frontend:**
 3. Di `wuzzkang-dashboard/src/app/generate/page.js`, tambahkan handler generate per field
-   mengikuti pola yang sudah ada di fungsi `handleGenerateCampaignField` (sekitar baris 1083-1160):
+   mengikuti pola yang sudah ada di fungsi `handleAICampaignAssist` (sekitar baris 1134-1246):
    ```javascript
-   const handleGenerateKhitananField = async (fieldType) => {
+   const handleAIKhitananAssist = async (fieldType) => {
      const context = { childName, fatherName, motherName };
      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/generate/field`, {
        method: 'POST',
        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${session.access_token}` },
        body: JSON.stringify({ fieldType, context }),
      });
-     // ... polling via getTextQueue job status dan set state variable
+     const result = await response.json();
+     const jobId = result.jobId;
+     // ... polling via GET /jobs/:jobId/status lalu set state variable
    };
    ```
 
@@ -200,6 +201,7 @@ Tambahkan fitur "AI Assist" per field untuk produk baru "Khitanan" di wuzzkang.
 > | Tambah style/template ke produk yang sudah ada | Skenario 2 |
 > | Migrasikan produk lama (Birthday, Toko) | Skenario 3 |
 > | Tombol AI Assist per kolom input | Skenario 4 (B.1) |
+> | Field pilih gambar background/cover | Lihat `14_COMPONENT_LIBRARY.md` |
 
 > [!NOTE]
 > **Endpoint yang sudah tersedia dan tidak perlu dibuat ulang:**
@@ -207,3 +209,36 @@ Tambahkan fitur "AI Assist" per field untuk produk baru "Khitanan" di wuzzkang.
 > - `GET /api/v1/ai/task/:id` — cek status task (polling)
 > - `POST /api/generate/field` — generate per field eceran (sync melalui Gemini)
 > - `GET /api/jobs/:jobId/status` — cek status job dari text-queue (untuk field assist polling)
+> - `POST /api/media/prewedding` — ambil foto acak dari Unsplash (dipakai oleh `ImagePickerField`)
+
+---
+
+## Skenario 5: Menambah Field Pilih Gambar (Background / Cover) ke Produk Baru
+
+> Gunakan ini ketika produk baru butuh field untuk memilih foto background atau cover section,
+> baik dari Unsplash (acak) maupun upload sendiri.
+>
+> **Gunakan komponen reusable `<ImagePickerField>` — jangan tulis ulang JSX dari nol.**
+
+### ✅ Contoh Prompt
+
+```
+Tambahkan field gambar background hero section ke produk baru "Khitanan" di wuzzkang.
+
+Gunakan komponen reusable `ImagePickerField` yang sudah ada di:
+`wuzzkang-dashboard/src/components/ImagePickerField.js`
+
+**Panduan implementasi ada di: `docs/14_COMPONENT_LIBRARY.md` — Panduan: Menambahkan Field Gambar ke Template Baru**
+
+Secara ringkas yang harus dikerjakan:
+1. Tambah 3 state di `page.js`: `generateKhitananImage`, `khitananImageUrl`, `khitananImageSource`
+2. Di load edit mode, set state dari DB jika `image_url` ada
+3. Di `assembledContent`, gunakan: `image_url: generateKhitananImage ? (khitananImageUrl || null) : null`
+4. Tambahkan kedua state ke dependency array `useEffect`
+5. Di JSX, render: `<ImagePickerField checkboxId="generateKhitananImage" ... />`
+6. Di `wuzzkang-api/src/utils/schema.js`, pastikan `image_url` diizinkan di schema Zod
+7. Tambahkan handler `uploadType` baru di `handleUploadImage()` di `page.js`
+
+**Referensi:** Lihat implementasi Campaign hero (`generateCampaignHero`) dan Wedding prewedding
+(`generatePrewedding`) di `page.js` sebagai contoh pola yang sudah benar.
+```
