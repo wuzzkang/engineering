@@ -1,0 +1,22 @@
+# Implementation Summary
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** Toko Online AI Platform Migration
+- **Status:** Completed
+- **Current Milestone:** Completed
+- **Progress:** 100%
+- **Architecture Overview:** Asynchronous task processing using Gemini 2.5 Flash model resolved via BullMQ worker.
+- **Major Decisions:**
+  - Added a `polyfill.js` to support Node 16 runtime environment (polyfilling ReadableStream and WebSocket) since the environment runs on Node 16.
+- **Modified Files:**
+  - `wuzzkang-api/src/services/ai-platform/compilers/TokoOnlineTaskCompiler.js` [NEW]
+  - `wuzzkang-api/src/services/ai-platform/register.js` [MODIFY]
+  - `wuzzkang-dashboard/src/app/generate/page.js` [MODIFY]
+  - `wuzzkang-api/test-milestone4.js` [MODIFY]
+  - `wuzzkang-api/test-milestone5.js` [MODIFY]
+  - `wuzzkang-api/test-milestone6-gemini.js` [MODIFY]
+  - `wuzzkang-api/polyfill.js` [NEW]
+- **Pending Work:** None
+- **Known Issues:** None
+- **Next Action:** None
+- **Last Updated:** 2026-07-05

@@ -92,7 +92,7 @@ Tambahkan template/style baru ke produk Wedding yang sudah ada di wuzzkang.
 ### ✅ Contoh Prompt
 
 ```
-Migrasikan produk "Birthday" dari sistem AI lama ke sistem AI Platform baru wuzzkang.
+Migrasikan produk "Toko Online" dari sistem AI lama ke sistem AI Platform baru wuzzkang.
 
 **Konteks sistem:**
 - Sistem lama: `ai.service.js` + `generator.route.js` — synchronous, tidak ada tracking, pakai OpenAI/Groq.
@@ -100,16 +100,16 @@ Migrasikan produk "Birthday" dari sistem AI lama ke sistem AI Platform baru wuzz
   ada tracking di tabel `ai_tasks`, pakai Gemini (`gemini-2.5-flash`).
 
 **Yang harus dikerjakan:**
-1. Buat `BirthdayTaskCompiler.js` di `src/services/ai-platform/compilers/`.
-   - Input context yang tersedia: `celebrantName`, `celebrantAge`, `eventDate`, `eventLocation`, `theme`.
-   - Output JSON dari AI: `banner_tagline`, `invitation_intro`, `closing_message`.
+1. Buat `TokoOnlineTaskCompiler.js` di `src/services/ai-platform/compilers/`.
+   - Input context yang tersedia: `storeName`, `storeDescription`, `products`.
+   - Output JSON dari AI: `store_tagline`, `store_description`, `products` (updated with AI-generated descriptions and names).
    - Gunakan `targetModel: 'gemini-2.5-flash'` di dalam `compile()`.
 
-2. Daftarkan di `register.js` dengan key `'birthday'`.
+2. Daftarkan di `register.js` dengan key `'toko-online'`.
 
 3. Di frontend dashboard (`wuzzkang-dashboard/src/app/generate/page.js`), tambahkan
-   `templateType === 'birthday'` ke dalam kondisi yang sudah ada:
-   `if (templateType === 'wedding' || templateType === 'campaign' || templateType === 'birthday')`
+   `templateType === 'toko-online'` ke dalam kondisi yang sudah ada:
+   `if (templateType === 'wedding' || templateType === 'campaign' || templateType === 'toko-online')`
    Susun payload `executePayload` dan kompilasi `compiledPageData` mengikuti pola Campaign yang sudah ada.
 
 4. Update `assembledContent` dan dependency array `useEffect` di `page.js` mengikuti pola Campaign.

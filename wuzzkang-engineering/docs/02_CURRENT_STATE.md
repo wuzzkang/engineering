@@ -236,7 +236,7 @@ Future designs belong to later documents.
 
 ## AI Platform — Additional Template Compilers
 
-> Status: PARTIALLY COMPLETED — `wedding`, `campaign`, and `birthday` compilers are fully implemented on the async AI Platform queue flow. Only the `toko-online` template type still uses the legacy synchronous `/generate` route.
+> Status: COMPLETED — All template types (`wedding`, `campaign`, `birthday`, and `toko-online`) are fully migrated and implemented on the async AI Platform queue flow. No template types use the legacy synchronous `/generate` route anymore.
 
 ---
 

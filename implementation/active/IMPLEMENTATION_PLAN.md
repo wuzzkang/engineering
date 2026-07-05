@@ -1,3 +1,11 @@
 # Implementation Plan
 
-Describe target architecture, proposed files, and verification criteria for the next task.
+## Status: Draft
+
+## Proposed Changes
+
+### Backend (`wuzzkang-api`)
+
+### Frontend (`wuzzkang-dashboard`)
+
+## Verification Plan

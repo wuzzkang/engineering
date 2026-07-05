@@ -1,3 +1,4 @@
 # Implementation Progress
 
-- [ ] Milestone 1: 
+- [ ] Define implementation plan
+- [ ] Obtain user approval
