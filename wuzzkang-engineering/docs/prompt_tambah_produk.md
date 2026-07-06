@@ -201,7 +201,8 @@ Tambahkan fitur "AI Assist" per field untuk produk baru "Khitanan" di wuzzkang.
 > | Tambah style/template ke produk yang sudah ada | Skenario 2 |
 > | Migrasikan produk lama (Birthday, Toko) | Skenario 3 |
 > | Tombol AI Assist per kolom input | Skenario 4 (B.1) |
-> | Field pilih gambar background/cover | Lihat `14_COMPONENT_LIBRARY.md` |
+> | Field pilih gambar background/cover | Skenario 5 / Lihat `14_COMPONENT_LIBRARY.md` |
+> | Fitur galeri slider atau Buku Tamu di template | Skenario 6 / Lihat `14_COMPONENT_LIBRARY.md` |
 
 > [!NOTE]
 > **Endpoint yang sudah tersedia dan tidak perlu dibuat ulang:**
@@ -241,4 +242,50 @@ Secara ringkas yang harus dikerjakan:
 
 **Referensi:** Lihat implementasi Campaign hero (`generateCampaignHero`) dan Wedding prewedding
 (`generatePrewedding`) di `page.js` sebagai contoh pola yang sudah benar.
+```
+
+---
+
+## Skenario 6: Menambahkan Fitur Slider Gambar (Carousel) atau Buku Tamu (WishesBoard) ke Template Baru
+
+> Gunakan ini ketika template baru membutuhkan galeri foto slider (carousel) atau section Buku Tamu / RSVP.
+>
+> **Gunakan komponen template reusable `ImageSlider` atau `WishesBoard` — jangan tulis ulang HTML dan JS dari nol.**
+
+### ✅ Contoh Prompt
+
+```
+Tambahkan fitur galeri foto slider dan Buku Tamu (WishesBoard) ke template baru "Islamic Modern" di wuzzkang.
+
+Gunakan komponen template reusable yang sudah ada di:
+- `templates/components/ImageSlider.js`
+- `templates/components/WishesBoard.js`
+
+**Panduan implementasi:**
+1. Untuk Galeri Slider (ImageSlider):
+   - Impor komponen: `import { ImageSlider } from '../components/ImageSlider.js';`
+   - Siapkan kontainer HTML di template: `<div class="slider-container" id="gallery-slider"></div>`
+   - Inisialisasi setelah render:
+     ```javascript
+     const slider = new ImageSlider('gallery-slider', pageConfig.content.gallery_images);
+     slider.setup();
+     ```
+
+2. Untuk Buku Tamu & RSVP (WishesBoard):
+   - Siapkan kontainer HTML di template: `<div id="wishes-board-root"></div>`
+   - Inisialisasi setelah render menggunakan impor dinamis:
+     ```javascript
+     const wishesRoot = document.getElementById('wishes-board-root');
+     if (wishesRoot) {
+         const { initWishesBoard } = await import('../components/WishesBoard.js');
+         initWishesBoard(wishesRoot, pageConfig, guestName, {
+             primaryColor: '#5A7C64',      // Sesuaikan warna tema
+             bgLight: '#F8FAF9',
+             borderColor: '#EAF0EC',
+             buttonClass: 'btn-sage-primary'
+         });
+     }
+     ```
+
+**Referensi:** Lihat implementasi galeri slider dan wishes board di template `wedding/sage-green.js` atau `wedding/javanese-traditional.js` sebagai contoh yang benar.
 ```
