@@ -2,10 +2,8 @@
 
 ## Status: Draft
 
+## User Review Required
+
 ## Proposed Changes
-
-### Backend (`wuzzkang-api`)
-
-### Frontend (`wuzzkang-dashboard`)
 
 ## Verification Plan
