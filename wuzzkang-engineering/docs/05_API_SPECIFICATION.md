@@ -888,6 +888,90 @@ Represents discount validations:
 * **Exception Triggers:**
   * `400 Bad Request`: Missing required payload properties (amount, userId, or channel).
 
+#### `GET /api/payments/pending`
+* **Purpose:** Retrieve the currently active, unexpired pending top-up transaction for the authenticated user (to display active invoices or block duplicate checkout spam).
+* **Authentication Required:** Yes (Bearer JWT).
+* **Success Response (200 OK):**
+  - If a pending transaction exists:
+    ```json
+    {
+      "success": true,
+      "data": {
+        "id": "uuid",
+        "user_id": "uuid",
+        "amount": 500,
+        "type": "topup",
+        "status": "PENDING",
+        "order_id": "INV-1719888888",
+        "va_number": "88301081234567890",
+        "metadata": {
+          "channel": "BCA",
+          "customerNo": "081234567890",
+          "cash_amount": 50000,
+          "credit_price": 100,
+          "expired_at": "2026-07-06T15:30:00.000Z"
+        }
+      }
+    }
+    ```
+  - If no pending transaction exists:
+    ```json
+    {
+      "success": true,
+      "data": null
+    }
+    ```
+
+#### `POST /api/payments/:id/cancel`
+* **Purpose:** Cancel a pending top-up payment transaction, marking its status as `EXPIRED`.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Path Parameters:**
+  * `id`: UUID of the transaction to cancel.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "id": "uuid",
+      "status": "EXPIRED"
+    }
+  }
+  ```
+
+#### `GET /api/payments/history`
+* **Purpose:** Retrieve all historical ledger transactions (top-ups, deployments, etc.) for the authenticated user, ordered by creation date descending.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "id": "uuid",
+        "user_id": "uuid",
+        "amount": 500,
+        "type": "topup",
+        "status": "PAID",
+        "order_id": "INV-1719888888",
+        "created_at": "2026-07-06T14:00:00.000Z",
+        "metadata": {
+          "channel": "QRIS",
+          "cash_amount": 50000
+        }
+      },
+      {
+        "id": "uuid",
+        "user_id": "uuid",
+        "amount": -100,
+        "type": "deployment",
+        "status": "SUCCESS",
+        "created_at": "2026-07-06T12:00:00.000Z",
+        "metadata": {}
+      }
+    ]
+  }
+  ```
+
 ---
 
 ### 9.4 AI Platform (Task Orchestration) Endpoints
