@@ -210,6 +210,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `daily_ai_limit` | `INTEGER` | `NULL` | `NULL` | Maximum daily free AI quota. If `NULL`, falls back to system settings default. |
 | `ai_generate_cost` | `BIGINT` | `NULL` | `NULL` | Unit cost in Credits per AI generation after quota. If `NULL`, falls back to system settings default. |
 | `tracking_config` | `JSONB` | `NULL` | `NULL` | Tracking pixel configuration object. Keys: `facebook_pixel_id`, `google_analytics_id`, `google_ads_id`, `tiktok_pixel_id`. Merged into `page_data.meta` at generate-time. |
+| `role` | `TEXT` | `NOT NULL` | `'user'` | Security access role check: `('user', 'admin', 'super_admin')`. Column-level trigger `protect_profile_role` prevents client-side updates. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Timestamp of last row mutation. Automatically updated via `handle_updated_at` trigger. |
 
 ### 8.2 projects
@@ -249,7 +250,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `type` | `TEXT` | `NOT NULL` | - | Transaction category identifier (e.g. `'topup'`, `'deployment'`, `'refund'`, `'ai_generation'`). |
 | `project_id` | `UUID` | `NULL` | - | Optional project link. References `public.projects(id)` via `ON DELETE SET NULL`. |
 | `description` | `TEXT` | `NULL` | - | Audit trail description. |
-| `metadata` | `JSONB` | `NULL` | `'{}'::JSONB` | Optional audit metadata JSON payload. |
+| `metadata` | `JSONB` | `NULL` | `'{}'::JSONB` | Optional audit metadata JSON payload (keys: `channel`, `customerNo`, `cash_amount`, `credit_price`, `qr_image_url`, `confirm_payment_url`, `mode`, `expired_at`). |
 | `order_id` | `TEXT` | `NULL` | - | Unique external payment/top-up tracking ID. Enforced by unique constraint. |
 | `va_number` | `TEXT` | `NULL` | - | Virtual Account settlement identifier. |
 | `status` | `public.transaction_status` | `NULL` | `'PENDING'` | Status reference from `transaction_status` enum. |
@@ -370,9 +371,20 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `id` | `TEXT` | `NOT NULL` | - | Primary Key config name (e.g. `'qris'`, `'virtual_account'`). |
 | `name` | `TEXT` | `NOT NULL` | - | Display name of the payment method. |
 | `is_active` | `BOOLEAN` | `NOT NULL` | `TRUE` | Activation status flag. If `FALSE`, hidden from dashboard. |
-| `config` | `JSONB` | `NOT NULL` | `'{}'::JSONB` | Stored configuration setting JSON (e.g. modes, channels, images). |
+| `config` | `JSONB` | `NOT NULL` | `'{}'::JSONB` | Stored configuration setting JSON (keys: `mode`, `channels`, `image_url`, `expiry_duration_minutes`). |
 | `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Record creation timestamp. |
-| `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last modified timestamp. Automatically updated via trigger. |
+
+### 8.11 role_access
+* **Purpose:** Document the physical schema of the `public.role_access` table mapping roles to operational permissions.
+* **Scope:** Column names, SQL data types, nullability, default values, and column-level descriptions.
+* **Out of Scope:** Endpoint routing rules.
+
+#### Table Definition: `public.role_access`
+| Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
+|---|---|---|---|---|
+| `role` | `TEXT` | `NOT NULL` | - | Primary Key part. User access role (`'admin'`, `'super_admin'`). |
+| `permission` | `TEXT` | `NOT NULL` | - | Primary Key part. Target permission code (e.g. `'complete_payment'`, `'manage_users'`). |
+| `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Record creation timestamp. |
 
 
 ## Part 9 — Table Relationships

@@ -1,0 +1,36 @@
+# Implementation Summary
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** Admin Payment Completion API & Dynamic Expiration Countdown
+- **Status:** Completed
+- **Current Milestone:** M2 - Code Execution & Verification
+- **Progress:** 
+  - [x] Research target components and requirements
+  - [x] Define implementation plan and obtain approval
+  - [x] Execute dynamic RBAC database migration & schema design
+  - [x] Implement hasPermission authorization middleware factory
+  - [x] Expose admin payments complete API endpoint
+  - [x] Implement database-driven expiry duration config (expiry_duration_minutes)
+  - [x] Store transaction expiry time (expired_at) in database ledger metadata
+  - [x] Generate beautifully formatted and structured WhatsApp confirmation text
+  - [x] Implement stateful countdown timer in frontend top-up page
+  - [x] Synchronize API and Database documentation specs
+- **Architecture Overview:** Implements a dynamic Role-Based Access Control (RBAC) system in the database using a `role_access` permission mapping table. Column-level database trigger protection prevents client self-escalation of the `role` column. The backend exposes `POST /api/admin/payments/:id/complete` protected by a combination of JWT session authentication, role-permissions mapping lookup, and administrative pre-shared secret key validation. Payment expiration durations are read dynamically from database configuration and computed as absolute timestamps stored in transaction metadata, driving a real-time countdown timer in the frontend dashboard.
+- **Major Decisions:**
+  - Introduce dynamic role hierarchies (`user`, `admin`, `super_admin`) with SQL check constraints.
+  - Implement dynamic `hasPermission(requiredPermission)` middleware query lookup for database.
+  - Secure role column updates in profiles table via PostgreSQL trigger.
+  - Store payment expiration minutes inside `payment_methods` config and calculate absolute `expired_at` stored inside transaction metadata.
+- **Modified/New Files:**
+  - `wuzzkang-api/supabase/migrations/20260706090000_add_admin_role_and_protection.sql` [NEW]
+  - `wuzzkang-api/supabase/migrations/20260706090100_add_expiry_config.sql` [NEW]
+  - `wuzzkang-api/src/middleware/admin.middleware.js` [NEW]
+  - `wuzzkang-api/src/routes/payment.route.js` [MODIFY]
+  - `wuzzkang-api/src/services/transaction.service.js` [MODIFY]
+  - `wuzzkang-api/src/config/index.js` [MODIFY]
+  - `wuzzkang-api/.env` [MODIFY]
+  - `wuzzkang-dashboard/src/app/topup/page.js` [MODIFY]
+- **Pending Work:** None. Developer to run SQL migrations manually on Supabase Dashboard.
+- **Known Issues:** None
+- **Next Action:** Handover to user and archive implementation.
+- **Last Updated:** 2026-07-06

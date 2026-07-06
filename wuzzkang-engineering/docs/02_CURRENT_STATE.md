@@ -156,6 +156,7 @@ Future designs belong to later documents.
 - System Settings
 - AI Tasks
 - Payment Methods
+- Role Access (Dynamic role-permissions mapping table)
 
 ## Landing Page Templates
 

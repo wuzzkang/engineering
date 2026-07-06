@@ -835,6 +835,25 @@ Represents discount validations:
   }
   ```
 
+#### `POST /api/admin/payments/:id/complete`
+* **Purpose:** Manually mark a pending top-up payment transaction as PAID.
+* **Authentication Required:** Yes (Bearer JWT). Must possess `complete_payment` permission in `public.role_access`.
+* **Headers:**
+  * `X-Admin-Secret`: Standard pre-shared administrative secret token.
+* **Path Parameters:**
+  * `id`: UUID of the target transaction record.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Transaction completed successfully",
+    "newBalance": 1500
+  }
+  ```
+* **Exception Triggers:**
+  * `401 Unauthorized`: Missing session token or invalid `X-Admin-Secret` header value.
+  * `403 Forbidden`: Authenticated user role is not authorized with `complete_payment` privilege.
+
 #### `POST /api/payments/create`
 * **Purpose:** Create a new pending top-up transaction record and generate a virtual account payment number or manual QRIS payment instructions.
 * **Authentication Required:** Yes (Bearer JWT).
