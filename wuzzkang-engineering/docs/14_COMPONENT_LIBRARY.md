@@ -29,10 +29,18 @@ Komponen bersifat **controlled** — menerima state dan callback dari parent via
 
 Semua komponen reusable disimpan di:
 
+### 1. React Dashboard Components (Next.js)
 ```
 wuzzkang-dashboard/src/components/
 ├── Sidebar.js            — Navigasi sidebar
 └── ImagePickerField.js   — Field gambar dengan checkbox + Unsplash/Upload
+```
+
+### 2. Shared Template Components (Vanilla HTML/JS/CSS)
+```
+wuzzkang-lp/templates/components/  (di-sync ke wuzzkang-dashboard/public/preview/templates/components/)
+├── ImageSlider.js        — Komponen Slider/Carousel Gambar
+└── WishesBoard.js        — Komponen Buku Tamu & RSVP
 ```
 
 ---
@@ -241,3 +249,54 @@ const handleUploadImage = async (file, type) => {
 ```
 
 > **Catatan**: `isUploading` state di dalam `ImagePickerField` akan otomatis aktif dan nonaktif via `onUpload` callback karena komponen memanggil `await onUpload(file, uploadType)` dan menunggu selesai.
+
+---
+
+## Komponen Template: `ImageSlider`
+
+### Deskripsi
+Komponen JavaScript Vanilla untuk merender galeri gambar responsive berbentuk carousel slider.
+
+### Lokasi File
+*   [`wuzzkang-lp/templates/components/ImageSlider.js`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-lp/templates/components/ImageSlider.js) (di-sync ke Dashboard)
+
+### Contoh Penggunaan
+```javascript
+import { ImageSlider } from '../components/ImageSlider.js';
+
+// Siapkan kontainer HTML: <div class="slider-container" id="my-slider"></div>
+const slider = new ImageSlider('my-slider', ['img1.jpg', 'img2.jpg']);
+slider.setup();
+```
+
+---
+
+## Komponen Template: `WishesBoard`
+
+### Deskripsi
+Komponen interaktif Buku Tamu dan Form RSVP yang terintegrasi dengan penyimpanan `localStorage`. Komponen ini secara otomatis mengelompokkan pesan berdasarkan judul undangan di `pageConfig.meta.title`.
+
+### Lokasi File
+*   [`wuzzkang-lp/templates/components/WishesBoard.js`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-lp/templates/components/WishesBoard.js) (di-sync ke Dashboard)
+
+### Parameter `designStyles`
+| Option | Tipe | Wajib | Keterangan |
+|---|---|---|---|
+| `primaryColor` | `string` | ❌ | Warna primer teks, tombol aktif, dan badge counter |
+| `bgLight` | `string` | ❌ | Warna background form input & kartu ucapan |
+| `borderColor` | `string` | ❌ | Warna border form input |
+| `buttonClass` | `string` | ❌ | Kelas CSS tombol submit |
+
+### Contoh Penggunaan
+```javascript
+const wishesRoot = document.getElementById('wishes-board-root');
+if (wishesRoot) {
+    const { initWishesBoard } = await import('../components/WishesBoard.js');
+    initWishesBoard(wishesRoot, pageConfig, guestName, {
+        primaryColor: '#5A7C64',
+        bgLight: '#F8FAF9',
+        borderColor: '#EAF0EC',
+        buttonClass: 'btn-sage-primary'
+    });
+}
+```
