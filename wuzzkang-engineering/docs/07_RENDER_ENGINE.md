@@ -46,10 +46,14 @@ User isi form structured (dashboard)
 ```
 wuzzkang-lp/
 └── templates/
+    ├── components/             ← Komponen template reusable (shared components)
+    │   ├── ImageSlider.js      ← Komponen Slider Gambar
+    │   └── WishesBoard.js      ← Komponen Buku Tamu & RSVP
     ├── wedding/
     │   ├── sage-green.js       ← design_key: sage-green
     │   ├── floral-pink.js      ← design_key: floral-pink
-    │   └── classic-love.js     ← design_key: classic-love
+    │   ├── classic-love.js     ← design_key: classic-love
+    │   └── javanese-traditional.js ← design_key: javanese-traditional
     ├── birthday/
     │   ├── cute-balloon.js     ← design_key: cute-balloon
     │   └── elegant-gold.js     ← design_key: elegant-gold
@@ -676,3 +680,47 @@ Untuk menambahkan platform tracking baru (misal: Snapchat Pixel):
 6. Tambah field di `TRACKING_FIELDS` array di `profile/page.js`
 7. Bump `LP_VERSION` di `script.js` dan `PREVIEW_VERSION` di `preview/index.html`
 8. Jalankan `npm run sync:templates`
+
+---
+
+## 🧩 Komponen Template Reusable (Shared Components)
+
+Untuk menjaga agar kode template tetap bersih dan modular, fungsionalitas UI yang berulang diimplementasikan sebagai komponen ES Module di dalam direktori `templates/components/`.
+
+### 1. `ImageSlider.js`
+Komponen ini digunakan untuk merender galeri foto dengan transisi geser (carousel slider) secara responsif.
+
+*   **Lokasi File**: `templates/components/ImageSlider.js`
+*   **Cara Penggunaan**:
+    ```javascript
+    import { ImageSlider } from '../components/ImageSlider.js';
+
+    // Di dalam HTML template render:
+    // <div class="slider-container" id="my-gallery-slider"></div>
+
+    const images = ['url1.jpg', 'url2.jpg'];
+    const slider = new ImageSlider('my-gallery-slider', images);
+    slider.setup();
+    ```
+
+### 2. `WishesBoard.js`
+Komponen ini menyatukan rendering UI Buku Tamu (Form RSVP, pilihan stiker, daftar komentar) dan penanganan interaksinya secara terpusat. Komponen ini menyimpan ucapan secara otomatis di `localStorage` dengan key unik berbasis judul undangan.
+
+*   **Lokasi File**: `templates/components/WishesBoard.js`
+*   **Cara Penggunaan**:
+    ```javascript
+    // Di dalam HTML template render, siapkan container:
+    // <div id="wishes-board-root"></div>
+
+    // Di dalam fungsi JavaScript template render:
+    const wishesRoot = document.getElementById('wishes-board-root');
+    if (wishesRoot) {
+        const { initWishesBoard } = await import('../components/WishesBoard.js');
+        initWishesBoard(wishesRoot, pageConfig, guestName, {
+            primaryColor: '#5A7C64',      // Warna primer (teks, outline aktif)
+            bgLight: '#F8FAF9',           // Warna background form input & kartu
+            borderColor: '#EAF0EC',       // Warna border form input
+            buttonClass: 'btn-sage-primary' // Kelas CSS kustom untuk tombol submit
+        });
+    }
+    ```
