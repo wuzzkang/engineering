@@ -1,0 +1,29 @@
+# Implementation Summary
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** Dynamic Payment Methods (QRIS & VA)
+- **Status:** Completed
+- **Current Milestone:** M2 - Code Execution & Verification
+- **Progress:** 
+  - [x] Research target components and requirements
+  - [x] Define implementation plan and obtain approval
+  - [x] Execute dynamic payment methods backend and frontend integration
+  - [x] Synchronize documentation specs
+- **Architecture Overview:** Introduce a new database table `payment_methods` to dynamically control and configure payment options (Virtual Account & QRIS). QRIS is designed with dual-mode flexibility (hits payment gateway or serves static local image based on configuration). WhatsApp confirmation link is dynamically built and served from backend to keep config secure.
+- **Major Decisions:**
+  - Introduce `payment_methods` settings table in database with JSONB config.
+  - Implement dynamic API fetching for dashboard billing options.
+  - WhatsApp manual verification redirect built on the backend.
+- **Modified/New Files:**
+  - `wuzzkang-api/supabase/migrations/20260706080000_create_payment_methods.sql` [NEW]
+  - `wuzzkang-api/scripts/create-payment-methods.js` [NEW]
+  - `wuzzkang-api/src/services/supabase.service.js` [MODIFY]
+  - `wuzzkang-api/src/routes/payment.route.js` [MODIFY]
+  - `wuzzkang-api/src/services/transaction.service.js` [MODIFY]
+  - `wuzzkang-api/src/services/payments/dummy.provider.js` [MODIFY]
+  - `wuzzkang-dashboard/src/app/topup/page.js` [MODIFY]
+  - `wuzzkang-dashboard/public/qris.png` [NEW]
+- **Pending Work:** None. Developer to run SQL migration manually on Supabase Dashboard and push to GitHub.
+- **Known Issues:** None
+- **Next Action:** Handover to user.
+- **Last Updated:** 2026-07-06

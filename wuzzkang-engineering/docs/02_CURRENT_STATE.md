@@ -138,6 +138,8 @@ Future designs belong to later documents.
 - Winpay
 - Refund
 - Transaction (Logs Credit amount and stores IDR raw values in metadata)
+- Dynamic Payment Methods (Database-driven toggle and config for QRIS & Virtual Accounts)
+- QRIS (Supports Gateway Mode and Image Mode with Admin WhatsApp manual verification button)
 
 ## Authentication
 
@@ -153,6 +155,7 @@ Future designs belong to later documents.
 - Coupons
 - System Settings
 - AI Tasks
+- Payment Methods
 
 ## Landing Page Templates
 

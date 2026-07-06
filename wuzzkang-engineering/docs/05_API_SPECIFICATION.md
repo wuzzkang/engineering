@@ -806,8 +806,37 @@ Represents discount validations:
   * `401 Unauthorized`: Token is missing or validation signature checks fail.
   * `500 Internal Server Error`: Backend error uploading to Supabase Storage.
 
+#### `GET /api/payment-methods`
+* **Purpose:** Retrieve active payment methods configured in the database.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "id": "qris",
+        "name": "QRIS",
+        "is_active": true,
+        "config": {
+          "mode": "image",
+          "image_url": "/qris.png"
+        }
+      },
+      {
+        "id": "virtual_account",
+        "name": "Virtual Account",
+        "is_active": true,
+        "config": {
+          "channels": ["BCA", "MANDIRI", "BNI", "BRI"]
+        }
+      }
+    ]
+  }
+  ```
+
 #### `POST /api/payments/create`
-* **Purpose:** Create a new pending top-up transaction record and generate a virtual account payment number.
+* **Purpose:** Create a new pending top-up transaction record and generate a virtual account payment number or manual QRIS payment instructions.
 * **Authentication Required:** Yes (Bearer JWT).
 * **Request Body Schema:**
   ```json

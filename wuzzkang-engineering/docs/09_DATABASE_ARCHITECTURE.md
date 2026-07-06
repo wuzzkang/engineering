@@ -358,7 +358,21 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `expiry_date` | `TIMESTAMPTZ` | `NULL` | - | Expiration date boundary. |
 | `auto_renew` | `BOOLEAN` | `NULL` | `FALSE` | Flag determining renewal state. |
 | `status` | `TEXT` | `NULL` | `'pending'` | Registration lifecycle status. |
-| `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record insertion timestamp. |
+
+### 8.10 payment_methods
+* **Purpose:** Document the physical schema of the `public.payment_methods` table.
+* **Scope:** Column names, SQL data types, nullability, default values, and column-level descriptions.
+* **Out of Scope:** Application-layer payment gateway services.
+
+#### Table Definition: `public.payment_methods`
+| Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
+|---|---|---|---|---|
+| `id` | `TEXT` | `NOT NULL` | - | Primary Key config name (e.g. `'qris'`, `'virtual_account'`). |
+| `name` | `TEXT` | `NOT NULL` | - | Display name of the payment method. |
+| `is_active` | `BOOLEAN` | `NOT NULL` | `TRUE` | Activation status flag. If `FALSE`, hidden from dashboard. |
+| `config` | `JSONB` | `NOT NULL` | `'{}'::JSONB` | Stored configuration setting JSON (e.g. modes, channels, images). |
+| `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Record creation timestamp. |
+| `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Last modified timestamp. Automatically updated via trigger. |
 
 
 ## Part 9 — Table Relationships

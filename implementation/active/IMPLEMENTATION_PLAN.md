@@ -1,8 +1,10 @@
 # Implementation Plan
 
-## Status: Draft
+## Goal Description
 
 ## User Review Required
+
+## Open Questions
 
 ## Proposed Changes
 
