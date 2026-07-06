@@ -1,0 +1,24 @@
+# Implementation Summary - User Top-Up & Transaction History
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** User Top-Up & Transaction History
+- **Status:** Completed
+- **Current Milestone:** M2 - Code Execution & Verification
+- **Progress:** 
+  - [x] Research transactions schema and API design
+  - [x] Create API endpoint GET /payments/history
+  - [x] Implement database fetch ordered by created_at descending
+  - [x] Render scrollable list in topup/page.js with color-coded badges and credit amounts
+  - [x] Add interactive "Lanjut Konfirmasi WA" and "Lihat Cara Bayar" buttons to pending rows
+- **Architecture Overview:** Exposes `GET /api/payments/history` in `payment.route.js` calling a dedicated backend service method inside `transaction.service.js` that pulls records directly from Supabase ordered by creation date. The frontend dashboard page `topup/page.js` queries this endpoint reactively, showing all ledger entries. Users can directly resume pending manual payments (by re-initiating WhatsApp confirm messages) or view pending VA detail sheets directly from the history row cards.
+- **Major Decisions:**
+  - Expose all transactions (types `topup` and `deployment`) to allow complete financial transparency.
+  - Make pending history row cards interactive (allowing direct WA redirect or VA invoice viewing).
+- **Modified/New Files:**
+  - `wuzzkang-api/src/services/transaction.service.js` [MODIFY]
+  - `wuzzkang-api/src/routes/payment.route.js` [MODIFY]
+  - `wuzzkang-dashboard/src/app/topup/page.js` [MODIFY]
+- **Pending Work:** None.
+- **Known Issues:** None
+- **Next Action:** Handover to user.
+- **Last Updated:** 2026-07-06
