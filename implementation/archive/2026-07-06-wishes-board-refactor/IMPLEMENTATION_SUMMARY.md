@@ -1,0 +1,23 @@
+# Implementation Summary
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** Wishes Board & RSVP Component Refactoring
+- **Status:** Completed
+- **Current Milestone:** Refactoring M1
+- **Progress:** 
+  - [x] Research target components and requirements
+  - [x] Define implementation plan and obtain approval
+  - [x] Create reusable WishesBoard component
+  - [x] Integrate into 4 wedding templates
+- **Architecture Overview:** Consolidated duplicate Guestbook and RSVP Form logic from template files into a single, parameterizable `WishesBoard.js` ES Module component.
+- **Major Decisions:** Use browser-native dynamic ES Module imports (`await import(...)`) for the component without bundlers.
+- **Modified Files:**
+  - `templates/components/WishesBoard.js` [NEW]
+  - `templates/wedding/sage-green.js` [MODIFY]
+  - `templates/wedding/floral-pink.js` [MODIFY]
+  - `templates/wedding/classic-love.js` [MODIFY]
+  - `templates/wedding/javanese-traditional.js` [MODIFY]
+- **Pending Work:** None
+- **Known Issues:** None
+- **Next Action:** Refactor other duplicate modules (e.g., Countdown Timer, Welcome Cover).
+- **Last Updated:** 2026-07-06
