@@ -1,6 +1,6 @@
 # Walkthrough — CV Field Copywriting & UX Improvements
 
-We implemented field-level "✨ AI Generate" buttons, bypassed global AI overwrites, resolved silent validation failures in edit mode, improved the skills input tagging UX, and resolved overlay/z-index issues of bottom components on mobile views.
+We implemented field-level "✨ AI Generate" buttons, bypassed global AI overwrites, resolved silent validation failures in edit mode, improved the skills input tagging UX, resolved layout spacing of bottom components, and enabled dynamic database-driven post-publication editing support.
 
 ## Changes Made
 
@@ -8,6 +8,7 @@ We implemented field-level "✨ AI Generate" buttons, bypassed global AI overwri
 - Added `cv_summary` and `cv_experience_description` to `GenerateFieldRequestSchema`'s `fieldType` enum.
 - Expanded `context` validation schema with CV-specific fields (`profileName`, `profileTitle`, `profileSummary`, `company`, `position`, `description`) in `wuzzkang-api/src/routes/generator.route.js`.
 - Implemented `cv_summary` and `cv_experience_description` prompt templates in `generateFieldContent` inside `wuzzkang-api/src/services/ai.service.js`.
+- **Dynamic Post-Publication Edit Support**: Replaced hardcoded template validation checks in `editDeployedProject` inside `wuzzkang-api/src/services/project.service.js` with a dynamic query against the `products` database table. Added support for dynamic CV page names matching the profile name.
 
 ### wuzzkang-dashboard
 - Added loading state variables (`isGeneratingCvSummary`, `isGeneratingCvExperienceDesc`) to track CV field-level assists in `wuzzkang-dashboard/src/app/generate/page.js`.
@@ -24,5 +25,5 @@ We implemented field-level "✨ AI Generate" buttons, bypassed global AI overwri
 - Updated the CV template description status in `docs/02_CURRENT_STATE.md` to match the new flow.
 
 ## Verification & Testing
-- Validated route schema definitions and mock payloads.
+- Validated route schema definitions, dynamic database-driven product checks, and mock payloads.
 - Verified mobile viewport scaling, z-index overlays, scroll clearance heights, and input handlers.
