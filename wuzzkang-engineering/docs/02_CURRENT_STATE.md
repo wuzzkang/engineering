@@ -164,6 +164,7 @@ Future designs belong to later documents.
 - Birthday: `cute-balloon`, `elegant-gold`
 - Toko Online: `modern-clean`, `midnight-dark`
 - Campaign: `neon-conversion`, `clean-trust`
+- **CV (Curriculum Vitae)**: `professional-dark` — ATS-friendly web CV with Export PDF support via `window.print()`. Uses legacy synchronous `/generate` route (no AI generation — direct structured data assembly).
 
 ---
 

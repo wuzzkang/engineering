@@ -1,0 +1,25 @@
+# Implementation Summary
+
+- **Project:** Wuzzkang Monorepo
+- **Feature:** CV (Curriculum Vitae) Product — template_type: `cv`, design_key: `professional-dark`
+- **Status:** Completed ✅
+- **Progress:** M1 [x], M2 [x], M3 [x], M4 [x]
+- **Architecture Overview:** New AI-powered resume generator using the Wuzzkang AI Platform asynchronous task queue (BullMQ + Gemini Provider). Users input their professional profile details (experiences, education, skills), which are then compiled into a structured prompt using `CvTaskCompiler`. Gemini rewrites/polishes the profile summary and work experiences to be extremely professional, achievement-oriented, and fully ATS-friendly.
+- **Major Decisions:**
+  - Integrated with the **new registry-based task compiler architecture** via `CvTaskCompiler.js` and `POST /api/v1/ai/execute`.
+  - Added filter integration on the dashboard homepage to list CVs under business/professional pages and enable full edit support.
+- **Modified/New Files:**
+  - `wuzzkang-api/src/services/ai-platform/compilers/CvTaskCompiler.js` (NEW: AI prompt compiler for CV)
+  - `wuzzkang-api/src/services/ai-platform/register.js` (MODIFIED: Registered `CvTaskCompiler`)
+  - `wuzzkang-api/src/utils/schema.js` (MODIFIED: CV schema validation)
+  - `wuzzkang-api/src/routes/generator.route.js` (MODIFIED: `cv_details` endpoint parsing)
+  - `wuzzkang-api/src/services/ai.service.js` (MODIFIED: synchronous fallback compiler)
+  - `wuzzkang-lp/templates/cv/professional-dark.js` (NEW: ATS-friendly CV template with PDF print styling)
+  - `wuzzkang-lp/script.js` (MODIFIED: LP routing config)
+  - `wuzzkang-dashboard/public/preview/index.html` (MODIFIED: Preview iframe integration)
+  - `wuzzkang-dashboard/src/app/generate/page.js` (MODIFIED: CV input sub-forms, async AI workflow integration, polling state sync)
+  - `wuzzkang-dashboard/src/app/page.js` (MODIFIED: Dashboard list filter and edit page checks)
+  - `wuzzkang-engineering/docs/02_CURRENT_STATE.md` (MODIFIED: Added CV template documentation)
+- **Database Status:** Registered "cv" product in Supabase database `pggaknycbpjvsmmofnln.supabase.co` successfully.
+- **Verification:** Completed integration test successfully compiling and invoking Gemini Provider to polish a mock CV profile and experience description into ATS-compliant bullet points.
+- **Last Updated:** 2026-07-07

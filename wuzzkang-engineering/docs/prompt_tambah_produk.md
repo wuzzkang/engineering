@@ -185,6 +185,10 @@ Tambahkan fitur "AI Assist" per field untuk produk baru "Khitanan" di wuzzkang.
 ## Catatan Penting
 
 > [!IMPORTANT]
+> **DILARANG KERAS MELAKUKAN BYPASS AI PLATFORM!**
+> Jangan pernah membypass mekanisme AI Platform dengan melakukan kompilasi / perakitan data halaman kustom secara langsung di dalam file `wuzzkang-api/src/services/ai.service.js` atau endpoint `/generate`. Semua produk/template baru **WAJIB** menggunakan `TaskCompiler` di dalam folder `src/services/ai-platform/compilers/` dan diproses secara asinkron via `POST /api/v1/ai/execute`.
+
+> [!IMPORTANT]
 > Selalu sertakan instruksi berikut di setiap prompt untuk menjaga konsistensi:
 > - "Ikuti pola `WeddingTaskCompiler.js` atau `CampaignTaskCompiler.js` sepenuhnya"
 > - "Ikuti kontrak `TaskCompiler.js` di folder `contracts/`"

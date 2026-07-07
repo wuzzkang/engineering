@@ -15,6 +15,11 @@ Every time you complete a task or modify the codebase, you MUST identify and upd
 - **General Project Status / Tech Debt Tracker**: Update `wuzzkang-engineering/docs/02_CURRENT_STATE.md`.
 - **Monorepo Folder Structures**: Update `wuzzkang-engineering/docs/08_REPOSITORY_MAP.md`.
 
-## 3. Communication
+## 3. Implementation Protocol & Workspace Lifecycle
+You MUST follow the active/archive workflow in the `./implementation/` directory as defined in `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md`:
+- **Active Workspace**: Use `implementation/active/` to populate `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, and `HANDOVER.md` for the current task. Do not make code modifications without updating these active tracking documents first.
+- **Archive on Completion**: When a task is complete, move the entire contents of `implementation/active/` to a timestamped folder under `implementation/archive/` and reinitialize the active folder template files.
+
+## 4. Communication
 - Respond to the user in **Bahasa Indonesia** for chat communication.
 - Keep engineering documentation files in **English** unless requested otherwise.

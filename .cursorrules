@@ -12,11 +12,11 @@ Before performing any task, you MUST read and follow these documents in order:
 
 Follow all engineering standards, implementation workflow, and documentation requirements defined in those documents.
 
-Implementation artifacts are located under:
+Implementation active/archive workspace is located under:
 
-wuzzkang-engineering/implementation/
+implementation/
 
-Always treat implementation artifacts as the primary source of project context.
+Always follow the active/archive workflow in implementation/ as defined in wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md. Treat implementation artifacts as the primary source of project context.
 
 For conversational responses:
 - Use Bahasa Indonesia.

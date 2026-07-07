@@ -9,3 +9,7 @@
 ## Proposed Changes
 
 ## Verification Plan
+
+### Automated Tests
+
+### Manual Verification

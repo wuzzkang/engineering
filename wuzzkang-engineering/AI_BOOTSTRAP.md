@@ -16,18 +16,19 @@ Before making any suggestion, writing code, refactoring, or modifying the archit
 Read the following documents in order before writing any code:
 
 1. `docs/00_FOUNDATION.md` — Core vision, philosophy, and axioms.
-2. `docs/08_REPOSITORY_MAP.md` — Monorepo directory map to locate files.
-3. `docs/03_ARCHITECTURE.md` — System context, partitioning model, and boundaries.
-4. `docs/04_DOMAIN_MODEL.md` — Ubiquitous language, entities, and aggregates.
-5. `docs/09_DATABASE_ARCHITECTURE.md` — Tables, schemas, triggers, and RPC functions.
-6. `docs/05_API_SPECIFICATION.md` — Endpoint request/response payload contracts.
-7. `docs/06_FLOW_MAP.md` — Runtime sequence and transaction workflow diagrams.
-8. `docs/07_RENDER_ENGINE.md` — Template render rules and expansion checklist.
-9. `docs/10_AI_GUIDE.md` — AI provider configurations and billing checks.
-10. `docs/11_DEPLOYMENT.md` — Production topology and `.env` specifications.
-11. `docs/12_CODING_STANDARD.md` — Coding guidelines and ESM/error patterns.
-12. `docs/92_AI_PROMPT_LIBRARY.md` — Reusable prompts for AI coding assistant.
-13. `docs/13_ROADMAP.md` — Asynchronous queue architecture plan and future development roadmap.
+2. `docs/98_IMPLEMENTATION_PROTOCOL.md` — Implementation Active/Archive workspace tracking procedures.
+3. `docs/08_REPOSITORY_MAP.md` — Monorepo directory map to locate files.
+4. `docs/03_ARCHITECTURE.md` — System context, partitioning model, and boundaries.
+5. `docs/04_DOMAIN_MODEL.md` — Ubiquitous language, entities, and aggregates.
+6. `docs/09_DATABASE_ARCHITECTURE.md` — Tables, schemas, triggers, and RPC functions.
+7. `docs/05_API_SPECIFICATION.md` — Endpoint request/response payload contracts.
+8. `docs/06_FLOW_MAP.md` — Runtime sequence and transaction workflow diagrams.
+9. `docs/07_RENDER_ENGINE.md` — Template render rules and expansion checklist.
+10. `docs/10_AI_GUIDE.md` — AI provider configurations and billing checks.
+11. `docs/11_DEPLOYMENT.md` — Production topology and `.env` specifications.
+12. `docs/12_CODING_STANDARD.md` — Coding guidelines and ESM/error patterns.
+13. `docs/92_AI_PROMPT_LIBRARY.md` — Reusable prompts for AI coding assistant.
+14. `docs/13_ROADMAP.md` — Asynchronous queue architecture plan and future development roadmap.
 
 ---
 
