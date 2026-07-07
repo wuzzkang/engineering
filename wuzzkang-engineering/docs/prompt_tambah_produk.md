@@ -186,7 +186,14 @@ Tambahkan fitur "AI Assist" per field untuk produk baru "Khitanan" di wuzzkang.
 
 > [!IMPORTANT]
 > **DILARANG KERAS MELAKUKAN BYPASS AI PLATFORM!**
-> Jangan pernah membypass mekanisme AI Platform dengan melakukan kompilasi / perakitan data halaman kustom secara langsung di dalam file `wuzzkang-api/src/services/ai.service.js` atau endpoint `/generate`. Semua produk/template baru **WAJIB** menggunakan `TaskCompiler` di dalam folder `src/services/ai-platform/compilers/` dan diproses secara asinkron via `POST /api/v1/ai/execute`.
+> Jangan pernah membypass mekanisme AI Platform dengan melakukan kompilasi / perakitan data halaman kustom secara langsung di dalam file `wuzzkang-api/src/services/ai.service.js` or endpoint `/generate`. Semua produk/template baru **WAJIB** menggunakan `TaskCompiler` di dalam folder `src/services/ai-platform/compilers/` dan diproses secara asinkron via `POST /api/v1/ai/execute`.
+
+> [!IMPORTANT]
+> **ATURAN SISTEM CREDIT DAN HARGA PRODUK (DATABASE):**
+> Platform ini sepenuhnya menggunakan **Sistem Credit** di mana harga produk ditentukan dalam satuan Credit. Nilai rupiah per credit dikonfigurasi secara fleksibel di sistem/profil pengguna (misalnya saat ini 1 Credit = Rp100, namun nilai ini bisa berubah).
+> - **DILARANG KERAS** memasukkan nominal Rupiah langsung ke kolom `cost` pada tabel `products` di database atau berkas SQL migrasi.
+> - Kolom `cost` wajib diisi dalam **satuan Credit** yang dibutuhkan pengguna untuk membeli/mendeploy produk tersebut.
+>   * *Contoh*: Jika harga produk yang diinginkan setara 150 Credit, tulis `150` pada kolom `cost`. Jangan pernah menulis `15000` (nominal rupiah) karena user akan ditagih 15.000 credit (setara Rp1,5 juta dengan rate Rp100/credit).
 
 > [!IMPORTANT]
 > Selalu sertakan instruksi berikut di setiap prompt untuk menjaga konsistensi:

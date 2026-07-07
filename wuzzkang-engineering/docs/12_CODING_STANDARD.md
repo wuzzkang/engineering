@@ -153,3 +153,14 @@ Untuk menjaga fleksibilitas penjenamaan (branding) di seluruh platform, ikuti at
     ```
 *   **Bebas Tautan Keras (*No Hardcoded Footer Links*)**: Gunakan properti `brandConfig.name` dan `brandConfig.domain` untuk mencantumkan tautan pembuat website atau hak cipta di footer halaman agar siap di-white-label kapan saja.
 
+### 8.3 Aturan Sistem Credit dan Harga Produk (Database)
+Platform Wuzzkang menggunakan **Sistem Credit** di mana nominal pembayaran dan potongan saldo dihitung dalam satuan Credit. Harga per 1 credit (misal Rp100) bersifat fleksibel dan dikonfigurasi secara dinamis melalui sistem/profil pengguna.
+*   **Representasi di Database**: Semua kolom `cost` pada tabel `products` di database atau berkas SQL migrasi **wajib diisi dalam satuan Credit**, bukan nominal Rupiah langsung.
+*   *Aturan Penghitungan*: Hitung kebutuhan credit berdasarkan harga produk dalam rupiah dibagi dengan rate rupiah per credit saat ini.
+    *   *Pernikahan (Rp9.000 / rate Rp100)*: `cost` = `90` (Credit)
+    *   *Ulang Tahun (Rp19.000 / rate Rp100)*: `cost` = `190` (Credit)
+    *   *Toko Online (Rp49.000 / rate Rp100)*: `cost` = `490` (Credit)
+    *   *Curriculum Vitae (Rp15.000 / rate Rp100)*: `cost` = `150` (Credit)
+*   **Dilarang Keras** memasukkan nominal langsung Rupiah (seperti `15000` untuk Rp15.000) ke dalam kolom `cost` karena sistem akan menerjemahkannya sebagai 15.000 credit (setara Rp1.500.000).
+
+
