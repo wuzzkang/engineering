@@ -654,14 +654,20 @@ Represents discount validations:
 * **Request Body Schema:**
   ```json
   {
-    "fieldType": "store_description | product_description | store_quote | campaign_hero | campaign_problems | campaign_benefits | campaign_testimonials | campaign_urgency",
+    "fieldType": "store_description | product_description | store_quote | campaign_hero | campaign_problems | campaign_benefits | campaign_testimonials | campaign_urgency | cv_summary | cv_experience_description",
     "context": {
       "storeName": "string (optional)",
       "storeTagline": "string (optional)",
       "productName": "string (optional)",
       "productPrice": "string (optional)",
       "campaignName": "string (optional)",
-      "campaignBrief": "string (optional)"
+      "campaignBrief": "string (optional)",
+      "profileName": "string (optional)",
+      "profileTitle": "string (optional)",
+      "profileSummary": "string (optional)",
+      "company": "string (optional)",
+      "position": "string (optional)",
+      "description": "string (optional)"
     }
   }
   ```
