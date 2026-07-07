@@ -135,3 +135,21 @@ Lihat dokumentasi lengkap di [`14_COMPONENT_LIBRARY.md`](file:///home/bms-del112
 *   **Jangan duplikat kode**: Jika UI sudah ada sebagai komponen, gunakan komponen tersebut. Jangan copy-paste JSX ke tempat baru.
 *   **State di parent**: Komponen UI bersifat controlled. State dan callback dikirim via props dari `page.js`.
 *   **Dokumentasikan**: Setiap komponen baru **wajib** ditambahkan ke `14_COMPONENT_LIBRARY.md` beserta props API dan contoh penggunaan.
+
+---
+
+## 8. Konvensi Branding Terpusat & Kustomisasi Merek (White-Labeling)
+
+Untuk menjaga fleksibilitas penjenamaan (branding) di seluruh platform, ikuti aturan ini:
+
+### 8.1 Branding di Dashboard
+*   **Dilarang Menulis Nama Brand secara Langsung (*Hardcoded*)**: Semua nama brand (misal `'Siluet'`) di halaman login, layout, sidebar, atau deskripsi transaksi tidak boleh ditulis mentah.
+*   **Gunakan Konfigurasi Terpusat**: Selalu impor `BRAND_NAME` atau `BRAND_DOMAIN` dari berkas `@/config/branding.js` (di wuzzkang-dashboard).
+
+### 8.2 Modularitas Template (White-Label Friendly)
+*   **Parameter `brandConfig` pada Fungsi Render**: Setiap landing page template (baik di `wuzzkang-lp` maupun pratinjau dashboard) wajib menerima parameter `brandConfig` di fungsi `render`:
+    ```javascript
+    export async function render(pageConfig, guestName = '', brandConfig = { name: 'Siluet', domain: 'siluet.web.id' }) { ... }
+    ```
+*   **Bebas Tautan Keras (*No Hardcoded Footer Links*)**: Gunakan properti `brandConfig.name` dan `brandConfig.domain` untuk mencantumkan tautan pembuat website atau hak cipta di footer halaman agar siap di-white-label kapan saja.
+

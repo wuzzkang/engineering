@@ -95,9 +95,14 @@ wuzzkang-lp/templates/{template_type}/{design_key}.js
 
 **Kontrak wajib** — setiap template HARUS mengekspor fungsi ini:
 ```javascript
-export async function render(pageConfig, guestName = 'Tamu Undangan') {
+export async function render(pageConfig, guestName = 'Tamu Undangan', brandConfig = { name: 'Siluet', domain: 'siluet.web.id' }) {
     const appEl = document.getElementById('app');
     const content = pageConfig.content || {};
+    
+    // Gunakan konfigurasi brand modular untuk footer atau hak cipta
+    const brandName = brandConfig?.name || 'Siluet';
+    const brandDomain = brandConfig?.domain || 'siluet.web.id';
+    
     // ... render HTML ke dalam appEl
 }
 ```
