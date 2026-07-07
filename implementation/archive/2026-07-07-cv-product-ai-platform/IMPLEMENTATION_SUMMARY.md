@@ -8,6 +8,7 @@
 - **Major Decisions:**
   - Integrated with the **new registry-based task compiler architecture** via `CvTaskCompiler.js` and `POST /api/v1/ai/execute`.
   - Added filter integration on the dashboard homepage to list CVs under business/professional pages and enable full edit support.
+  - Implemented the "Lihat Contoh Desain" theme preview button and popup modal mockup data for the CV template to match the other products.
 - **Modified/New Files:**
   - `wuzzkang-api/src/services/ai-platform/compilers/CvTaskCompiler.js` (NEW: AI prompt compiler for CV)
   - `wuzzkang-api/src/services/ai-platform/register.js` (MODIFIED: Registered `CvTaskCompiler`)
@@ -17,7 +18,7 @@
   - `wuzzkang-lp/templates/cv/professional-dark.js` (NEW: ATS-friendly CV template with PDF print styling)
   - `wuzzkang-lp/script.js` (MODIFIED: LP routing config)
   - `wuzzkang-dashboard/public/preview/index.html` (MODIFIED: Preview iframe integration)
-  - `wuzzkang-dashboard/src/app/generate/page.js` (MODIFIED: CV input sub-forms, async AI workflow integration, polling state sync)
+  - `wuzzkang-dashboard/src/app/generate/page.js` (MODIFIED: CV input sub-forms, async AI workflow integration, polling state sync, added theme preview button and modal mockup data)
   - `wuzzkang-dashboard/src/app/page.js` (MODIFIED: Dashboard list filter and edit page checks)
   - `wuzzkang-engineering/docs/02_CURRENT_STATE.md` (MODIFIED: Added CV template documentation)
 - **Database Status:** Registered "cv" product in Supabase database `pggaknycbpjvsmmofnln.supabase.co` successfully.
