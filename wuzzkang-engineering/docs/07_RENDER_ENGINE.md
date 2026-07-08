@@ -584,7 +584,8 @@ Untuk menghemat sumber daya backend dan mencegah kerentanan kehabisan memori (*O
 *   **Endpoint Dapatkan URL**: `POST /api/media/upload-url` (menerima `fileName` dan `mimeType`).
 *   **Batasan & Validasi**:
     *   Hanya menerima tipe file gambar terdaftar (`image/jpeg`, `image/jpg`, `image/png`, `image/webp`, `image/gif`).
-    *   Ukuran file maksimal dibatasi **5MB** di sisi klien (*dashboard*).
+    *   Ukuran file maksimal dibatasi secara dinamis melalui env variable `NEXT_PUBLIC_MAX_UPLOAD_SIZE_MB` (default: 5MB).
+    *   **Auto-Resize**: Jika gambar melebihi batas ukuran maksimal, sistem secara otomatis melakukan kompresi dan *resize* menggunakan modul klien (`compressImage`) sebelum diunggah ke storage.
 *   **Proses Upload**: Klien melakukan request HTTP `PUT` dengan *payload binary* langsung ke *Signed URL* yang diberikan oleh API, sehingga file terunggah langsung ke bucket `wuzzkang-bucket/uploads` di Supabase Storage tanpa membebani server backend Express.
 *   **Legacy Endpoint**: Endpoint lama `POST /api/media/upload` telah didepresiasi (*deprecated*).
 

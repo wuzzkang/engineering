@@ -1139,7 +1139,8 @@ Content-Type: image/jpeg
 ```
 
 ### 11.2 Upload Constraints
-* **Size Limit**: Enforced client-side at **5MB** (5,242,880 bytes).
+* **Size Limit**: Enforced dynamically client-side based on the `NEXT_PUBLIC_MAX_UPLOAD_SIZE_MB` env variable (default: `5MB`). Non-images exceeding this size are blocked immediately.
+* **Auto-Resizing**: If an image exceeds the maximum upload size, the client-side `compressImage` utility automatically resizes and compresses the image to fit within the `NEXT_PUBLIC_MAX_IMAGE_SIZE_KB` threshold (default: `300KB`) before uploading. If compression fails or the final size still exceeds the limit, the upload is aborted.
 * **Type Constraints**: Only whitelisted image MIME-types (`image/jpeg`, `image/png`, `image/webp`, `image/gif`) are signed by the backend.
 
 ### 11.3 Legacy Endpoint (Deprecated)

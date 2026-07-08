@@ -35,10 +35,11 @@ This implementation plan details the architectural and code changes to secure fi
 
 #### [MODIFY] [page.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/app/generate/page.js)
 - Update the `handleUploadImage` function:
-  1. Validate file size before proceeding (limit to 5MB).
-  2. If file size exceeds 5MB, display an error message and return.
-  3. Instead of calling `POST /api/media/upload` with the binary file as the request body, call `POST /api/media/upload-url` with `{ fileName: file.name, mimeType: file.type }`.
-  4. Use the returned `signedUrl` to upload the file directly to Supabase via a standard HTTP `PUT` request:
+  1. Enforce dynamic upload size limit based on `process.env.NEXT_PUBLIC_MAX_UPLOAD_SIZE_MB` (default: 5MB).
+  2. Implement client-side auto-resizing for images. If an image exceeds the maximum size, run the `compressImage` utility to resize and compress it to fit the target image size (default: 300KB) before checking the limit.
+  3. Validate final file size limit (reject non-images or failed compressions exceeding the limit).
+  4. Call `POST /api/media/upload-url` with `{ fileName: file.name, mimeType: file.type }`.
+  5. Use the returned `signedUrl` to upload the file directly to Supabase via a standard HTTP `PUT` request:
      ```javascript
      const uploadResponse = await fetch(signedUrl, {
          method: 'PUT',
@@ -48,7 +49,7 @@ This implementation plan details the architectural and code changes to secure fi
          body: fileToUpload
      });
      ```
-  5. Retrieve the public URL from the backend response and update the appropriate state variable (e.g., `setGroomImage`, `setBrideImage`, etc.) as before.
+  6. Retrieve the public URL from the backend response and update the appropriate state variable (e.g., `setGroomImage`, `setBrideImage`, etc.) as before.
 
 ---
 

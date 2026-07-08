@@ -86,7 +86,7 @@ sequenceDiagram
     participant SUP as Supabase Storage Bucket
 
     User->>DB: Pilih file gambar lokal (.png/.jpg)
-    Note over DB: Validasi ukuran file (< 5MB)<br/>Kompresi gambar adaptif via browser
+    Note over DB: Jika non-gambar > limit (env): Tolak langsung.<br/>Jika gambar > limit (env): Auto-resize via canvas.
     DB->>API: POST /api/media/upload-url (fileName, mimeType)
     Note over API: Validasi MIME-type (hanya gambar)<br/>Generate nama file unik acak
     API->>SUP: Buat Signed Upload URL
