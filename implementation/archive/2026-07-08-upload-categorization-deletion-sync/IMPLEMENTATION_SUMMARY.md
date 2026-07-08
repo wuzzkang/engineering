@@ -12,6 +12,7 @@
   * [SupabaseStorageProvider.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/src/services/storage/SupabaseStorageProvider.js)
   * [image.route.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/src/routes/image.route.js)
   * [page.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/app/generate/page.js)
+  * [ImagePickerField.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/components/ImagePickerField.js)
   * [test-upload-delete.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/test-upload-delete.js) (New)
   * [05_API_SPECIFICATION.md](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/docs/05_API_SPECIFICATION.md)
   * [02_CURRENT_STATE.md](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/docs/02_CURRENT_STATE.md)

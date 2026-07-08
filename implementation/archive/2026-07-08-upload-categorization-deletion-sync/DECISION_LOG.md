@@ -8,3 +8,12 @@
     *   *Option B:* Verify file deletion via `list()` check instead of `download()`. Pros: `list()` queries the database table `storage.objects` directly, bypassing Cloudflare CDN cache entirely, which works perfectly with images. Cons: None.
 *   **Decision:** Selected Option B. We query the folder contents using `.list()` and verify the deleted file is not present in the returned array.
 *   **Impact:** [test-upload-delete.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/test-upload-delete.js)
+
+### DEC-002: Automatic Replacements and Explicit Deletion Buttons
+*   **Date:** 2026-07-08T04:31:00Z
+*   **Context:** When a user uploads a new image to replace an existing uploaded image (e.g. bride/groom photos, store logo, products, prewedding covers), the previous image in Supabase Storage became orphaned (wasting storage space) because it wasn't physically deleted. Additionally, some upload components lacked a clear "Hapus" button, forcing users to uncheck/disable sections to clear them.
+*   **Options Considered:**
+    *   *Option A:* Maintain manual deletion only when clearing sections. Pros: Less frontend state checks. Cons: Leads to orphaned files on image replacement/modification.
+    *   *Option B:* Implement automatic background deletion of the old image prior to updating the state with the newly uploaded image, and add explicit "Hapus" buttons to all avatar, logo, product, and picker previews. Pros: Clean storage engine, zero orphaned files, and superior user experience. Cons: Slightly more API calls.
+*   **Decision:** Selected Option B.
+*   **Impact:** [page.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/app/generate/page.js), [ImagePickerField.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/components/ImagePickerField.js)
