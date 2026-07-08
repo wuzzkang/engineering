@@ -1113,7 +1113,8 @@ The Wuzzkang platform uses a **Direct-to-Storage Upload via Signed URLs** model 
   ```json
   {
     "fileName": "string (original filename, e.g. avatar.jpg)",
-    "mimeType": "string (allowed image mime-types: image/jpeg, image/jpg, image/png, image/webp, image/gif)"
+    "mimeType": "string (allowed image mime-types: image/jpeg, image/jpg, image/png, image/webp, image/gif)",
+    "category": "string (optional folder category, e.g. avatar | background | gallery | story | product | cv | other)"
   }
   ```
 * **Success Response (200 OK):**
@@ -1122,8 +1123,8 @@ The Wuzzkang platform uses a **Direct-to-Storage Upload via Signed URLs** model 
     "success": true,
     "signedUrl": "https://supabase-url/storage/v1/s3/signed-upload-url-token...",
     "token": "string (signed token)",
-    "path": "uploads/user-uuid_timestamp.ext",
-    "publicUrl": "https://supabase-url/storage/v1/object/public/wuzzkang-bucket/uploads/user-uuid_timestamp.ext"
+    "path": "uploads/user-uuid/category/timestamp.ext",
+    "publicUrl": "https://supabase-url/storage/v1/object/public/wuzzkang-bucket/uploads/user-uuid/category/timestamp.ext"
   }
   ```
 * **Exception Triggers:**
@@ -1145,6 +1146,29 @@ Content-Type: image/jpeg
 
 ### 11.3 Legacy Endpoint (Deprecated)
 * **`POST /api/media/upload`**: Prompts the backend to proxy binary uploads to Supabase. This route is deprecated and will be removed in a future release.
+
+### 11.4 Media Deletion API
+
+#### `DELETE /api/media`
+* **Purpose:** Delete an uploaded file/image from Supabase Storage bucket.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Request Body Schema:**
+  ```json
+  {
+    "path": "string (storage relative path, e.g. uploads/user-uuid/gallery/timestamp.png)"
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Berkas berhasil dihapus dari storage."
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Missing path in request body.
+  * `403 Forbidden`: Authenticated user is not the owner of the target file (checked via path hierarchy or legacy name).
+  * `500 Internal Server Error`: Backend error removing file from Supabase bucket.
 
 ---
 
@@ -1372,6 +1396,12 @@ To ensure continuity of frontend dashboard modules and rendering runtimes, all e
     * `POST /api/v1/ai/execute` — Submit AI rendering task with idempotency dedup, wallet billing, and async queue dispatch.
     * `GET /api/v1/ai/task/:id` — Poll AI task execution status (user-scoped).
   * Both endpoints mount under `/api` with `authMiddleware` (Bearer JWT required).
+
+#### Version 1.2.0 (Released 2026-07-08)
+* **Status:** Released
+* **Changes:**
+  * Updated **Section 11.1** — Added optional `category` parameter to `POST /api/media/upload-url` payload to support uploads to categorized user subfolders (`uploads/userId/category/filename`).
+  * Added **Section 11.4** — `DELETE /api/media` endpoint for secure, ownership-validated asset deletion from Supabase Storage.
 
 ---
 

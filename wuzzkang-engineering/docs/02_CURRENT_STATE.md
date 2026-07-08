@@ -9,7 +9,7 @@
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-05 (AI Prewedding Photo Integration) |
+| Last Updated | 2026-07-08 (Media Upload Categorization & Deletion Sync) |
 
 ---
 
@@ -123,6 +123,8 @@ Future designs belong to later documents.
 - Deployment
 - Project editing
 - Live preview
+- Direct-to-Storage Upload with Folder Categorization (organizes uploads into nested category subfolders under `uploads/userId/category/`)
+- Storage Sync Media Deletion (secure, ownership-validated physical file deletion on Supabase Storage via `DELETE /api/media`)
 
 ## Asynchronous Processing (BullMQ & Redis)
 
