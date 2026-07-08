@@ -579,13 +579,14 @@ Sistem Wuzzkang menyediakan asisten berbasis AI untuk copywriting teks dan pembu
 
 ## 🌐 Integrasi AI Gambar Dinamis & Alur Media Upload
 
-### 1. Endpoint `/api/media/upload` (Unggah Media Melalui Backend)
-Untuk menghindari tereksposnya Supabase write API key pada sisi client, dashboard mengunggah seluruh berkas gambar manual pengguna melalui backend.
-*   **Headers**:
-    *   `Content-Type` (misal `image/jpeg`)
-    *   `x-file-name` (nama file asli)
-*   **Request Body**: Biner mentah (*octet-stream*).
-*   **Operasi Backend**: Membaca binary stream, menamai ulang file dengan format timestamp acak unik, lalu mengunggahnya ke bucket `wuzzkang-bucket/uploads` menggunakan `supabase.storage` admin client, dan mengembalikan URL publik.
+### 1. Alur Unggah Media Menggunakan Signed URL (Direktori ke Supabase Storage)
+Untuk menghemat sumber daya backend dan mencegah kerentanan kehabisan memori (*Out-of-Memory*), sistem menggunakan mekanisme URL unggah bertanda tangan (*Signed Upload URL*):
+*   **Endpoint Dapatkan URL**: `POST /api/media/upload-url` (menerima `fileName` dan `mimeType`).
+*   **Batasan & Validasi**:
+    *   Hanya menerima tipe file gambar terdaftar (`image/jpeg`, `image/jpg`, `image/png`, `image/webp`, `image/gif`).
+    *   Ukuran file maksimal dibatasi **5MB** di sisi klien (*dashboard*).
+*   **Proses Upload**: Klien melakukan request HTTP `PUT` dengan *payload binary* langsung ke *Signed URL* yang diberikan oleh API, sehingga file terunggah langsung ke bucket `wuzzkang-bucket/uploads` di Supabase Storage tanpa membebani server backend Express.
+*   **Legacy Endpoint**: Endpoint lama `POST /api/media/upload` telah didepresiasi (*deprecated*).
 
 ### 2. Endpoint `/api/media/process` (Pemrosesan Gambar AI & Fallback)
 Endpoint satu pintu untuk memproses media dengan alur penanganan kegagalan (*graceful fallback*):

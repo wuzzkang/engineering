@@ -73,9 +73,9 @@ flowchart TD
 
 ---
 
-## 3. Alur Unggah Gambar Terproteksi (Backend Mediated Upload)
+## 3. Alur Unggah Gambar Terproteksi (Direct Upload via Signed URL)
 
-Keamanan penulisan file gambar ke Supabase Storage tanpa mengekspos kunci admin/menulis pada sisi dashboard klien.
+Keamanan penulisan file gambar ke Supabase Storage tanpa membebani memori server backend atau mengekspos kunci admin pada sisi klien.
 
 ```mermaid
 sequenceDiagram
@@ -86,13 +86,14 @@ sequenceDiagram
     participant SUP as Supabase Storage Bucket
 
     User->>DB: Pilih file gambar lokal (.png/.jpg)
-    Note over DB: Kompresi gambar adaptif via browser<br/>(Maks lebar/tinggi 800px, kualitas 0.8)
-    DB->>API: POST /api/media/upload<br/>Headers: Content-Type, x-file-name<br/>Body: Raw binary stream
-    Note over API: Baca binary stream ke Buffer
-    Note over API: Generate nama file unik acak (timestamp)
-    API->>SUP: Upload Buffer ke folder /uploads
-    SUP-->>API: Kembalikan path URL file terunggah
-    API-->>DB: Respon 200 OK {"success": true, "url": "https://..."}
+    Note over DB: Validasi ukuran file (< 5MB)<br/>Kompresi gambar adaptif via browser
+    DB->>API: POST /api/media/upload-url (fileName, mimeType)
+    Note over API: Validasi MIME-type (hanya gambar)<br/>Generate nama file unik acak
+    API->>SUP: Buat Signed Upload URL
+    SUP-->>API: Kembalikan Signed URL & token
+    API-->>DB: Respon 200 OK dengan signedUrl & publicUrl
+    DB->>SUP: HTTP PUT binary payload ke signedUrl
+    SUP-->>DB: Respon 200 OK (Upload Sukses)
     DB-->>User: Tampilkan pratinjau gambar di form
 ```
 

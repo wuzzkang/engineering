@@ -1097,21 +1097,53 @@ The API exposes a public, unauthenticated endpoint to receive payment state chan
 
 ## Part 11 — File Upload APIs
 * **Purpose:** Define how clients upload binary assets and images.
-* **Scope:** File upload endpoints, multipart/form-data formats, size limit constraints, and response file metadata.
-* **Out of Scope:** Supabase Storage bucket policy configurations or image manipulation algorithms.
+* **Scope:** File upload endpoints, pre-signed upload URLs, size limit constraints, and response file metadata.
+* **Out of Scope:** Centralized Supabase Storage bucket policy configurations.
 
 ### 11.1 Client Upload Architecture
-* **Verified Implementation:** 
-  * The Wuzzkang API (`wuzzkang-api`) does not expose any public endpoints for parsing `multipart/form-data` file uploads.
-  * All dashboard image uploads (e.g. wedding groom/bride avatars, birthday celebrant photos, toko-online logos, product listings) are uploaded **directly** from the client browser using the Supabase Storage Client SDK.
-  * Uploads are written to the storage bucket named `wuzzkang-bucket` under the folder prefix `uploads/` (`uploads/${fileName}`).
-  * The API only interacts with the storage bucket programmatically to save AI-generated image assets during `POST /api/generate-image` calls.
-* **Architectural Convention:** If client file uploads are proxied through the API in the future:
-  * **Proposed Endpoint:** `POST /api/assets/upload`
-  * **Content-Type:** `multipart/form-data`
-  * **Payload Field Key:** `file`
-  * **Validation Constraints:** Limit file size to 5MB, restrict MIME types to `image/jpeg`, `image/png`, and `image/webp`.
-  * **Response envelope:** `{ "success": true, "data": { "url": "string" } }`
+The Wuzzkang platform uses a **Direct-to-Storage Upload via Signed URLs** model to handle file uploads securely without exhausting backend server resources:
+
+1. **Get Upload URL**: The Dashboard calls the backend API endpoint `POST /api/media/upload-url` providing the target file's metadata.
+2. **Direct PUT Upload**: The Dashboard performs a direct binary HTTP `PUT` request to the returned pre-signed URL to upload the asset directly to the Supabase Storage Bucket.
+
+#### `POST /api/media/upload-url`
+* **Purpose:** Request a pre-signed upload URL for direct client-to-storage upload.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Request Body Schema:**
+  ```json
+  {
+    "fileName": "string (original filename, e.g. avatar.jpg)",
+    "mimeType": "string (allowed image mime-types: image/jpeg, image/jpg, image/png, image/webp, image/gif)"
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "signedUrl": "https://supabase-url/storage/v1/s3/signed-upload-url-token...",
+    "token": "string (signed token)",
+    "path": "uploads/user-uuid_timestamp.ext",
+    "publicUrl": "https://supabase-url/storage/v1/object/public/wuzzkang-bucket/uploads/user-uuid_timestamp.ext"
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Missing required request body parameters, or unsupported MIME-type.
+
+#### Direct Upload Execution
+The client must upload the raw binary payload to `signedUrl` using `PUT`:
+```http
+PUT /storage/v1/s3/signed-upload-url-token... HTTP/1.1
+Content-Type: image/jpeg
+
+[Raw Binary Data]
+```
+
+### 11.2 Upload Constraints
+* **Size Limit**: Enforced client-side at **5MB** (5,242,880 bytes).
+* **Type Constraints**: Only whitelisted image MIME-types (`image/jpeg`, `image/png`, `image/webp`, `image/gif`) are signed by the backend.
+
+### 11.3 Legacy Endpoint (Deprecated)
+* **`POST /api/media/upload`**: Prompts the backend to proxy binary uploads to Supabase. This route is deprecated and will be removed in a future release.
 
 ---
 

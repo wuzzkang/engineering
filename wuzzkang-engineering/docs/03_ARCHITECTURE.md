@@ -502,7 +502,8 @@ The following rules govern which layers may depend on which.
 | POST   | /api/generate/field           | Yes           | generator.route                 |
 | POST   | /api/generate-image           | Yes           | image.route                     |
 | POST   | /api/media/process            | Yes           | image.route                     |
-| POST   | /api/media/upload             | Yes           | image.route                     |
+| POST   | /api/media/upload-url         | Yes           | image.route                     |
+| POST   | /api/media/upload (deprecated)| Yes           | image.route                     |
 | GET    | /api/profile                  | Yes           | profile.route                   |
 | GET    | /api/products                 | Yes           | product.route                   |
 | POST   | /api/coupons/validate         | Yes           | coupon.route                    |
