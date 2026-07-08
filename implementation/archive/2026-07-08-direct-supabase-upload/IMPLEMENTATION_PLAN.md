@@ -50,6 +50,8 @@ This implementation plan details the architectural and code changes to secure fi
      });
      ```
   6. Retrieve the public URL from the backend response and update the appropriate state variable (e.g., `setGroomImage`, `setBrideImage`, etc.) as before.
+  7. Handle target `'cv'` to update `cvPhotoUrl` state and control its uploading indicator state.
+- Add an upload input area component and deletion control for `cvPhotoUrl` state under the "1. Data Profil" section of the CV template form in JSX.
 
 ---
 
