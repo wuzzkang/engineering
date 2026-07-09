@@ -90,6 +90,12 @@ Setiap panggilan ke `/api/generate/field` atau `/api/media/process` (`generate_a
     *   Jika `balance < ai_generate_cost`, request ditolak dengan respons **`402 Payment Required`**.
     *   Jika saldo cukup, sistem memotong saldo secara langsung lewat `walletService.deductBalance` dengan deskripsi audit mutasi transaksi (e.g. `AI Image Generate: [Prompt...]`), kemudian request dijalankan secara **BERBAYAR**.
 
+### 4.3 Caching Teks Hasil AI (Optimasi Token)
+Untuk meminimalkan konsumsi token API Gemini/Groq, sistem menerapkan Redis Caching pada service `generateFieldContent`:
+1. **Penyusunan Key**: Key dibuat berdasarkan format `wuzzkang:cache:ai_field:${fieldType}:${hash(context)}` di mana `context` diurutkan secara deterministik sebelum di-hash menggunakan MD5.
+2. **Pengecekan**: Jika key ditemukan di Redis, data langsung dikembalikan dari cache (latensi ~1ms) tanpa memanggil API AI.
+3. **Penyimpanan**: Setiap respons generate baru yang sukses disimpan ke Redis dengan masa kadaluwarsa (TTL) selama 24 jam (86400 detik).
+
 ---
 
 ## 5. Komponen Platform AI Terpadu (Milestone 4)

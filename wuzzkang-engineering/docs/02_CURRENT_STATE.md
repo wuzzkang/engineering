@@ -130,6 +130,7 @@ Future designs belong to later documents.
 
 - Asynchronous AI Image Generation (Avatar queue with automatic wallet refunds on failure)
 - Asynchronous AI Text Copywriting (Field copywriting queue)
+- **Redis Caching for AI Copywriting**: Caching layer on `generateFieldContent` to cache output texts based on a deterministic hash of user's context, reducing duplicate request latency to 1ms and saving token charges.
 - Asynchronous Payment Webhook Processing (Winpay webhook instant response offloading)
 - **AI Platform — Asynchronous Project Generation** (registry-based architecture, BullMQ worker, Gemini AI, image compilation via Supabase Storage. Templates supported: wedding, campaign, birthday)
 
