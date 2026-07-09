@@ -1,0 +1,28 @@
+# Implementation Progress - Dynamic Subdomains & Global Fallback Switch
+
+- [x] Milestone 1: DB Seeding
+  - [x] Create migration `20260709120000_move_subdomain_to_settings.sql`
+  - [x] Create migration `20260709130000_add_max_subdomains_limit.sql` (Add `max_per_user: 5`)
+  - [x] Push migrations to Supabase remote DB
+  - [x] Remove subdomain product from `products` table
+- [x] Milestone 2: Backend Dynamic Settings & Global Status Check
+  - [x] Update `DomainService` to fetch dynamic price and limit from `system_settings` key `subdomain_pricing`
+  - [x] Add active subdomain count query and restrict claims above the `max_per_user` configuration
+  - [x] Expose `subdomain_active` state through systemSettings inside `GET /api/profile` endpoint
+  - [x] Fix Express route collision in `domain.route.js` by putting static paths (`/domains/check`, `/domains/pricing`) before dynamic parameter paths (`/domains/:projectId`)
+  - [x] Expose `GET /api/v1/domains/pricing` API endpoint
+  - [x] Return dynamic cost inside `GET /api/v1/domains/check`
+  - [x] Return `custom_domain` and `domain_type` in `listProjects`
+- [x] Milestone 3: Dashboard UI Subdomain Modal & Global Fallback Switch
+  - [x] Display active domain info directly on project card lists
+  - [x] Implement dynamic redirection for "Lihat" card link and card button based on global `subdomain_active` setting status
+  - [x] Implement dynamic base URL logic for "Bagikan Undangan" main link and personalized guest link based on global `subdomain_active` setting status
+  - [x] Design Subdomain modal (claim form, billing notice, and dynamic pricing)
+  - [x] Implement debounced availability check
+  - [x] Implement release with confirmation & non-refundable notice
+- [x] Milestone 4: E2E Verification & Limit Test
+  - [x] Verify routing works correctly without 404 project error
+  - [x] Verify user claim is rejected with status 400 when they exceed 5 subdomains limit
+- [x] Milestone 5: Documentation & Archiving
+  - [x] Update database architecture document `09_DATABASE_ARCHITECTURE.md`
+  - [x] Archive implementation
