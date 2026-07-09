@@ -517,10 +517,12 @@ Represents discount validations:
 * **Request Body Schema:**
   ```json
   {
-    "slug": "string (lowercase, alphanumeric, no spaces)",
+    "slug": "string (lowercase only, a-z, 0-9, dash only; min 3, max 50 chars)",
     "couponCode": "string (optional)"
   }
   ```
+  * **Slug Validation:** The `slug` field must match `/^[a-z0-9-]+$/`. Uppercase letters, underscores, and spaces are rejected with `400 Bad Request`.
+  * **Final Stored Slug:** The API appends a 6-character deterministic suffix derived from the first 6 hex characters of the project UUID before storing (e.g., user supplies `toko-saya`, stored as `toko-saya-3b9d4c`). This guarantees global uniqueness without additional DB queries.
 * **Success Response (200 OK):**
   ```json
   {
@@ -535,7 +537,7 @@ Represents discount validations:
   ```
 * **Exception Triggers:**
   * `402 Payment Required`: Insufficient balance in wallet to purchase the template deployment.
-  * `400 Bad Request`: Slug format validation failure, slug already taken, or coupon requirements validation failure.
+  * `400 Bad Request`: Slug format validation failure (uppercase, invalid chars) or coupon requirements validation failure.
 
 #### `POST /api/projects/:id/retry-pages`
 * **Purpose:** Manually re-trigger enabling of GitHub Pages configurations for projects that are marked deployed but failed CDN activation.

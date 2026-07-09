@@ -576,7 +576,7 @@ Not verified. See `02_CURRENT_STATE.md` for current implementation status.
 
 The following concepts are explicitly modeled as **Value Objects** within Wuzzkang. They represent attributes that have no independent identity and are defined by their values:
 
-- **Slug**: Represents a URL-friendly, unique project identifier assigned at deployment time (e.g., `wedding-arif-riri`). It is immutable once set and must conform to safety regex constraints.
+- **Slug**: Represents a URL-friendly, unique project identifier assigned at deployment time. Composed of two parts: (1) a user-supplied base (e.g., `toko-saya`) constrained to lowercase letters `a-z`, digits `0-9`, and dashes only; and (2) a 6-character deterministic suffix derived from the first 6 hex characters of the Project's UUID (e.g., `3b9d4c`). The full stored slug is therefore `toko-saya-3b9d4c`. It is immutable once set. The suffix guarantees global uniqueness without database collision checks. In the future, when custom domains are implemented, the Slug serves as the routing fallback key while the custom domain becomes the primary user-facing URL.
 - **ProjectStatus**: Represents the lifecycle stage of a Project (`draft`, `deployed`, `failed`). It enforces strict state transition paths.
 - **Money**: Conceptually represents financial values (such as Wallet balance, Transaction amounts, and Product costs). It is modeled as a decimal value with a fixed currency (IDR) to guarantee mathematical correctness.
 - **TemplateType**: Represents the category of the landing page blueprint (e.g., `wedding`, `toko-online`). It determines the Zod validation schema for the embedded `pageConfig`.
