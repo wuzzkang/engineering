@@ -230,11 +230,13 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `status` | `TEXT` | `NULL` | `'draft'` | Lifecycle status of the project (e.g. `'draft'`, `'deploying'`, `'deployed'`, `'failed'`). |
 | `slug` | `TEXT` | `NULL` | - | Unique URL slug identifier. Enforced by unique index. |
 | `edit_count` | `INTEGER` | `NULL` | `0` | Number of edits applied to project pages after live deployment. |
-| `custom_domain` | `TEXT` | `NULL` | - | *[Unused Column]* Target domain mapping. |
-| `domain_status` | `TEXT` | `NULL` | `'none'` | *[Unused Column]* Custom domain status flag. |
-| `domain_provider_order_id` | `TEXT` | `NULL` | - | *[Unused Column]* Domain provider identifier. |
+| `custom_domain` | `TEXT` | `NULL` | - | Target domain mapping. |
+| `domain_type` | `TEXT` | `NOT NULL` | `'none'` | Domain configuration type: `'none'`, `'subdomain'`, `'custom'`. |
+| `domain_status` | `TEXT` | `NULL` | `'none'` | Custom domain status flag (e.g. `'none'`, `'pending_dns'`, `'verifying'`, `'active'`, `'failed'`). |
+| `domain_provider_order_id` | `TEXT` | `NULL` | - | Domain provider identifier. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Row insertion timestamp. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Last update timestamp. |
+
 
 ### 8.3 transactions
 * **Purpose:** Document the physical schema of the `public.transactions` table.
@@ -303,6 +305,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `unit` | `TEXT` | `NULL` | `'Halaman'` | Product denominator unit label. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record insertion timestamp. |
 
+
 ### 8.7 system_settings
 * **Purpose:** Document the physical schema of the `public.system_settings` table.
 * **Scope:** Column names, SQL data types, nullability, default values, and column-level descriptions.
@@ -311,11 +314,12 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 #### Table Definition: `public.system_settings`
 | Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
 |---|---|---|---|---|
-| `key` | `TEXT` | `NOT NULL` | - | Primary Key config name. |
+| `key` | `TEXT` | `NOT NULL` | - | Primary Key config name. Key: `'subdomain_pricing'` holds JSONB configuration `{ "cost": 10, "is_active": true, "max_per_user": 5 }`. |
 | `value` | `JSONB` | `NOT NULL` | - | Stored configuration setting value payload. |
 | `description` | `TEXT` | `NULL` | - | Metadata description of the setting constant. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record creation timestamp. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Last modified timestamp. Automatically updated via trigger handler. |
+
 
 ### 8.8 ai_tasks
 * **Purpose:** Document the physical schema of the `public.ai_tasks` table tracking all AI task executions.
@@ -355,10 +359,17 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `id` | `UUID` | `NOT NULL` | `gen_random_uuid()` | Primary Key. |
 | `user_id` | `UUID` | `NOT NULL` | - | References `auth.users(id)` via `ON DELETE CASCADE`. |
 | `domain_name` | `TEXT` | `NOT NULL` | - | Target unique domain registration. Enforced by unique constraint. |
+| `domain_type` | `TEXT` | `NULL` | `'subdomain'` | Domain tier type: `'subdomain'`, `'custom'`. |
+| `cloudflare_hostname_id` | `TEXT` | `NULL` | - | Associated Cloudflare Custom Hostname ID mapping. |
+| `cname_target` | `TEXT` | `NULL` | - | Cloudflare target CNAME address for proxying. |
+| `ssl_status` | `TEXT` | `NULL` | `'none'` | SSL certification status (e.g. `'none'`, `'pending'`, `'active'`). |
 | `provider_order_id` | `TEXT` | `NULL` | - | External domain order registration reference. |
 | `expiry_date` | `TIMESTAMPTZ` | `NULL` | - | Expiration date boundary. |
 | `auto_renew` | `BOOLEAN` | `NULL` | `FALSE` | Flag determining renewal state. |
 | `status` | `TEXT` | `NULL` | `'pending'` | Registration lifecycle status. |
+| `verified_at` | `TIMESTAMPTZ` | `NULL` | - | Timestamp when DNS verification was completed. |
+| `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Timestamp of last record update. |
+
 
 ### 8.10 payment_methods
 * **Purpose:** Document the physical schema of the `public.payment_methods` table.
@@ -492,7 +503,9 @@ If query complexity increases, database views may be introduced under the follow
 ### 12.1 Standard B-Tree Indexes
 * `idx_projects_user_id` ON `public.projects (user_id)` — Optimizes retrieving and listing projects belonging to a user.
 * `idx_projects_slug` ON `public.projects (slug)` — Optimizes public routing lookups for rendering landing pages.
+* `idx_projects_custom_domain` ON `public.projects (custom_domain) WHERE custom_domain IS NOT NULL` — Optimizes custom domain and subdomain routing queries at LP runtime.
 * `idx_transactions_order_id` ON `public.transactions (order_id)` — Optimizes lookup operations during webhook settlements and idempotency verifications.
+
 * `idx_coupon_usages_user_id_coupon_id` ON `public.coupon_usages (user_id, coupon_id)` — Composite index optimizing verification of coupon usage limits per user.
 * `idx_ai_tasks_user_status` ON `public.ai_tasks (user_id, status)` — Composite B-Tree index optimizing user's task history lookups on the dashboard.
 * `idx_ai_tasks_provider_model` ON `public.ai_tasks (provider, model)` — B-Tree index optimizing telemetry and provider analytics queries.

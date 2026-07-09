@@ -1,0 +1,24 @@
+# Implementation Progress - Dynamic Subdomains & Route Collision Fix
+
+- [x] Milestone 1: DB Seeding
+  - [x] Create migration `20260709120000_move_subdomain_to_settings.sql`
+  - [x] Push migration to Supabase remote DB
+  - [x] Remove subdomain product from `products` table
+- [x] Milestone 2: Backend Dynamic Settings Integration & Route Fix
+  - [x] Update `DomainService` to fetch dynamic price from `system_settings` key `subdomain_pricing`
+  - [x] Fix Express route collision in `domain.route.js` by putting static paths (`/domains/check`, `/domains/pricing`) before dynamic parameter paths (`/domains/:projectId`)
+  - [x] Expose `GET /api/v1/domains/pricing` API endpoint
+  - [x] Return dynamic cost inside `GET /api/v1/domains/check`
+  - [x] Return `custom_domain` and `domain_type` in `listProjects`
+- [x] Milestone 3: Dashboard UI Subdomain Modal
+  - [x] Display active domain info directly on project card lists
+  - [x] Design Subdomain modal (claim form, billing notice, and dynamic pricing)
+  - [x] Implement debounced availability check
+  - [x] Implement release with confirmation & non-refundable notice
+- [x] Milestone 4: E2E Verification & Route Test
+  - [x] Create E2E script `scratch-test-collision.js`
+  - [x] Verify routing works correctly without 404 project error
+  - [x] Clean up test scripts
+- [x] Milestone 5: Documentation & Archiving
+  - [x] Update database architecture document `09_DATABASE_ARCHITECTURE.md`
+  - [x] Archive implementation

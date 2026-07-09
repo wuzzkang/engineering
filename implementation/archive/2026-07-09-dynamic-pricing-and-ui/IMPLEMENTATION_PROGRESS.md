@@ -1,0 +1,22 @@
+# Implementation Progress - Dynamic Subdomains & Dashboard UI
+
+- [x] Milestone 1: DB Product Seeding
+  - [x] Create migration `20260709110000_add_subdomain_product.sql`
+  - [x] Push migration to Supabase remote DB
+- [x] Milestone 2: Backend Dynamic Pricing Integration
+  - [x] Update `DomainService` to fetch dynamic price from `products` table
+  - [x] Expose `GET /api/v1/domains/pricing` API endpoint
+  - [x] Return dynamic cost inside `GET /api/v1/domains/check`
+  - [x] Return `custom_domain` and `domain_type` in `listProjects`
+- [x] Milestone 3: Dashboard UI Subdomain Modal
+  - [x] Display active domain info directly on project card lists
+  - [x] Design Subdomain modal (claim form, billing notice, and dynamic pricing)
+  - [x] Implement debounced availability check
+  - [x] Implement release with confirmation & non-refundable notice
+- [x] Milestone 4: E2E Verification
+  - [x] Create E2E script `test-domains-dynamic.js`
+  - [x] Verify dynamic database cost modification and transaction deduction
+  - [x] Verify status, availability, and non-refundable release
+- [x] Milestone 5: Documentation & Archiving
+  - [x] Update documentation files
+  - [x] Clean up test scripts

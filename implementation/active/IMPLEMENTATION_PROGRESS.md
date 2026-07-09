@@ -1,3 +1,1 @@
-# Implementation Progress
-
-- [ ] Task 1
+# [Not Started]

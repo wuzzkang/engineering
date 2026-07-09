@@ -843,7 +843,85 @@ Represents discount validations:
   }
   ```
 
+### 9.5 Custom Domain & Subdomain Endpoints
+
+#### `POST /api/domains/claim-subdomain`
+* **Purpose:** Claim a unique subdomain prefix (`{name}.siluet.web.id`) for an active project. Deducts a one-time non-refundable fee of 10 credits from the user's wallet.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Request Body Schema:**
+  ```json
+  {
+    "project_id": "uuid (required)",
+    "subdomain_name": "string (min 3, max 15, alphanumeric + hyphens only)"
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "domain": "andi.siluet.web.id",
+      "domain_type": "subdomain",
+      "domain_status": "active",
+      "new_balance": 990
+    }
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: Validation failure on Zod schema checks.
+  * `402 Payment Required`: Insufficient wallet credit balance (requires 10 credits).
+  * `403 Forbidden`: The target project is not owned by the authenticated user.
+  * `404 Not Found`: Project ID does not exist.
+  * `409 Conflict`: Subdomain name is already claimed by another project (`SUBDOMAIN_TAKEN`).
+
+#### `GET /api/domains/:projectId`
+* **Purpose:** Retrieve the active domain mapping, URLs, and status config for a specific project.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "project_id": "uuid",
+      "custom_domain": "andi.siluet.web.id",
+      "domain_type": "subdomain",
+      "domain_status": "active",
+      "slug_url": "https://siluet.web.id/?slug=slug-xxx",
+      "domain_url": "https://andi.siluet.web.id"
+    }
+  }
+  ```
+
+#### `DELETE /api/domains/:projectId`
+* **Purpose:** Release the claimed subdomain or custom domain from a project. The 10 credit claiming fee is non-refundable.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Custom domain/subdomain berhasil dihapus."
+  }
+  ```
+
+#### `GET /api/domains/check`
+* **Purpose:** Check the global availability of a subdomain name.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Query Parameters:**
+  * `name` (String, required): Subdomain name to verify.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "name": "andi",
+      "available": true,
+      "full_domain": "andi.siluet.web.id"
+    }
+  }
+  ```
+
 #### `POST /api/admin/payments/:id/complete`
+
 * **Purpose:** Manually mark a pending top-up payment transaction as PAID.
 * **Authentication Required:** Yes (Bearer JWT). Must possess `complete_payment` permission in `public.role_access`.
 * **Headers:**
@@ -1405,9 +1483,19 @@ To ensure continuity of frontend dashboard modules and rendering runtimes, all e
   * Updated **Section 11.1** — Added optional `category` parameter to `POST /api/media/upload-url` payload to support uploads to categorized user subfolders (`uploads/userId/category/filename`).
   * Added **Section 11.4** — `DELETE /api/media` endpoint for secure, ownership-validated asset deletion from Supabase Storage.
 
+#### Version 1.3.0 (Released 2026-07-09)
+* **Status:** Released
+* **Changes:**
+  * Added **Section 9.5** — Custom Domain & Subdomain Endpoints:
+    * `POST /api/domains/claim-subdomain` — Claim subdomain with Zod format validation and 10 credits wallet deduction.
+    * `GET /api/domains/:projectId` — Fetch active domain and target URL endpoints.
+    * `DELETE /api/domains/:projectId` — Release claimed subdomain from active project.
+    * `GET /api/domains/check` — Verify subdomain prefix availability.
+
 ---
 
 ## Part 17 — Related Documents
+
 * **Purpose:** Provide references to related technical specifications.
 * **Scope:** References to `00_FOUNDATION.md`, `02_CURRENT_STATE.md`, `03_ARCHITECTURE.md`, `04_DOMAIN_MODEL.md`, `09_DATABASE_ARCHITECTURE.md`, and `audit/DATABASE_AUDIT_2026_07_01.md`.
 * **Out of Scope:** Non-engineering business plans or slide decks.

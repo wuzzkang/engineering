@@ -125,6 +125,8 @@ Future designs belong to later documents.
 - Live preview
 - Direct-to-Storage Upload with Folder Categorization (organizes uploads into nested category subfolders under `uploads/userId/category/`)
 - Storage Sync Media Deletion (secure, ownership-validated physical file deletion on Supabase Storage via `DELETE /api/media`)
+- **Custom Domain / Subdomain System (Phase 1)** (Zod name validation, 10 credits wallet billing with automatic refund rollback logic, claim & release API endpoints, wildcard DNS ready)
+
 
 ## Asynchronous Processing (BullMQ & Redis)
 
@@ -221,9 +223,9 @@ Future designs belong to later documents.
 
 # Partially Implemented Features
 
-- Custom Domain
 - PaymentFactory Refactor
 - IP Whitelisting
+
 
 ---
 

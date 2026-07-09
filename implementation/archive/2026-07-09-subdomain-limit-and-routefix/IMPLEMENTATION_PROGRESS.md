@@ -1,0 +1,27 @@
+# Implementation Progress - Dynamic Subdomains & User Limit Safeguard
+
+- [x] Milestone 1: DB Seeding
+  - [x] Create migration `20260709120000_move_subdomain_to_settings.sql`
+  - [x] Create migration `20260709130000_add_max_subdomains_limit.sql` (Add `max_per_user: 5`)
+  - [x] Push migrations to Supabase remote DB
+  - [x] Remove subdomain product from `products` table
+- [x] Milestone 2: Backend Dynamic Settings Integration & Limit Check
+  - [x] Update `DomainService` to fetch dynamic price and limit from `system_settings` key `subdomain_pricing`
+  - [x] Add active subdomain count query and restrict claims above the `max_per_user` configuration
+  - [x] Fix Express route collision in `domain.route.js` by putting static paths (`/domains/check`, `/domains/pricing`) before dynamic parameter paths (`/domains/:projectId`)
+  - [x] Expose `GET /api/v1/domains/pricing` API endpoint
+  - [x] Return dynamic cost inside `GET /api/v1/domains/check`
+  - [x] Return `custom_domain` and `domain_type` in `listProjects`
+- [x] Milestone 3: Dashboard UI Subdomain Modal
+  - [x] Display active domain info directly on project card lists
+  - [x] Design Subdomain modal (claim form, billing notice, and dynamic pricing)
+  - [x] Implement debounced availability check
+  - [x] Implement release with confirmation & non-refundable notice
+- [x] Milestone 4: E2E Verification & Limit Test
+  - [x] Create E2E script `test-subdomain-limit.js`
+  - [x] Verify routing works correctly without 404 project error
+  - [x] Verify user claim is rejected with status 400 when they exceed 5 subdomains limit
+  - [x] Clean up test scripts
+- [x] Milestone 5: Documentation & Archiving
+  - [x] Update database architecture document `09_DATABASE_ARCHITECTURE.md`
+  - [x] Archive implementation
