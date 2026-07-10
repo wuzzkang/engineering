@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.0 |
+| Version | 2.1 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-08 (Media Upload Categorization & Deletion Sync) |
+| Last Updated | 2026-07-10 (Disabled Full Auto AI Generation & Enabled Custom Renaming) |
 
 ---
 
@@ -63,25 +63,15 @@ Future designs belong to later documents.
 
 # Current Runtime Flow
 
-## Project Generation (Legacy — non-wedding templates)
+## Project Generation & Editing (All Templates)
 
-1. Dashboard fills form
-2. `POST /api/generate` → AI generates `pageData` synchronously
-3. Validate + save draft to Supabase
-4. Return `projectId` + `pageData` to dashboard
+1. **Dashboard Input**: Dashboard fills out form inputs for the selected template type (`wedding`, `birthday`, `campaign`, `toko-online`, `cv`).
+2. **On-Demand AI Copywriting**: Option to use AI selectively by clicking the small "✨ AI Generate" button next to specific fields (processes asynchronous tasks via BullMQ and saves token bandwidth).
+3. **Direct Draft Save**: Clicking "Generate Preview" compiles all current form state variables into a structured `pageData` object directly, bypassing automatic full-page AI generation.
+4. **Draft/Deploy Persistence**: Persists the compiled JSON configuration to the database (`PUT /projects/:id/draft` or `POST /projects/:id/edit-deployed`).
+5. **Live Preview Rendering**: The live preview instantly reflects the user's manual inputs and selected AI-generated sections.
 
 ---
-
-## Project Generation (AI Platform — wedding templates)
-
-1. Dashboard fills wedding form + uploads images
-2. `POST /api/v1/ai/execute` → creates `ai_tasks` row + BullMQ job, returns `taskId`
-3. Dashboard polls `GET /api/v1/ai/task/:id` every 3 seconds
-4. Worker executes: `WeddingCompiler.compile()` → GeminiProvider/SumopodProvider → Supabase Storage uploads
-5. Task status transitions: `queued → processing → completed`
-6. Dashboard fetches `result_url` → parses compiled `pageData`
-7. `POST /api/projects/draft` → persists `pageData` to `projects` table
-8. Renders live preview + enables Publish flow
 
 ---
 
@@ -126,6 +116,7 @@ Future designs belong to later documents.
 - Direct-to-Storage Upload with Folder Categorization (organizes uploads into nested category subfolders under `uploads/userId/category/`)
 - Storage Sync Media Deletion (secure, ownership-validated physical file deletion on Supabase Storage via `DELETE /api/media`)
 - **Custom Domain / Subdomain System (Phase 1)** (Zod name validation, 10 credits wallet billing with automatic refund rollback logic, claim & release API endpoints, wildcard DNS ready)
+- **User-Controlled AI Generation & Manual Editing**: Disabled automatic full-page AI generation on submit across all template types. All copywriting is either manual or per-field on-demand. Allows custom project name updates via `/edit-deployed` endpoint.
 
 
 ## Asynchronous Processing (BullMQ & Redis)
