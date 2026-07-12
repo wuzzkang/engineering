@@ -1,9 +1,19 @@
-# Implementation Progress: Template Versioning
+# Implementation Progress: E-Course Product & Template
 
-Tracked tasks:
-- [x] Step 1: Update Zod schemas in API `wuzzkang-api/src/utils/schema.js`
-- [x] Step 2: Update LP router in `wuzzkang-lp/script.js`
-- [x] Step 3: Update preview dynamic import in `wuzzkang-dashboard/public/preview/index.html`
-- [x] Step 4: Update state, load, compile, registry and upgrade flow in `wuzzkang-dashboard/src/app/generate/page.js`
-- [x] Step 5: Verify implementation (rendering fallback, upgrade flow, schema validation)
-- [x] Step 6: Update documentation files
+- [x] Milestone 1: API Schemas and Service Configurations
+  - [x] Add `ECoursePageSchema` to `wuzzkang-api/src/utils/schema.js` and export in `PageSchema` union.
+  - [x] Register new compiler `'e-course'` in `wuzzkang-api/src/services/ai-platform/register.js`.
+  - [x] Create task compiler `ECourseTaskCompiler.js` under `wuzzkang-api/src/services/ai-platform/compilers/`.
+  - [x] Update `generateLandingPage` block in `wuzzkang-api/src/services/ai.service.js`.
+  - [x] Update `AICostEstimator.js` fallback pricing rules to include `'e-course'`.
+  - [x] Update `generator.route.js` request body schema and fields validation.
+
+- [x] Milestone 2: Landing Page Router and E-Course Template (`wuzzkang-lp`)
+  - [x] Add `'e-course'` template loading routing to `wuzzkang-lp/script.js`.
+  - [x] Create `wuzzkang-lp/templates/e-course/purple-academy.js` design template.
+
+- [/] Milestone 3: Dashboard React Forms (`wuzzkang-dashboard`)
+  - [/] Update state, registries, forms, assembledContent builder, and preview rendering support in `wuzzkang-dashboard/src/app/generate/page.js`.
+
+- [ ] Milestone 4: Verification and Polish
+  - [ ] Verify local rendering, compilation, validation, and AI generation tasks.
