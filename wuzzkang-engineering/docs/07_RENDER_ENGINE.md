@@ -731,3 +731,33 @@ Komponen ini menyatukan rendering UI Buku Tamu (Form RSVP, pilihan stiker, dafta
         });
     }
     ```
+
+---
+
+## 🏷️ Sistem Versi Template (Template Versioning)
+
+Untuk menjaga kestabilan tampilan halaman yang sudah live/publish dari breaking changes ketika ada update template desain di masa mendatang, Wuzzkang menggunakan **sistem penomoran versi** pada setiap desain template.
+
+### 1. Cara Kerja & Konvensi File
+
+- **Versi 1 (Asli/Original):** Disimpan dengan nama file normal. Contoh: `templates/wedding/sage-green.js`
+- **Versi 2 (Pembaruan):** Disimpan dengan akhiran versi. Contoh: `templates/wedding/sage-green-v2.js`
+- **Versi N:** Contoh: `templates/wedding/sage-green-v{N}.js`
+
+Logika perutean (`wuzzkang-lp/script.js` dan dashboard preview `index.html`) akan secara otomatis memecah path import berdasarkan `template_version` yang ada di database:
+```js
+const templateVersion = pageConfig.meta?.template_version || 1;
+const resolvedFile = templateVersion <= 1 ? `${designKey}.js` : `${designKey}-v${templateVersion}.js`;
+```
+
+### 2. Aturan Penting Developer
+
+1. **JANGAN PERNAH mengubah file versi lama** dengan modifikasi yang bersifat merusak/breaking changes (misal: mengubah nama field data, menghapus section utama, mengubah struktur JSON data). Modifikasi minor non-breaking (bugfix CSS, penyesuaian padding) tetap diperbolehkan.
+2. Jika ada perubahan signifikan (desain tata letak berubah total, ada penambahan field wajib baru), **wajib buat file baru** dengan akhiran versi baru (seperti `-v2.js`).
+3. Daftarkan versi terbaru tema tersebut di dashboard (`wuzzkang-dashboard/src/app/generate/page.js` pada konstanta `TEMPLATE_LATEST_VERSIONS`).
+
+### 3. Alur Upgrade di Dashboard
+
+Setiap proyek lama yang tersimpan memiliki field `template_version: 1` secara default (diatur oleh API Zod schema).
+Jika versi tema terbaru di dashboard lebih tinggi daripada versi proyek, dashboard akan otomatis menampilkan banner **"Tersedia pembaruan desain untuk tema ini!"** dengan tombol **"Upgrade Sekarang"**.
+Setelah user menekan tombol tersebut, versi proyek akan diperbarui ke yang terbaru dan halaman live akan beralih merender file versi baru tersebut.
