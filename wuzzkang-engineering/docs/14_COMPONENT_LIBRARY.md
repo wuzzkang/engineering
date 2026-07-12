@@ -300,3 +300,45 @@ if (wishesRoot) {
     });
 }
 ```
+
+---
+
+## Komponen Template: `Faq`
+
+### Deskripsi
+Komponen accordion interaktif reusable untuk merender FAQ (Frequently Asked Questions). Mendukung transisi animasi penutupan/pembukaan, pengelompokan accordion eksklusif, serta penyesuaian tema visual.
+
+### Lokasi File
+*   [`wuzzkang-lp/templates/components/Faq.js`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-lp/templates/components/Faq.js) (di-sync ke Dashboard)
+
+### Parameter `options`
+| Option | Tipe | Wajib | Keterangan |
+|---|---|---|---|
+| `theme` | `string` | ❌ | Tema styling. Mendukung `'clean-trust'` (default) dan `'neon-conversion'` |
+| `title` | `string` | ❌ | Judul section FAQ. Default: `'Pertanyaan yang Sering Diajukan (FAQ)'` |
+| `subtitle` | `string` | ❌ | Subjudul section FAQ. Default: `'Temukan jawaban cepat untuk pertanyaan-pertanyaan umum Anda.'` |
+
+### Struktur Data `faqs`
+Menerima array objek dengan struktur sebagai berikut:
+```json
+[
+  {
+    "question": "Apakah ada biaya bulanan?",
+    "answer": "Tidak ada, layanan ini hanya mengenakan biaya sekali bayar di awal."
+  }
+]
+```
+
+### Contoh Penggunaan
+```javascript
+const faqRoot = document.getElementById('campaign-faq-root');
+if (faqRoot && Array.isArray(content.faqs) && content.faqs.length > 0) {
+    const { initFaq } = await import('../components/Faq.js');
+    await initFaq(faqRoot, content.faqs, { 
+        theme: 'neon-conversion',
+        title: 'Tanya Jawab Seputar Produk',
+        subtitle: 'Berikut jawaban untuk pertanyaan paling populer'
+    });
+}
+```
+

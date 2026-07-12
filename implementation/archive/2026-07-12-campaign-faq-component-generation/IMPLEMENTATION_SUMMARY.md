@@ -1,0 +1,25 @@
+# Campaign FAQ Feature Summary
+
+- **Project:** Wuzzkang
+- **Feature:** Campaign FAQ Component & AI Generation
+- **Status:** Completed
+- **Current Milestone:** Milestone 5: Verification & E2E Validation
+- **Progress:** 5/5 Milestones Completed
+- **Architecture Overview:** Integrates a reusable `Faq.js` component on the frontend templates (`wuzzkang-lp`), connects it to the dashboard forms, and adds backend validation and AI copywriting capabilities in `wuzzkang-api`.
+- **Major Decisions:** 
+  - DEC-1: Created reusable `Faq.js` component with customizable rendering options based on themes.
+- **Modified/New Files:**
+  - `wuzzkang-lp/templates/components/Faq.js` [NEW]
+  - `wuzzkang-lp/templates/campaign/neon-conversion.js` [MODIFY]
+  - `wuzzkang-lp/templates/campaign/clean-trust.js` [MODIFY]
+  - `wuzzkang-lp/script.js` [MODIFY]
+  - `wuzzkang-api/src/utils/schema.js` [MODIFY]
+  - `wuzzkang-api/src/routes/generator.route.js` [MODIFY]
+  - `wuzzkang-api/src/services/ai.service.js` [MODIFY]
+  - `wuzzkang-dashboard/package.json` [MODIFY]
+  - `wuzzkang-dashboard/src/app/generate/page.js` [MODIFY]
+- **Verification Summary:**
+  - programmatically verified Gemini integration on `/generate/field` for `campaign_faq` fieldType.
+  - Test output matches the expected JSON list of FAQs.
+  - Redis cache stores the response successfully.
+- **Last Updated:** 2026-07-12T12:58:00+07:00
