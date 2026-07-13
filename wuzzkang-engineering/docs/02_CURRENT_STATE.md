@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.1 |
+| Version | 2.2 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-10 (Disabled Full Auto AI Generation & Enabled Custom Renaming) |
+| Last Updated | 2026-07-13 (Add E-Course Category & Purple Academy Template with Dynamic Priority Sorting) |
 
 ---
 
@@ -148,7 +148,7 @@ Future designs belong to later documents.
 - Projects
 - Profiles
 - Transactions
-- Products
+- Products (with nullable `priority` integer column)
 - Coupons
 - System Settings
 - AI Tasks
@@ -162,6 +162,7 @@ Future designs belong to later documents.
 - Toko Online: `modern-clean`, `midnight-dark`
 - Campaign: `neon-conversion`, `clean-trust`
 - **CV (Curriculum Vitae)**: `professional-dark` — ATS-friendly web CV with Export PDF support via `window.print()`. Uses direct draft save to database (no automatic global AI generation) with optional field-level AI copywriting assistance.
+- **E-Course**: `purple-academy` — Dark theme online course landing page with purple gradients, curriculum modules, mentor info, bonus/offerings, testimonials, and countdown timer.
 
 ---
 
@@ -178,8 +179,9 @@ Future designs belong to later documents.
 
 - `AIOrchestrationService` — central coordinator, routes task types to compilers and providers
 - `ProviderRegistry` — runtime registry for AI providers (`gemini`, `sumopod`)
-- `TaskCompilerRegistry` — runtime registry for task compilers by type (`wedding`)
+- `TaskCompilerRegistry` — runtime registry for task compilers by type (`wedding`, `e-course`, etc.)
 - `WeddingCompiler` — compiles wedding form data + AI content into full `pageData`
+- `ECourseTaskCompiler` — compiles e-course details and prompt schema for Gemini task generation
 - `BullMQQueueAdapter` — concrete adapter wrapping BullMQ for async job dispatch
 - `AITaskRepository` — Supabase-backed persistence layer for `ai_tasks` table
 - `SupabaseStorageProvider` — handles image uploading to Supabase Storage for AI-processed assets

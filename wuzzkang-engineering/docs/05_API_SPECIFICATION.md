@@ -234,7 +234,7 @@ Represents the configuration payload of a generated/deployed page:
   "page_data": {
     "meta": {
       "title": "string",
-      "template_type": "wedding | birthday | toko-online | campaign | store",
+      "template_type": "wedding | birthday | toko-online | campaign | store | cv | e-course",
       "theme": "string",
       "design_key": "string"
     },
@@ -629,11 +629,12 @@ Represents discount validations:
     "projectId": "uuid (optional, maps to existing draft to update)",
     "name": "string (min: 2)",
     "prompt": "string (min: 5)",
-    "template_type": "wedding | birthday | toko-online | campaign",
+    "template_type": "wedding | birthday | toko-online | campaign | e-course",
     "wedding_details": "object (optional)",
     "birthday_details": "object (optional)",
     "toko_online_details": "object (optional)",
-    "campaign_details": "object (optional)"
+    "campaign_details": "object (optional)",
+    "e_course_details": "object (optional)"
   }
   ```
 * **Success Response (200 OK):**
@@ -656,7 +657,7 @@ Represents discount validations:
 * **Request Body Schema:**
   ```json
   {
-    "fieldType": "store_description | product_description | store_quote | campaign_hero | campaign_problems | campaign_benefits | campaign_testimonials | campaign_urgency | cv_summary | cv_experience_description",
+    "fieldType": "store_description | product_description | store_quote | campaign_hero | campaign_problems | campaign_benefits | campaign_testimonials | campaign_urgency | cv_summary | cv_experience_description | e_course_hero | e_course_problems | e_course_solutions | e_course_audience | e_course_mentor | e_course_curriculum | e_course_benefits | e_course_bonuses",
     "context": {
       "storeName": "string (optional)",
       "storeTagline": "string (optional)",
@@ -669,7 +670,11 @@ Represents discount validations:
       "profileSummary": "string (optional)",
       "company": "string (optional)",
       "position": "string (optional)",
-      "description": "string (optional)"
+      "description": "string (optional)",
+      "courseName": "string (optional)",
+      "courseBrief": "string (optional)",
+      "courseTargetAudience": "string (optional)",
+      "courseTone": "string (optional)"
     }
   }
   ```

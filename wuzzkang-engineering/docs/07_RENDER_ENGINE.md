@@ -35,6 +35,7 @@ User isi form structured (dashboard)
 | `birthday` | Undangan Ulang Tahun | `cute-balloon`, `elegant-gold` | Structured form |
 | `toko-online` | Landing Page Toko Online | `modern-clean`, `midnight-dark` | Structured form + AI assist field |
 | `campaign` | Campaign Landing Page | `neon-conversion`, `clean-trust` | Structured form (high conversion) |
+| `e-course` | E-Course Landing Page | `purple-academy` | Structured form + countdowns |
 | `store` | *(Legacy)* | *(n/a)* | AI prompt (deprecated, jangan pakai) |
 
 > **Catatan**: `store` adalah tipe lama yang menggunakan AI full-prompt. Ke depannya semua tipe baru menggunakan **structured form** seperti `toko-online` dan `campaign`.
@@ -60,9 +61,11 @@ wuzzkang-lp/
     ├── toko-online/
     │   ├── modern-clean.js     ← design_key: modern-clean
     │   └── midnight-dark.js    ← design_key: midnight-dark
-    └── campaign/
-        ├── neon-conversion.js  ← design_key: neon-conversion
-        └── clean-trust.js      ← design_key: clean-trust
+    ├── campaign/
+    │   ├── neon-conversion.js  ← design_key: neon-conversion
+    │   └── clean-trust.js      ← design_key: clean-trust
+    └── e-course/
+        └── purple-academy.js   ← design_key: purple-academy
 ```
 
 Dan folder yang sama di-sync ke dashboard:
@@ -363,6 +366,11 @@ design_key: z.enum(['cute-balloon', 'elegant-gold', 'NAMA_DESIGN_KEY_BARU']).def
 **Untuk `wedding`:**
 ```javascript
 design_key: z.enum(['sage-green', 'floral-pink', 'NAMA_DESIGN_KEY_BARU']).default('sage-green'),
+```
+
+**Untuk `e-course`:**
+```javascript
+design_key: z.enum(['purple-academy', 'NAMA_DESIGN_KEY_BARU']).default('purple-academy'),
 ```
 
 ---

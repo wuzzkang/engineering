@@ -303,6 +303,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `is_active` | `BOOLEAN` | `NULL` | `TRUE` | Status flag. |
 | `cost` | `INTEGER` | `NULL` | `100` | Cost per deployment in Credits. |
 | `unit` | `TEXT` | `NULL` | `'Halaman'` | Product denominator unit label. |
+| `priority` | `INTEGER` | `NULL` | `NULL` | Ordering priority (lower/higher value affects frontend placement sorting). |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record insertion timestamp. |
 
 
