@@ -1,6 +1,3 @@
-# Decision Log: [Feature Name]
+# Decision Log
 
-This log tracks key architectural and design decisions.
-
-## Decisions
-* None.
+*Awaiting new feature instructions...*

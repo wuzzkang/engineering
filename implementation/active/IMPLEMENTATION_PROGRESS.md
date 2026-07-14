@@ -1,5 +1,3 @@
-# Implementation Progress: [Feature Name]
+# Implementation Progress
 
-- [ ] Milestone 1: Research & Planning
-  - [ ] Initialize active workspace files.
-  - [ ] Request user review and approval.
+*Awaiting new feature instructions...*
