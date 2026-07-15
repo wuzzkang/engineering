@@ -552,12 +552,13 @@ Represents discount validations:
   ```
 
 #### `POST /api/projects/:id/edit-deployed`
-* **Purpose:** Update the content configuration (`pageData`) of an already active landing page. This mutation is restricted to a maximum of 3 times.
+* **Purpose:** Update the content configuration (`pageData`) of an already active landing page. First few edits (default 3) are free. Subsequent edits deduct credits (default 1) dynamically from the user balance.
 * **Authentication Required:** Yes (Bearer JWT).
 * **Path Parameters:** `id` (UUID)
 * **Request Body Schema:**
   ```json
   {
+    "name": "string (optional)",
     "pageData": "object (must match PageSchema schema definitions)"
   }
   ```
@@ -565,15 +566,19 @@ Represents discount validations:
   ```json
   {
     "success": true,
-    "message": "Deployed project updated",
-    "project": {
+    "projectId": "31b9d4cf-2321-4f11-9a74-9f874bcde102",
+    "editCount": 1,
+    "message": "Perubahan berhasil disimpan.",
+    "data": {
       "id": "31b9d4cf-2321-4f11-9a74-9f874bcde102",
-      "edit_count": 1
+      "edit_count": 1,
+      "..."
     }
   }
   ```
 * **Exception Triggers:**
-  * `400 Bad Request`: Validation failures in PageSchema fields, or edit limit quota (3) has already been reached.
+  * `400 Bad Request`: Validation failures in PageSchema fields.
+  * `402 Payment Required`: Free edit quota limit has already been reached and user balance is insufficient to cover the edit cost.
 
 #### `POST /api/deploy`
 * **Purpose:** Asynchronously add a project deployment task to the background processing queue (legacy/worker flow).

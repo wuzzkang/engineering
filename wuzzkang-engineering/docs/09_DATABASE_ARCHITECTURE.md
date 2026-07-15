@@ -315,7 +315,7 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 #### Table Definition: `public.system_settings`
 | Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
 |---|---|---|---|---|
-| `key` | `TEXT` | `NOT NULL` | - | Primary Key config name. Key: `'subdomain_pricing'` holds JSONB configuration `{ "cost": 10, "is_active": true, "max_per_user": 5 }`. |
+| `key` | `TEXT` | `NOT NULL` | - | Primary Key config name. Keys: `'subdomain_pricing'` holds JSONB configuration; `'max_project_edits'` holds integer maximum free edits limit (default 3); `'project_edit_cost'` holds integer credit cost per paid edit (default 1). |
 | `value` | `JSONB` | `NOT NULL` | - | Stored configuration setting value payload. |
 | `description` | `TEXT` | `NULL` | - | Metadata description of the setting constant. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Record creation timestamp. |
