@@ -166,8 +166,8 @@ Errors returned from validation schemas output flat arrays corresponding to the 
 * **Out of Scope:** Database SQL query building implementations or index performance optimizations.
 
 ### 6.1 Collection Queries Specification
-* **Verified Implementation:** Currently, list endpoints (`GET /api/projects` and `GET /api/products`) do not implement pagination, filtering, or sorting at the HTTP API level. The API simply returns the entire list of user-owned projects or active products directly.
-* **Architectural Convention:** To prevent memory bloat and latency degradation as collection sizes grow, all future query operations returning arrays should implement the following query standards:
+* **Verified Implementation:** The endpoint `GET /api/projects` implements pagination, search, and template category filtering at the database query level to prevent memory bloat and latency degradation. Other endpoints (like `GET /api/products`) currently return lists directly.
+* **Architectural Convention:** To prevent memory bloat and latency degradation as collection sizes grow, all future query operations returning arrays should implement pagination standards:
   * **Pagination Parameters:**
     * `page` (Integer): The target page index (1-indexed, defaults to `1`).
     * `limit` (Integer): The number of items to return per page (defaults to `10`, maximum allowed value is `100`).
@@ -471,8 +471,13 @@ Represents discount validations:
   * `400 Bad Request`: Missing or invalid `name` or `pageData` fields.
 
 #### `GET /api/projects`
-* **Purpose:** List all projects (drafts and deployed) owned by the authenticated user.
+* **Purpose:** List all projects (drafts and deployed) owned by the authenticated user with search, filtering, and pagination support.
 * **Authentication Required:** Yes (Bearer JWT).
+* **Query Parameters:**
+  - `limit` (Integer, optional): Number of items to return (defaults to all).
+  - `offset` (Integer, optional): Number of items to skip (defaults to 0).
+  - `search` (String, optional): Search query matched against project names (case-insensitive).
+  - `filter` (String, optional): Category filter. Values: `all`, `undangan` (wedding, birthday), `bisnis` (store, toko-online, campaign, cv, e-course), or any specific template type identifier.
 * **Success Response (200 OK):**
   ```json
   {
@@ -483,7 +488,8 @@ Represents discount validations:
         "slug": "wedding-jhon-jane",
         "status": "deployed"
       }
-    ]
+    ],
+    "totalCount": 1
   }
   ```
 

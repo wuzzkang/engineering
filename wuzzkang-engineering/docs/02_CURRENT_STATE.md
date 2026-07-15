@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.2 |
+| Version | 2.3 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-13 (Add E-Course Category & Purple Academy Template with Dynamic Priority Sorting) |
+| Last Updated | 2026-07-15 (CV improvements and project list infinite loading/pagination) |
 
 ---
 
@@ -118,6 +118,8 @@ Future designs belong to later documents.
 - **Custom Domain / Subdomain System (Phase 1)** (Zod name validation, 10 credits wallet billing with automatic refund rollback logic, claim & release API endpoints, wildcard DNS ready)
 - **User-Controlled AI Generation & Manual Editing**: Disabled automatic full-page AI generation on submit across all template types. All copywriting is either manual or per-field on-demand. Allows custom project name updates via `/edit-deployed` endpoint.
 - **Template Versioning System (Phase 1)**: Added `template_version` meta configuration schema validation to prevent breaking live published sites. Added dashboard-level registry, dynamic preview/LP version routing, and an interactive upgrade banner for backward compatibility.
+- **CV Template Formatting & Footer Removal Toggle**: Experience descriptions support automated list rendering (converting `*` and `-` into bullet-points). Configured `hide_footer` project metadata setting with dashboard toggle button to omit branding footer elements in template layout.
+- **Server-Side Project List Pagination & Infinite Scrolling**: Replaced client-side list rendering with dynamic loading (pages of 5, adjustable via `NEXT_PUBLIC_PROJECTS_PER_PAGE`), added debounced search and tab categorization on backend API query range selection, and added "Tampilkan Lebih Banyak" scroll controls.
 
 
 ## Asynchronous Processing (BullMQ & Redis)
