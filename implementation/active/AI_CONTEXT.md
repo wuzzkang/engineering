@@ -1,10 +1,7 @@
-# AI Context: Active Implementation
+# AI Context
 
-This file tracks the mapped files and environment variables for the current active implementation task.
-
-## Active Task Details
-* **Feature:** [Feature Name]
-* **Target Repository:** [Target Repos / Directories]
-
-## Context Mapping
-* [TBD]
+- **Feature:** [Feature Name]
+- **Key Modules:**
+  * [Module Name]: [File path/description]
+- **Core Rules:**
+  * [Rule 1]

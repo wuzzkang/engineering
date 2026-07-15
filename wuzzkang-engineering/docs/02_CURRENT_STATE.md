@@ -112,6 +112,7 @@ Future designs belong to later documents.
 - Draft project
 - Deployment
 - Project editing
+- **Project Deletion System**: Added secure, ownership-validated project deletion endpoint (`DELETE /api/projects/:id`) and dashboard confirmation interface that cascade-releases active subdomains, invalidates caches, and physically purges all associated uploaded media file assets from Supabase Storage (while preserving default template placeholder images under `/defaults/`).
 - Live preview
 - Direct-to-Storage Upload with Folder Categorization (organizes uploads into nested category subfolders under `uploads/userId/category/`)
 - Storage Sync Media Deletion (secure, ownership-validated physical file deletion on Supabase Storage via `DELETE /api/media`)
