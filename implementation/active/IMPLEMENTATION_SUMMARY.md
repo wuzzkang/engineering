@@ -1,13 +1,13 @@
-# Implementation Summary: E-Course Product & Template
+# Implementation Summary: [Feature Name]
 
 - **Project:** Wuzzkang Platform
-- **Feature:** E-Course Product & Template
-- **Status:** Planning (Awaiting User Review)
+- **Feature:** [Feature Name]
+- **Status:** Planning
 - **Current Milestone:** Research & Design
 - **Progress:** 0%
 
 ## Architecture Overview
-Introduce a new product category `'e-course'` to the Wuzzkang system. Add a default versioned design template `'purple-academy'` inside the landing page runtime (`wuzzkang-lp`), set up the database migrations, register the compiler, extend the API, and update the dashboard `/generate` page to support e-course generation.
+[Provide a brief overview of the feature architecture here.]
 
 ## Next Action
-Get user review and approval on the implementation plan.
+[Specify the next required action here.]

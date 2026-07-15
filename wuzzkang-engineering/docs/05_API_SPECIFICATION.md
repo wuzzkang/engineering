@@ -575,6 +575,21 @@ Represents discount validations:
 * **Exception Triggers:**
   * `400 Bad Request`: Validation failures in PageSchema fields, or edit limit quota (3) has already been reached.
 
+#### `DELETE /api/projects/:id`
+* **Purpose:** Permanently delete a project. This releases any claimed subdomains, deletes all uploaded user images from Supabase Storage associated with this project (while preserving default template placeholder images located under `/defaults/`), and deletes the database row in the `projects` table.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Path Parameters:** `id` (UUID)
+* **Success Response (200 OK):**
+* ```json
+  {
+    "success": true,
+    "message": "Proyek beserta seluruh asetnya berhasil dihapus."
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: User does not own the project, or the project does not exist.
+  * `401 Unauthorized`: Token is missing or expired.
+
 #### `POST /api/deploy`
 * **Purpose:** Asynchronously add a project deployment task to the background processing queue (legacy/worker flow).
 * **Authentication Required:** Yes (Bearer JWT).
