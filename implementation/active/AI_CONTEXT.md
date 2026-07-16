@@ -1,7 +1,3 @@
 # AI Context
 
-- **Feature:** [Feature Name]
-- **Key Modules:**
-  * [Module Name]: [File path/description]
-- **Core Rules:**
-  * [Rule 1]
+This file is used to specify target files, endpoints, databases, or environment keys for the current active task.
