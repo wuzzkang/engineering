@@ -1,10 +1,10 @@
 # Implementation Plan: [Feature Name]
 
 ## Goal
-[Describe the feature goal here.]
+[Provide a description of the goal]
 
 ## Proposed Changes
-[Detail proposed code modifications grouped by repository component here.]
+[Proposed changes separated by component]
 
 ## Verification
-[Detail automated tests or manual checklists to verify implementation.]
+[How changes will be verified]

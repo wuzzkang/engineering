@@ -31,6 +31,7 @@ wuzzkang-api/
 │   │   ├── auth.middleware.js    # Interseptor otentikasi JWT token dari Supabase
 │   │   └── errorMiddleware.js    # Penangangan Exception & Error terpusat
 │   ├── routes/
+│   │   ├── admin.route.js        # Endpoint statistik & daftar transaksi admin
 │   │   ├── coupon.route.js       # Endpoint validasi & pengelolaan kupon
 │   │   ├── generator.route.js    # Endpoint asisten AI teks (/api/generate/field)
 │   │   ├── image.route.js        # Endpoint pemrosesan media terpadu & upload biner
@@ -39,6 +40,7 @@ wuzzkang-api/
 │   │   ├── profile.route.js      # Endpoint informasi wallet & limit profil user
 │   │   └── project.route.js      # Endpoint deployment & penyuntingan proyek
 │   ├── services/
+│   │   ├── admin.service.js      # Layanan kueri statistik & log transaksi admin
 │   │   ├── ai.service.js         # Layanan integrasi LLM & chat copywriting
 │   │   ├── coupon.service.js     # Logika kalkulasi diskon & verifikasi kupon
 │   │   ├── project.service.js    # Alur deploy, edit, & refund proyek landing page
@@ -69,6 +71,8 @@ wuzzkang-dashboard/
 │       └── index.html            # Runtime render pratinjau lokal
 ├── src/
 │   ├── app/                      # Direktori halaman Next.js (App Router)
+│   │   ├── admin/
+│   │   │   └── page.js           # Halaman Admin Panel (overview statistik & manual complete)
 │   │   ├── generate/
 │   │   │   └── page.js           # Formulir editor terstruktur lengkap & asisten AI
 │   │   ├── login/
@@ -81,6 +85,10 @@ wuzzkang-dashboard/
 │   │   └── page.js               # Berkas utama daftar landing page & filter produk
 │   ├── components/
 │   │   └── Sidebar.js            # Navigasi sidebar terpadu (Mobile/Desktop)
+│   ├── hooks/
+│   │   └── useRequireAdmin.js    # Hook pelindung rute halaman khusus admin
+│   ├── lib/
+│   │   └── adminApi.js           # Abstraksi panggilan API khusus admin (scalable)
 │   └── context/
 │       └── AuthContext.js        # Provider state otentikasi user & token Supabase
 ├── .env.local                    # Konfigurasi URL API & pengaturan kompresi gambar

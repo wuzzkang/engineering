@@ -7,7 +7,7 @@
 - **Progress:** 0%
 
 ## Architecture Overview
-[Provide a brief overview of the feature architecture here.]
+[Provide a brief overview of the target architecture]
 
 ## Next Action
-[Specify the next required action here.]
+Wait for user review and approval of the design plan.

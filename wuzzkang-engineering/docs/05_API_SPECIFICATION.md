@@ -971,6 +971,123 @@ Represents discount validations:
   * `401 Unauthorized`: Missing session token or invalid `X-Admin-Secret` header value.
   * `403 Forbidden`: Authenticated user role is not authorized with `complete_payment` privilege.
 
+#### `GET /api/admin/stats`
+* **Purpose:** Returns platform-wide overview statistics (total users, transaction counts, pending counts, revenue, credits issued).
+* **Authentication Required:** Yes (Bearer JWT). Must possess `admin_dashboard` permission in `public.role_access`.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "totalUsers": 9,
+      "totalTransactions": 269,
+      "pendingTransactions": 88,
+      "totalRevenueIdr": 440000,
+      "totalCreditsIssued": 6513
+    }
+  }
+  ```
+
+#### `GET /api/admin/transactions`
+* **Purpose:** Paginated, filtered list of all ledger transactions across all users.
+* **Authentication Required:** Yes (Bearer JWT). Must possess `admin_dashboard` permission.
+* **Query Parameters:**
+  * `search` (string): Wildcard search matching order_id or description or transaction UUID.
+  * `status` (string): Filter by transaction status.
+  * `type` (string): Filter by transaction type.
+  * `limit` (number, default: 20, max: 50): Page size.
+  * `offset` (number, default: 0): Pagination offset.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "id": "uuid",
+        "user_id": "uuid",
+        "amount": 500,
+        "type": "topup",
+        "status": "PAID",
+        "order_id": "INV-1719888888",
+        "va_number": "88301081234567890",
+        "description": "Top-up via QRIS",
+        "metadata": { "cash_amount": 50000 },
+        "created_at": "2026-07-06T14:00:00.000Z",
+        "profiles": { "email": "admin@wuzzkang.com", "full_name": "Admin" }
+      }
+    ],
+    "totalCount": 269
+  }
+  ```
+
+#### `GET /api/admin/users`
+* **Purpose:** Paginated list of all user profiles in the database.
+* **Authentication Required:** Yes (Bearer JWT). Must possess `admin_dashboard` permission.
+* **Query Parameters:**
+  * `search` (string): Search by user email or full name.
+  * `limit` (number, default: 20): Page size.
+  * `offset` (number, default: 0): Pagination offset.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": [
+      {
+        "id": "uuid",
+        "email": "user@wuzzkang.com",
+        "full_name": "Wuzzkang User",
+        "avatar_url": null,
+        "balance": 100,
+        "role": "user",
+        "is_active": true,
+        "updated_at": "2026-07-16T10:00:00.000Z"
+      }
+    ],
+    "totalCount": 9
+  }
+  ```
+
+#### `PATCH /api/admin/users/:id/status`
+* **Purpose:** Suspend or reactivate a user account.
+* **Authentication Required:** Yes (Bearer JWT). Must possess `admin_dashboard` permission.
+* **Path Parameters:**
+  * `id`: UUID of the target user profile.
+* **Request Body Schema:**
+  ```json
+  {
+    "is_active": false
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Status pengguna berhasil diperbarui menjadi Nonaktif.",
+    "data": {
+      "id": "uuid",
+      "is_active": false,
+      "updated_at": "2026-07-16T12:00:00.000Z"
+    }
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: When trying to change the status of your own account (Self-Action Guard).
+
+#### `DELETE /api/admin/users/:id`
+* **Purpose:** Permanently deletes a user account from Supabase Auth and database tables.
+* **Authentication Required:** Yes (Bearer JWT). Must possess `admin_dashboard` permission.
+* **Path Parameters:**
+  * `id`: UUID of the target user profile.
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "message": "Akun pengguna berhasil dihapus secara permanen dari sistem."
+  }
+  ```
+* **Exception Triggers:**
+  * `400 Bad Request`: When trying to delete your own account (Self-Action Guard).
+
 #### `POST /api/payments/create`
 * **Purpose:** Create a new pending top-up transaction record and generate a virtual account payment number or manual QRIS payment instructions.
 * **Authentication Required:** Yes (Bearer JWT).
