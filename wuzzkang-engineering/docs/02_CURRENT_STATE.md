@@ -116,6 +116,8 @@ Future designs belong to later documents.
 - Live preview
 - Direct-to-Storage Upload with Folder Categorization (organizes uploads into nested category subfolders under `uploads/userId/category/`)
 - Storage Sync Media Deletion (secure, ownership-validated physical file deletion on Supabase Storage via `DELETE /api/media`)
+- **Focus-Triggered Re-render Prevention**: Prevented redundant re-renders and page resets by optimizing the global `AuthContext` to restrict state updates only when the token actually changes, and changing page-level `useEffect` dependencies from `session` object to primitive `session?.access_token`.
+- **Self-Healing Storage Asset Deletion**: Solved the issue where browser crashes/kills left orphaned images in Supabase Storage by tracking newly uploaded unsaved URLs in `localStorage` (`wuzzkang_unsaved_uploads`) and automatically clearing/deleting them via `DELETE /api/media` on next session initialization.
 - **Custom Domain / Subdomain System (Phase 1)** (Zod name validation, 10 credits wallet billing with automatic refund rollback logic, claim & release API endpoints, wildcard DNS ready)
 - **User-Controlled AI Generation & Manual Editing**: Disabled automatic full-page AI generation on submit across all template types. All copywriting is either manual or per-field on-demand. Allows custom project name updates via `/edit-deployed` endpoint.
 - **Template Versioning System (Phase 1)**: Added `template_version` meta configuration schema validation to prevent breaking live published sites. Added dashboard-level registry, dynamic preview/LP version routing, and an interactive upgrade banner for backward compatibility.
