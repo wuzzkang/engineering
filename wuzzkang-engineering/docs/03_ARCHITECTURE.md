@@ -515,6 +515,12 @@ The following rules govern which layers may depend on which.
 | POST   | /api/deploy                   | Yes           | deploy.route                    |
 | POST   | /api/payments/create          | Yes           | payment.route / payment.controller |
 | POST   | /api/payments/webhook/*       | No (signature)| payment.route / webhook.controller |
+| GET    | /api/admin/stats              | Yes           | admin.route                     |
+| GET    | /api/admin/transactions       | Yes           | admin.route                     |
+| GET    | /api/admin/users              | Yes           | admin.route                     |
+| PATCH  | /api/admin/users/:id/status   | Yes           | admin.route                     |
+| DELETE | /api/admin/users/:id          | Yes           | admin.route                     |
+| POST   | /api/admin/payments/:id/complete | Yes         | payment.route                   |
 
 #### 2.1.5 External Dependencies
 
@@ -609,6 +615,21 @@ The preview is rendered in the browser using these copied templates, not in an i
 | Supabase           | Authentication only                  | Supabase JS SDK      |
 
 The Dashboard has no direct database access for project data, billing, or AI generation.
+
+#### 2.2.6 Admin Dashboard Decoupling & Migration Path
+
+The Admin Dashboard is currently integrated inside `wuzzkang-dashboard` under the `/admin` route. All admin-specific API calls are isolated in `src/lib/adminApi.js` to make the module completely plug-and-play.
+
+If a separate repository (e.g., `wuzzkang-admin`) is required in the future, the migration path is as follows:
+
+1. **Backend API**: No changes required. The API endpoints (`/api/admin/*` and manual verification complete endpoint) are fully decoupled and use token-based JWT authentication context.
+2. **Frontend Extraction**:
+   - Initialize a new Next.js App Router project: `npx -y create-next-app@latest wuzzkang-admin`
+   - Copy `src/lib/adminApi.js` (update `NEXT_PUBLIC_API_URL` to point to the shared API server).
+   - Copy `src/hooks/useRequireAdmin.js`.
+   - Copy the authentication infrastructure: `src/context/AuthContext.js` and `src/lib/supabase.js` for session context.
+   - Copy the page template `src/app/admin/page.js` to `app/page.js` or `app/admin/page.js` in the new project.
+   - Copy standard CSS variable mappings from `globals.css` to maintain cohesive theming styles.
 
 ---
 

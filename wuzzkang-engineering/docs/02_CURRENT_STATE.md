@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.4 |
+| Version | 2.5 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-16 (Required field indicators and interactive validation in landing page generator) |
+| Last Updated | 2026-07-16 (Admin Dashboard integration with scalability layer and database migrations) |
 
 ---
 
@@ -122,6 +122,9 @@ Future designs belong to later documents.
 - **CV Template Formatting & Footer Removal Toggle**: Experience descriptions support automated list rendering (converting `*` and `-` into bullet-points). Configured `hide_footer` project metadata setting with dashboard toggle button to omit branding footer elements in template layout.
 - **Server-Side Project List Pagination & Infinite Scrolling**: Replaced client-side list rendering with dynamic loading (pages of 5, adjustable via `NEXT_PUBLIC_PROJECTS_PER_PAGE`), added debounced search and tab categorization on backend API query range selection, and added "Tampilkan Lebih Banyak" scroll controls.
 - **Interactive Form Validation & Required Indicators**: Added visual required indicators (`*` symbols) to all mandatory placeholders and labels across all template types. Modified submit buttons to remain enabled (unless loading) and implemented custom JavaScript error aggregation coupled with native HTML5 tooltips and automatic scroll-to-error behaviors to clarify form validation issues.
+- **Admin Dashboard Integration**: Built a secure, role-protected Admin Dashboard under `/admin` in the dashboard frontend. Integrated overview statistics, paginated transactions viewer with profiles database join, and manual verification/completion tool for pending top-up invoices. Calls are isolated in `lib/adminApi.js` to support future migration to a separate repository.
+
+
 
 
 ## Asynchronous Processing (BullMQ & Redis)
@@ -210,6 +213,7 @@ Future designs belong to later documents.
 - `/generate` — AI landing page generator form (all template types; wedding uses async AI Platform flow)
 - `/login` — Authentication
 - `/topup` — Wallet top-up via Winpay VA
+- `/admin` — Admin Dashboard with system stats, transaction viewer, manual payment verification, and User Management (user list, toggle active/inactive status, and permanent account deletion) (restricted to admin/super_admin users)
 
 ---
 

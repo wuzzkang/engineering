@@ -1,3 +1,5 @@
 # AI Context
 
-This file is used to specify target files, endpoints, databases, or environment keys for the current active task.
+## Workspace Targets
+* **Active Project:** wuzzkang
+* **Target Repositories:** wuzzkang-api, wuzzkang-dashboard, wuzzkang-lp
