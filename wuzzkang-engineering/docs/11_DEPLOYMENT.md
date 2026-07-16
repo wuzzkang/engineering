@@ -103,7 +103,7 @@ Jika Anda menggunakan server VPS berbasis Linux (Ubuntu/Debian), gunakan metode 
 
 1. **Persiapan Perangkat Lunak di VPS:**
    * Pasang **Docker & Docker Compose** (untuk menjalankan container Redis).
-   * Pasang **Node.js (versi 22)** & **Nginx** (sebagai Reverse Proxy & SSL).
+   * Pasang **Node.js (versi 22.17.1 atau lebih tinggi, direkomendasikan dikelola via NVM dengan `nvm use 22`)** & **Nginx** (sebagai Reverse Proxy & SSL).
    * Pasang PM2 secara global: `npm install -g pm2`
 
 2. **Kloning Proyek & Pasang Dependensi:**

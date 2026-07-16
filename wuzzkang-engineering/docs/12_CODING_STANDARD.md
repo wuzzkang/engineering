@@ -163,4 +163,17 @@ Platform Wuzzkang menggunakan **Sistem Credit** di mana nominal pembayaran dan p
     *   *Curriculum Vitae (Rp15.000 / rate Rp100)*: `cost` = `150` (Credit)
 *   **Dilarang Keras** memasukkan nominal langsung Rupiah (seperti `15000` untuk Rp15.000) ke dalam kolom `cost` karena sistem akan menerjemahkannya sebagai 15.000 credit (setara Rp1.500.000).
 
+---
+
+## 9. Kebutuhan Runtime Node.js
+
+*   **Wajib Menggunakan Node.js v22.17.1 atau lebih tinggi**: Semua repositori dalam ekosistem Wuzzkang wajib berjalan di Node.js versi **v22.17.1 atau lebih tinggi**. Hal ini untuk menjamin ketersediaan fitur modern seperti ES Modules (ESM) penuh, watch mode runtime (`node --watch`), serta kompatibilitas API kriptografi terbaru (seperti `subtle` crypto ekspor yang dibutuhkan oleh client octokit/JWT).
+*   **Pengelolaan Versi (NVM)**: Pengembang dapat menggunakan **Node Version Manager (NVM)** untuk beralih versi Node secara cepat pada terminal lokal dengan perintah:
+    ```bash
+    nvm install 22
+    nvm use 22
+    ```
+
+
+
 

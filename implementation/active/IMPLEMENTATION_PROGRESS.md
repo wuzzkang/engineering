@@ -1,4 +1,4 @@
-# Implementation Progress: [Feature Name]
+# Implementation Progress
 
-- [ ] Milestone 1: [Milestone Name]
-  - [ ] [Task Name]
+- [ ] Milestone 1
+  - [ ] Task 1

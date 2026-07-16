@@ -1,6 +1,6 @@
-# Handover: [Feature Name]
+# Handover
 
 This document tracks execution handovers and verification details.
 
 ## Current Progress Status
-Pending Milestone 1.
+Pending start.
