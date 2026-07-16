@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.3 |
+| Version | 2.4 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-15 (CV improvements and project list infinite loading/pagination) |
+| Last Updated | 2026-07-16 (Required field indicators and interactive validation in landing page generator) |
 
 ---
 
@@ -121,6 +121,7 @@ Future designs belong to later documents.
 - **Template Versioning System (Phase 1)**: Added `template_version` meta configuration schema validation to prevent breaking live published sites. Added dashboard-level registry, dynamic preview/LP version routing, and an interactive upgrade banner for backward compatibility.
 - **CV Template Formatting & Footer Removal Toggle**: Experience descriptions support automated list rendering (converting `*` and `-` into bullet-points). Configured `hide_footer` project metadata setting with dashboard toggle button to omit branding footer elements in template layout.
 - **Server-Side Project List Pagination & Infinite Scrolling**: Replaced client-side list rendering with dynamic loading (pages of 5, adjustable via `NEXT_PUBLIC_PROJECTS_PER_PAGE`), added debounced search and tab categorization on backend API query range selection, and added "Tampilkan Lebih Banyak" scroll controls.
+- **Interactive Form Validation & Required Indicators**: Added visual required indicators (`*` symbols) to all mandatory placeholders and labels across all template types. Modified submit buttons to remain enabled (unless loading) and implemented custom JavaScript error aggregation coupled with native HTML5 tooltips and automatic scroll-to-error behaviors to clarify form validation issues.
 
 
 ## Asynchronous Processing (BullMQ & Redis)
