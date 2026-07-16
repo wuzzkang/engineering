@@ -146,6 +146,7 @@ Future designs belong to later documents.
 
 - Supabase Auth
 - JWT
+- Auth loading state management & layout flashing prevention (Fixed auth race condition & layout blink on initial page load)
 
 ## Database
 
