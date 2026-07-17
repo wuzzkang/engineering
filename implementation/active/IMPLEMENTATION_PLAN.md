@@ -1,4 +1,4 @@
-# Implementation Plan: [Feature Name]
+# Implementation Plan
 
 ## Goal
 [Provide a description of the goal]

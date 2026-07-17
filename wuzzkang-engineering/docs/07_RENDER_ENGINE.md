@@ -594,14 +594,22 @@ Untuk menghemat sumber daya backend dan mencegah kerentanan kehabisan memori (*O
     *   Hanya menerima tipe file gambar terdaftar (`image/jpeg`, `image/jpg`, `image/png`, `image/webp`, `image/gif`).
     *   Ukuran file maksimal dibatasi secara dinamis melalui env variable `NEXT_PUBLIC_MAX_UPLOAD_SIZE_MB` (default: 5MB).
     *   **Auto-Resize**: Jika gambar melebihi batas ukuran maksimal, sistem secara otomatis melakukan kompresi dan *resize* menggunakan modul klien (`compressImage`) sebelum diunggah ke storage.
-*   **Proses Upload**: Klien melakukan request HTTP `PUT` dengan *payload binary* langsung ke *Signed URL* yang diberikan oleh API, sehingga file terunggah langsung ke bucket `wuzzkang-bucket/uploads` di Supabase Storage tanpa membebani server backend Express.
+*   **Proses Upload**: Klien melakukan request HTTP `PUT` with *payload binary* langsung ke *Signed URL* yang diberikan oleh API, sehingga file terunggah langsung ke bucket `wuzzkang-bucket/uploads` di Supabase Storage tanpa membebani server backend Express.
 *   **Legacy Endpoint**: Endpoint lama `POST /api/media/upload` telah didepresiasi (*deprecated*).
 
 ### 2. Endpoint `/api/media/process` (Pemrosesan Gambar AI & Fallback)
 Endpoint satu pintu untuk memproses media dengan alur penanganan kegagalan (*graceful fallback*):
 *   **Mode `generate_avatar`**: Menghasilkan gambar avatar berbasis prompt AI menggunakan model terkonfigurasi.
-*   **Model & Provider Dinamis**: Model diatur oleh `IMAGE_AI_PROVIDER` (`openai`/`sumopod`) dan `IMAGE_AI_MODEL` di `.env` backend.
+*   **Model & Provider Dinamis**: Model diatur oleh `IMAGE_AI_PROVIDER` (`openai`/`sumopod`) and `IMAGE_AI_MODEL` di `.env` backend.
 *   **Logika Fallback**: Jika salah satu API key provider yang dipilih bermasalah/habis kuotanya, backend otomatis mendeteksi ketersediaan API key provider cadangan (OpenAI <=> Sumopod) dan melakukan pemrosesan ulang secara diam-mana sebelum akhirnya menggunakan avatar default gender-aware jika seluruhnya gagal.
+
+### 3. Pembersihan Aset Otomatis & Pemulihan Mandiri (Asset Cleanup & Self-Healing)
+Untuk mencegah penumpukan file sampah (yatim/piatu) di Supabase Storage akibat pengguna mengunggah gambar lalu membatalkan perubahan atau menutup browser secara paksa (*crashed/aborted session*), sistem menggunakan kombinasi pembersihan:
+*   **Pembersihan saat Unmount (Navigasi Normal)**: Halaman Generate melacak URL unggahan baru dalam state `uploadedImagesRef`. Jika pengguna navigasi keluar (ke halaman dashboard lain) tanpa menyimpan, fungsi *cleanup* dari `useEffect` akan memicu request `DELETE /api/media` untuk semua URL tersebut secara latar belakang menggunakan `{ keepalive: true }`.
+*   **Pelacakan Mandiri via LocalStorage (Self-Healing)**: 
+    *   Setiap kali file berhasil diunggah di halaman Generate, URL publiknya akan ditambahkan ke array `wuzzkang_unsaved_uploads` di `localStorage`.
+    *   Jika pengguna berhasil menyimpan draft atau melakukan publikasi, data `wuzzkang_unsaved_uploads` di `localStorage` akan langsung dihapus.
+    *   **Pemulihan Sesi Mandiri**: Jika browser ditutup paksa atau aplikasi browser di-*kill* sehingga fungsi *unmount cleanup* tidak sempat berjalan, URL file tersebut akan tetap tertinggal di `localStorage`. Sesaat setelah pengguna membuka kembali browser dan masuk ke Dashboard, `AuthContext.js` akan mendeteksi isi key `wuzzkang_unsaved_uploads` di `localStorage`, otomatis memicu request penghapusan `DELETE /api/media` untuk membersihkan Supabase Storage, lalu menghapus key tersebut dari `localStorage`.
 
 ---
 

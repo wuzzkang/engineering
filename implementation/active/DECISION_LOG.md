@@ -1,3 +1,3 @@
-# Decision Log: [Feature Name]
+# Decision Log
 
 This document logs key architectural or design decisions.

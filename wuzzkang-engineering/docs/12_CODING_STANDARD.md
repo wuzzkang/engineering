@@ -165,6 +165,18 @@ Platform Wuzzkang menggunakan **Sistem Credit** di mana nominal pembayaran dan p
 
 ---
 
+## 9. Kebutuhan Runtime Node.js
+
+*   **Wajib Menggunakan Node.js v22.17.1 atau lebih tinggi**: Semua repositori dalam ekosistem Wuzzkang wajib berjalan di Node.js versi **v22.17.1 atau lebih tinggi**. Hal ini untuk menjamin ketersediaan fitur modern seperti ES Modules (ESM) penuh, watch mode runtime (`node --watch`), serta kompatibilitas API kriptografi terbaru (seperti `subtle` crypto ekspor yang dibutuhkan oleh client octokit/JWT).
+*   **Pengelolaan Versi (NVM)**: Pengembang dapat menggunakan **Node Version Manager (NVM)** untuk beralih versi Node secara cepat pada terminal lokal dengan perintah:
+    ```bash
+    nvm install 22
+    nvm use 22
+    ```
+
+
+
+
 ## 9. Praktik Keamanan Wajib (Security Practices)
 
 Seluruh engineer dan AI Coding Assistant wajib mengikuti aturan keamanan berikut ketika mengerjakan kode di platform Wuzzkang.
