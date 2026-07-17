@@ -421,7 +421,7 @@ Layer descriptions:
 
 **Services** — Contain all business rules, orchestration, and external calls. Services compose each other directly. All business decisions reside here.
 
-**Middleware** — Auth middleware verifies incoming JWTs using Supabase Auth before allowing access to protected endpoints. Error middleware provides centralized error formatting.
+**Middleware** — Auth middleware verifies incoming JWTs using Supabase Auth (anon key) before allowing access to protected endpoints. Rate limiter middleware enforces request limits per IP/User via Redis. Error middleware provides centralized error formatting.
 
 **Config** — A single validated configuration object built at startup. If required environment variables are missing, the process exits immediately.
 
@@ -498,13 +498,13 @@ The following rules govern which layers may depend on which.
 
 | Method | Path                          | Auth Required | Handler                         |
 |--------|-------------------------------|---------------|---------------------------------|
-| POST   | /api/generate                 | Yes           | generator.route                 |
-| POST   | /api/generate/field           | Yes           | generator.route                 |
-| POST   | /api/generate-image           | Yes           | image.route                     |
+| POST   | /api/generate                 | Yes           | generator.route (+ AI rate limit) |
+| POST   | /api/generate/field           | Yes           | generator.route (+ AI rate limit) |
+| POST   | /api/generate-image           | Yes           | image.route (+ AI rate limit)   |
 | POST   | /api/media/process            | Yes           | image.route                     |
 | POST   | /api/media/upload-url         | Yes           | image.route                     |
-| POST   | /api/media/upload (deprecated)| Yes           | image.route                     |
 | GET    | /api/profile                  | Yes           | profile.route                   |
+| PATCH  | /api/profile/tracking         | Yes           | profile.route                   |
 | GET    | /api/products                 | Yes           | product.route                   |
 | POST   | /api/coupons/validate         | Yes           | coupon.route                    |
 | GET    | /api/projects                 | Yes           | project.route                   |
@@ -512,25 +512,26 @@ The following rules govern which layers may depend on which.
 | POST   | /api/projects/:id/deploy      | Yes           | project.route                   |
 | POST   | /api/projects/:id/retry-pages | Yes           | project.route                   |
 | POST   | /api/projects/:id/edit-deployed | Yes         | project.route                   |
-| POST   | /api/deploy                   | Yes           | deploy.route                    |
+| POST   | /api/deploy                   | Yes + owner check | deploy.route              |
+| GET    | /api/jobs/:id/status          | Yes + owner check | deploy.route              |
 | POST   | /api/payments/create          | Yes           | payment.route / payment.controller |
-| POST   | /api/payments/webhook/*       | No (signature)| payment.route / webhook.controller |
-| GET    | /api/admin/stats              | Yes           | admin.route                     |
-| GET    | /api/admin/transactions       | Yes           | admin.route                     |
-| GET    | /api/admin/users              | Yes           | admin.route                     |
-| PATCH  | /api/admin/users/:id/status   | Yes           | admin.route                     |
-| DELETE | /api/admin/users/:id          | Yes           | admin.route                     |
-| POST   | /api/admin/payments/:id/complete | Yes         | payment.route                   |
+| POST   | /api/payments/webhook/*       | No (RSA signature) | payment.route / webhook.controller |
+| GET    | /api/admin/stats              | Yes + admin role | admin.route                  |
+| GET    | /api/admin/transactions       | Yes + admin role | admin.route                  |
+| GET    | /api/admin/users              | Yes + admin role | admin.route                  |
+| PATCH  | /api/admin/users/:id/status   | Yes + admin role | admin.route                  |
+| DELETE | /api/admin/users/:id          | Yes + admin role | admin.route                  |
+| POST   | /api/admin/payments/:id/complete | Yes + admin role | payment.route             |
 
 #### 2.1.5 External Dependencies
 
 | Dependency       | Purpose                              | Configurable Via     |
 |------------------|--------------------------------------|----------------------|
-| Supabase         | Database, Auth, Storage              | `SUPABASE_URL`, `SUPABASE_SERVICE_KEY` |
+| Supabase         | Database, Auth, Storage              | `SUPABASE_URL`, `SUPABASE_ANON_KEY` (auth middleware), `SUPABASE_SERVICE_KEY` (service layer) |
 | AI Provider      | LLM text generation                  | `AI_PROVIDER`, provider-specific API keys |
 | Image Provider   | AI image generation                  | `OPENAI_API_KEY`     |
 | Payment Gateway  | Payment transactions and webhooks    | Provider-specific keys and URLs |
-| Redis            | AI quota usage tracking              | `REDIS_URL`          |
+| Redis            | AI quota tracking + Rate Limiting    | `REDIS_URL`          |
 | GitHub           | Repository management                | `GITHUB_TOKEN`, `GITHUB_ORG_NAME`, `GITHUB_TEMPLATE_REPO` |
 
 ---

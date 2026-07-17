@@ -25,12 +25,17 @@ Konfigurasi file `.env` di server produksi:
 ```bash
 # Server Port
 PORT=3026
+NODE_ENV=production
 
-# Supabase Credentials (Service Role Key bypasses RLS)
+# Supabase Credentials
 SUPABASE_URL=https://your-project.supabase.co
-SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsIn...
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsIn...  # anon key (digunakan untuk verifikasi JWT user)
+SUPABASE_SERVICE_KEY=eyJhbGciOiJIUzI1NiIsIn... # service role key (bypass RLS — hanya untuk operasi server)
 
-# Redis Connection (Kuota AI)
+# Admin Security — WAJIB diisi, tidak boleh menggunakan nilai default
+ADMIN_SECRET_KEY=<random-uuid-atau-string-minimal-32-karakter>
+
+# Redis Connection
 REDIS_URL=redis://default:password@host:port
 
 # AI Text Configuration
@@ -49,8 +54,8 @@ REMOVE_BG_API_KEY=your-remove-bg-key
 REPLICATE_API_TOKEN=r8_...
 
 # Payment Gateway (Winpay)
-WINPAY_API_KEY=winpay-key
-WINPAY_MERCHANT_ID=merchant-123
+WINPAY_PARTNER_ID=your-partner-id
+WINPAY_BASE_URL=https://api.winpay.id/snap
 ```
 
 ### 2.2 Dashboard UI (`wuzzkang-dashboard`)
@@ -160,3 +165,36 @@ Setelah semua komponen aktif, lakukan pengecekan berikut:
 1.  Buka dashboard Next.js, buat akun baru, dan pastikan baris profil baru otomatis terbuat di tabel `profiles` Supabase (wallet balance awal Rp 0).
 2.  Lakukan simulasi pembuatan landing page di editor dashboard, panggil fitur "Generate AI", dan pastikan kuota gratis berkurang secara real-time.
 3.  Simpan proyek sebagai draft, kemudian publikasikan halaman. Pastikan live URL terbentuk (e.g. `https://siluet.web.id/?slug=nama-slug-anda`) dan halaman tersebut menampilkan template pilihan secara akurat di browser.
+
+---
+
+## 5. Catatan Keamanan Wajib (Security Notes)
+
+> ⚠️ **Jangan pernah commit file `.env` ke repository Git.** Pastikan `.env` selalu ada di `.gitignore`.
+
+### 5.1 Penggunaan Supabase Key
+
+| Key | Digunakan Oleh | Fungsi |
+|-----|---------------|--------|
+| `SUPABASE_ANON_KEY` | `auth.middleware.js` | Verifikasi JWT token user biasa |
+| `SUPABASE_SERVICE_KEY` | `supabase.service.js`, `admin.service.js`, dll. | Operasi database server-side (bypass RLS) |
+
+> ⚠️ **`SUPABASE_SERVICE_KEY` bersifat super-admin** — jika bocor, orang lain dapat membaca/mengubah seluruh data. Segera rotate jika ada indikasi kebocoran.
+
+### 5.2 `ADMIN_SECRET_KEY`
+
+- Nilai ini wajib diisi dan tidak boleh menggunakan nilai default.
+- Gunakan UUID acak atau string panjang minimal 32 karakter.
+- Digunakan sebagai fallback verifikasi manual pembayaran di endpoint `/api/admin/payments/:id/complete`.
+
+### 5.3 Rate Limiting
+
+API sudah dilengkapi rate limiter berbasis Redis:
+- **Global**: 500 request per 15 menit per IP/User untuk semua endpoint `/api`.
+- **AI Routes**: 10 request per menit untuk `/api/generate`, `/api/generate-image`, dan `/api/ai-platform`.
+
+Limit ini dapat disesuaikan di [`server.js`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/server.js) bagian Rate Limiters.
+
+### 5.4 CORS
+
+API menggunakan strict CORS allowlist. Tambahkan domain baru ke array `allowedOrigins` di [`server.js`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-api/server.js) jika ada domain frontend baru yang perlu diizinkan akses API.

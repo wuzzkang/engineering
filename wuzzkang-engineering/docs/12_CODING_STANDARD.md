@@ -163,4 +163,84 @@ Platform Wuzzkang menggunakan **Sistem Credit** di mana nominal pembayaran dan p
     *   *Curriculum Vitae (Rp15.000 / rate Rp100)*: `cost` = `150` (Credit)
 *   **Dilarang Keras** memasukkan nominal langsung Rupiah (seperti `15000` untuk Rp15.000) ke dalam kolom `cost` karena sistem akan menerjemahkannya sebagai 15.000 credit (setara Rp1.500.000).
 
+---
 
+## 9. Praktik Keamanan Wajib (Security Practices)
+
+Seluruh engineer dan AI Coding Assistant wajib mengikuti aturan keamanan berikut ketika mengerjakan kode di platform Wuzzkang.
+
+### 9.1 Sumber `userId` — Wajib dari Token, Bukan Request Body
+
+`userId` yang digunakan untuk operasi bisnis (transaksi, simpan data, hapus file) **wajib** diambil dari token JWT yang sudah diverifikasi, bukan dari payload body request:
+
+```javascript
+// ✅ BENAR: userId dari token terverifikasi
+const userId = req.user.id;
+
+// ❌ SALAH: userId dari body request (mudah dimanipulasi/dipalsu)
+const { userId } = req.body;
+```
+
+### 9.2 Ownership Check Sebelum Operasi Data
+
+Setiap route yang mengakses, mengubah, atau menghapus data milik user tertentu **wajib memverifikasi kepemilikan** sebelum menjalankan operasi:
+
+```javascript
+// Contoh: Verifikasi kepemilikan project sebelum deploy
+const project = await supabaseService.getProject(projectId);
+if (!project) return res.status(404).json({ success: false, error: 'Proyek tidak ditemukan.' });
+if (project.user_id !== userId) return res.status(403).json({ success: false, error: 'Akses ditolak.' });
+```
+
+### 9.3 `debugInfo` Dilarang di HTTP Response
+
+Informasi internal sistem (stack trace, object detail error, struktur data internal) **dilarang** dikembalikan ke client sebagai response HTTP. Gunakan hanya untuk logging server-side:
+
+```javascript
+// ✅ BENAR: Log detail di server, kembalikan pesan umum ke client
+console.error('[WebhookController] Signature failed. Details:', JSON.stringify(errorDetails));
+return res.status(401).json({ success: false, error: 'Unauthorized' });
+
+// ❌ SALAH: Mengembalikan detail internal ke response
+return res.status(401).json({ success: false, error: 'Unauthorized', debugInfo: errorDetails });
+```
+
+### 9.4 Verbose Logging Hanya di Non-Production
+
+Log debugging yang berpotensi mengekspos data sensitif (payload request, token, body pembayaran, dsb.) **wajib dibungkus** dengan pengecekan environment:
+
+```javascript
+// ✅ BENAR: Hanya print di development
+if (config.NODE_ENV !== 'production') {
+    console.log('[WebhookController] Raw Body:', rawBody);
+}
+
+// ❌ SALAH: Print selalu tanpa kondisi
+console.log('[WebhookController] Raw Body:', rawBody);
+```
+
+### 9.5 Validasi Input Numerik
+
+Setiap input numerik yang berdampak pada logika bisnis (kredit, jumlah, harga) **wajib divalidasi secara eksplisit**:
+- Harus berupa bilangan bulat (`parseInt`)
+- Harus positif (> 0)
+- Harus punya batas atas yang wajar
+
+```javascript
+const parsedAmount = parseInt(amount, 10);
+if (isNaN(parsedAmount) || parsedAmount <= 0 || parsedAmount > 100000) {
+    return res.status(400).json({ error: 'Jumlah tidak valid.' });
+}
+```
+
+### 9.6 Path Validasi Sebelum Operasi File Storage
+
+Setiap path file yang dikirim dari client untuk operasi delete/read dari storage **wajib divalidasi** menggunakan regex ketat dan normalisasi path untuk mencegah directory traversal:
+
+```javascript
+const normalizedPath = path.normalize(pathInput).replace(/^(\.\.(\/|\\|$))+/, '');
+const ownedPathPattern = new RegExp(`^uploads/${userId}_[a-zA-Z0-9_-]+\\.[a-zA-Z0-9]+$`);
+if (!ownedPathPattern.test(normalizedPath)) {
+    return res.status(403).json({ success: false, error: 'Akses ditolak.' });
+}
+```
