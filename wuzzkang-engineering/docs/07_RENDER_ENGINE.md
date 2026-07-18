@@ -36,6 +36,7 @@ User isi form structured (dashboard)
 | `toko-online` | Landing Page Toko Online | `modern-clean`, `midnight-dark` | Structured form + AI assist field |
 | `campaign` | Campaign Landing Page | `neon-conversion`, `clean-trust` | Structured form (high conversion) |
 | `e-course` | E-Course Landing Page | `purple-academy` | Structured form + countdowns |
+| `jasa` | Jasa Landing Page | `professional-navy` | Structured form + portfolio & services + AI field assist |
 | `store` | *(Legacy)* | *(n/a)* | AI prompt (deprecated, jangan pakai) |
 
 > **Catatan**: `store` adalah tipe lama yang menggunakan AI full-prompt. Ke depannya semua tipe baru menggunakan **structured form** seperti `toko-online` dan `campaign`.
@@ -64,8 +65,10 @@ wuzzkang-lp/
     ├── campaign/
     │   ├── neon-conversion.js  ← design_key: neon-conversion
     │   └── clean-trust.js      ← design_key: clean-trust
-    └── e-course/
-        └── purple-academy.js   ← design_key: purple-academy
+    ├── e-course/
+    │   └── purple-academy.js   ← design_key: purple-academy
+    └── jasa/
+        └── professional-navy.js ← design_key: professional-navy
 ```
 
 Dan folder yang sama di-sync ke dashboard:
@@ -74,7 +77,12 @@ wuzzkang-dashboard/
 └── public/preview/templates/   ← hasil `npm run sync:templates` (jangan edit manual)
     ├── wedding/
     ├── birthday/
-    └── toko-online/
+    ├── toko-online/
+    ├── campaign/
+    ├── cv/
+    ├── e-course/
+    ├── jasa/
+    └── components/
 ```
 
 ---

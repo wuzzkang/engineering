@@ -65,7 +65,7 @@ Future designs belong to later documents.
 
 ## Project Generation & Editing (All Templates)
 
-1. **Dashboard Input**: Dashboard fills out form inputs for the selected template type (`wedding`, `birthday`, `campaign`, `toko-online`, `cv`).
+1. **Dashboard Input**: Dashboard fills out form inputs for the selected template type (`wedding`, `birthday`, `campaign`, `toko-online`, `cv`, `e-course`, `jasa`).
 2. **On-Demand AI Copywriting**: Option to use AI selectively by clicking the small "✨ AI Generate" button next to specific fields (processes asynchronous tasks via BullMQ and saves token bandwidth).
 3. **Direct Draft Save**: Clicking "Generate Preview" compiles all current form state variables into a structured `pageData` object directly, bypassing automatic full-page AI generation.
 4. **Draft/Deploy Persistence**: Persists the compiled JSON configuration to the database (`PUT /projects/:id/draft` or `POST /projects/:id/edit-deployed`).
@@ -135,7 +135,7 @@ Future designs belong to later documents.
 - Asynchronous AI Text Copywriting (Field copywriting queue)
 - **Redis Caching for AI Copywriting**: Caching layer on `generateFieldContent` to cache output texts based on a deterministic hash of user's context, reducing duplicate request latency to 1ms and saving token charges.
 - Asynchronous Payment Webhook Processing (Winpay webhook instant response offloading)
-- **AI Platform — Asynchronous Project Generation** (registry-based architecture, BullMQ worker, Gemini AI, image compilation via Supabase Storage. Templates supported: wedding, campaign, birthday)
+- **AI Platform — Asynchronous Project Generation** (registry-based architecture, BullMQ worker, Gemini AI, image compilation via Supabase Storage. Templates supported: wedding, campaign, birthday, e-course, jasa)
 
 ## Billing
 
@@ -173,6 +173,8 @@ Future designs belong to later documents.
 - Campaign: `neon-conversion`, `clean-trust`
 - **CV (Curriculum Vitae)**: `professional-dark` — ATS-friendly web CV with Export PDF support via `window.print()`. Uses direct draft save to database (no automatic global AI generation) with optional field-level AI copywriting assistance.
 - **E-Course**: `purple-academy` — Dark theme online course landing page with purple gradients, curriculum modules, mentor info, bonus/offerings, testimonials, and countdown timer.
+- **Jasa (Jasa Landing Page)**: `professional-navy` — Dark/blue professional service landing page referencing pegxy template design with sections for portfolio stats, how it works, about, services, why us, deliverables, pricing plans, guarantee, testimonials, FAQ, and contact form.
+
 
 ---
 

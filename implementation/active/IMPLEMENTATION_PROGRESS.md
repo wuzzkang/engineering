@@ -1,4 +1,4 @@
 # Implementation Progress
 
-- [ ] Milestone 1
-  - [ ] Task 1
+- [ ] Task 1
+- [ ] Task 2
