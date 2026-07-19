@@ -10,6 +10,7 @@ To ensure quality and consistency, you MUST follow the rules in this workspace:
 ## 2. Critical Rules for New Products & UI Development
 - **New Products/Templates:** You **MUST** read and follow the implementation instructions in `wuzzkang-engineering/docs/prompt_tambah_produk.md`.
 - **UI Component Reuse:** Do **NOT** recreate image pickers/upload controls from scratch. Re-use `<ImagePickerField>` and link uploads to `handleUploadImage` (signed URL flow) as detailed in `wuzzkang-engineering/docs/14_COMPONENT_LIBRARY.md`.
+- **FAQ AI Generation (Strict Merging):** When adding or modifying FAQ AI generation logic in the dashboard frontend, you **MUST** implement the safe merging algorithm (similar to campaign, e-course, and jasa) to ensure user-filled questions and answers are never overwritten or deleted by the AI response.
 - **Credit Cost:** Database `cost` fields must be set in Credit units, not raw IDR Rupiah nominals.
 
 ## 3. Definition of Done (Document Updates)

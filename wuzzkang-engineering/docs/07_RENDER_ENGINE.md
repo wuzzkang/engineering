@@ -756,6 +756,27 @@ Komponen ini menyatukan rendering UI Buku Tamu (Form RSVP, pilihan stiker, dafta
     }
     ```
 
+### 3. `Faq.js`
+Komponen ini menyatukan rendering dan interaktivitas FAQ (Frequently Asked Questions) accordion secara terpusat. Mendukung beberapa tema visual seperti `'clean-trust'`, `'neon-conversion'`, dan `'professional-navy'`.
+
+*   **Lokasi File**: `templates/components/Faq.js`
+*   **Cara Penggunaan**:
+    ```javascript
+    // Di dalam HTML template render, siapkan container:
+    // <div id="faq-root"></div>
+
+    // Di dalam fungsi JavaScript template render:
+    const faqRoot = document.getElementById('faq-root');
+    if (faqRoot) {
+        const { initFaq } = await import('../components/Faq.js');
+        await initFaq(faqRoot, content.faqs, {
+            theme: 'clean-trust', // 'clean-trust' | 'neon-conversion' | 'professional-navy'
+            title: 'Pertanyaan yang Sering Diajukan',
+            subtitle: 'Temukan jawaban cepat untuk pertanyaan-pertanyaan umum Anda.'
+        });
+    }
+    ```
+
 ---
 
 ## 🏷️ Sistem Versi Template (Template Versioning)
