@@ -1,3 +1,3 @@
 # Decision Log
 
-This document logs key architectural or design decisions.
+*(No decisions logged yet)*

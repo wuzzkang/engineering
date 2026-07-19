@@ -10,6 +10,11 @@ Before performing any task, you MUST read and follow these documents in order:
 4. wuzzkang-engineering/docs/10_AI_GUIDE.md
 5. wuzzkang-engineering/docs/02_CURRENT_STATE.md
 
+## CRITICAL RULES FOR NEW PRODUCTS & UI DEVELOPMENT:
+- **Add Product Guide:** When adding any new template, product, or migrating old ones, you **MUST** read and follow the guides in `wuzzkang-engineering/docs/prompt_tambah_produk.md`.
+- **UI Component Reuse (Strict):** Never write custom image pickers or custom file uploads from scratch in the dashboard. You **MUST** reuse `<ImagePickerField>` and link it to the central `handleUploadImage` signed URL pipeline as detailed in `wuzzkang-engineering/docs/14_COMPONENT_LIBRARY.md`.
+- **Database Cost Fields:** The `cost` field in the database represents **Credits**, not IDR Rupiah. Do not insert raw Rupiah values into the cost column.
+
 Follow all engineering standards, implementation workflow, and documentation requirements defined in those documents.
 
 Implementation active/archive workspace is located under:

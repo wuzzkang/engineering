@@ -7,7 +7,12 @@ To ensure quality and consistency, you MUST follow the rules in this workspace:
 - Before making any code changes, read the entry point: `wuzzkang-engineering/AI_BOOTSTRAP.md`.
 - Read and adhere to the engineering constitution defined in `wuzzkang-engineering/docs/00_FOUNDATION.md`.
 
-## 2. Definition of Done (Document Updates)
+## 2. Critical Rules for New Products & UI Development
+- **New Products/Templates:** You **MUST** read and follow the implementation instructions in `wuzzkang-engineering/docs/prompt_tambah_produk.md`.
+- **UI Component Reuse:** Do **NOT** recreate image pickers/upload controls from scratch. Re-use `<ImagePickerField>` and link uploads to `handleUploadImage` (signed URL flow) as detailed in `wuzzkang-engineering/docs/14_COMPONENT_LIBRARY.md`.
+- **Credit Cost:** Database `cost` fields must be set in Credit units, not raw IDR Rupiah nominals.
+
+## 3. Definition of Done (Document Updates)
 Every time you complete a task or modify the codebase, you MUST identify and update the corresponding documentation files in `wuzzkang-engineering/docs/` before ending your turn:
 - **Routes / API Changes**: Update `wuzzkang-engineering/docs/05_API_SPECIFICATION.md` (schemas, parameters, response status).
 - **Database / Schema / Trigger Changes**: Update `wuzzkang-engineering/docs/09_DATABASE_ARCHITECTURE.md`.
@@ -15,11 +20,11 @@ Every time you complete a task or modify the codebase, you MUST identify and upd
 - **General Project Status / Tech Debt Tracker**: Update `wuzzkang-engineering/docs/02_CURRENT_STATE.md`.
 - **Monorepo Folder Structures**: Update `wuzzkang-engineering/docs/08_REPOSITORY_MAP.md`.
 
-## 3. Implementation Protocol & Workspace Lifecycle
+## 4. Implementation Protocol & Workspace Lifecycle
 You MUST follow the active/archive workflow in the `./implementation/` directory as defined in `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md`:
 - **Active Workspace**: Use `implementation/active/` to populate `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, and `HANDOVER.md` for the current task. Do not make code modifications without updating these active tracking documents first.
 - **Archive on Completion**: When a task is complete, move the entire contents of `implementation/active/` to a timestamped folder under `implementation/archive/` and reinitialize the active folder template files.
 
-## 4. Communication
+## 5. Communication
 - Respond to the user in **Bahasa Indonesia** for chat communication.
 - Keep engineering documentation files in **English** unless requested otherwise.
