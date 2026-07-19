@@ -314,7 +314,7 @@ Komponen accordion interaktif reusable untuk merender FAQ (Frequently Asked Ques
 ### Parameter `options`
 | Option | Tipe | Wajib | Keterangan |
 |---|---|---|---|
-| `theme` | `string` | ❌ | Tema styling. Mendukung `'clean-trust'` (default) dan `'neon-conversion'` |
+| `theme` | `string` | ❌ | Tema styling. Mendukung `'clean-trust'` (default), `'neon-conversion'`, dan `'professional-navy'` |
 | `title` | `string` | ❌ | Judul section FAQ. Default: `'Pertanyaan yang Sering Diajukan (FAQ)'` |
 | `subtitle` | `string` | ❌ | Subjudul section FAQ. Default: `'Temukan jawaban cepat untuk pertanyaan-pertanyaan umum Anda.'` |
 
@@ -340,5 +340,50 @@ if (faqRoot && Array.isArray(content.faqs) && content.faqs.length > 0) {
         subtitle: 'Berikut jawaban untuk pertanyaan paling populer'
     });
 }
+```
+
+---
+
+## Komponen Template: `Pricing`
+
+### Deskripsi
+Komponen kartu daftar paket harga (Pricing Plans grid) yang reusable, dinamis, dan responsif. Mendukung opsionalitas nominal harga (menghilangkan baris harga jika tidak diisi) serta kustomisasi label tombol aksi (CTA).
+
+### Lokasi File
+*   [`wuzzkang-lp/templates/components/Pricing.js`](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-lp/templates/components/Pricing.js) (di-sync ke Dashboard)
+
+### Parameter `options`
+| Option | Tipe | Wajib | Keterangan |
+|---|---|---|---|
+| `theme` | `string` | ❌ | Tema visual. Mendukung `'professional-navy'` (navy/orange) dan `'clean-trust'` (default, Tailwind grid) |
+| `ctaHref` | `string` | ❌ | URL tujuan tombol CTA (e.g. link WhatsApp) |
+
+### Struktur Data `plans`
+Menerima array objek rencana paket:
+```json
+[
+  {
+    "name": "Paket Silver",
+    "badge": "Terpopuler",
+    "original_price": "Rp 1.500.000",
+    "sale_price": "Rp 990.000",
+    "cta_text": "Daftar Sekarang",
+    "features": ["1x Konsultasi", "Revisi 1x"],
+    "highlighted": true
+  }
+]
+```
+
+### Contoh Penggunaan
+```javascript
+const pricingRoot = document.getElementById('jasa-pricing-root');
+if (pricingRoot && Array.isArray(pricing.plans) && pricing.plans.length > 0) {
+    const { initPricing } = await import('../components/Pricing.js');
+    await initPricing(pricingRoot, pricing.plans, {
+        theme: 'professional-navy',
+        ctaHref: ctaHref
+    });
+}
+```
 ```
 

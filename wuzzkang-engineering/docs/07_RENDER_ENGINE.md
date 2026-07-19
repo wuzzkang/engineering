@@ -777,6 +777,26 @@ Komponen ini menyatukan rendering dan interaktivitas FAQ (Frequently Asked Quest
     }
     ```
 
+### 4. `Pricing.js`
+Komponen ini menyatukan rendering tabel paket harga (Pricing Plans grid) secara dinamis dan responsif. Mendukung tema `'professional-navy'` (navy/orange) dan tema default `'clean-trust'` (Tailwind grid), opsionalitas nominal harga, serta kustomisasi teks tombol aksi (CTA).
+
+*   **Lokasi File**: `templates/components/Pricing.js`
+*   **Cara Penggunaan**:
+    ```javascript
+    // Di dalam HTML template render, siapkan container:
+    // <div id="pricing-root"></div>
+
+    // Di dalam fungsi JavaScript template render:
+    const pricingRoot = document.getElementById('pricing-root');
+    if (pricingRoot) {
+        const { initPricing } = await import('../components/Pricing.js');
+        await initPricing(pricingRoot, pricing.plans, {
+            theme: 'professional-navy', // 'professional-navy' | 'clean-trust'
+            ctaHref: ctaHref
+        });
+    }
+    ```
+
 ---
 
 ## 🏷️ Sistem Versi Template (Template Versioning)
