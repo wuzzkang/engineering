@@ -37,9 +37,10 @@ User isi form structured (dashboard)
 | `campaign` | Campaign Landing Page | `neon-conversion`, `clean-trust` | Structured form (high conversion) |
 | `e-course` | E-Course Landing Page | `purple-academy` | Structured form + countdowns |
 | `jasa` | Jasa Landing Page | `professional-navy` | Structured form + portfolio & services + AI field assist |
+| `dynamic-builder` | V2 Modular Section Builder | *(Section array)* | 12-col split grid, section manager, per-section AI assist & style picker |
 | `store` | *(Legacy)* | *(n/a)* | AI prompt (deprecated, jangan pakai) |
 
-> **Catatan**: `store` adalah tipe lama yang menggunakan AI full-prompt. Ke depannya semua tipe baru menggunakan **structured form** seperti `toko-online` dan `campaign`.
+> **Catatan**: `store` adalah tipe lama yang menggunakan AI full-prompt. Tipe V2 (`dynamic-builder`) menggunakan arsitektur komponen ES Module modular berbasis array section dinamis.
 
 ---
 
@@ -826,3 +827,45 @@ const resolvedFile = templateVersion <= 1 ? `${designKey}.js` : `${designKey}-v$
 Setiap proyek lama yang tersimpan memiliki field `template_version: 1` secara default (diatur oleh API Zod schema).
 Jika versi tema terbaru di dashboard lebih tinggi daripada versi proyek, dashboard akan otomatis menampilkan banner **"Tersedia pembaruan desain untuk tema ini!"** dengan tombol **"Upgrade Sekarang"**.
 Setelah user menekan tombol tersebut, versi proyek akan diperbarui ke yang terbaru dan halaman live akan beralih merender file versi baru tersebut.
+
+---
+
+## ⚡ V2 Modular Section Builder (`dynamic-builder`) & `getSectionStyle`
+
+Sistem V2 memperkenalkan arsitektur halaman berbasis **Section Modular Dinamis** (`template_type: dynamic-builder`).
+
+### 1. Struktur Komponen ES Module
+Setiap section disimpan sebagai modul ES terpisah di `templates/components/sections/{section_type}/{section_file}.js`:
+- `header/header-navbar-navy.js`
+- `hero/hero-split-navy.js`
+- `about/about-simple-navy.js`
+- `services/services-grid-navy.js`
+- `social_proof/social_proof-navy.js`
+- `pricing/pricing-grid-navy.js` (Mendukung `cta_only` mode & `plans`/`packages` array)
+- `faq/faq-accordion-navy.js`
+- `contact/contact-navy.js` & `contact-footer-navy.js`
+- `custom/custom-cards-navy.js`
+- `footer/footer-navy.js`
+
+### 2. Centralized Styling Engine (`getSectionStyle`)
+Semua komponen section V2 mengekspor fungsi `render(data, pageConfig, brandConfig)` dan menyerahkan resolusi styling ke utility terpusat:
+
+```javascript
+import { getSectionStyle } from '../../../utils/sectionStyle.js';
+
+// Di dalam render function:
+const { theme, sectionBgClass, patternHtml } = getSectionStyle(
+    data.bg_style || 'navy',
+    data.bg_shade || 'solid',
+    data.bg_brightness || 'default'
+);
+```
+
+#### Parameter & Opsi:
+* `bg_style`: Aksen warna brand (`navy` / Midnight Slate, `obsidian` / Obsidian Black, `indigo` / Deep Indigo, `emerald` / Deep Emerald).
+* `bg_shade`: Gaya tekstur (`solid`, `soft`, `gradient`, `pattern`).
+* `bg_brightness`: Kontras latar (`default` / bawaan tema, `light` / terang-putih solid, `dark` / gelap-hitam solid).
+
+#### Invarian Desain:
+* Saat `bg_brightness = 'light'`, latar dipaksa 100% solid putih/terang (`bg-white` / `bg-emerald-50`), teks otomatis menjadi gelap pekat (`text-slate-900`/`text-emerald-950`), dan warna aksen brand (tombol, badge, hiasan) **tetap dipertahankan** sesuai `bg_style`.
+* Body background preview iframe (`public/preview/index.html`) dan runtime live (`wuzzkang-lp/script.js`) secara otomatis dipaksa ke `#020617` / `bg-slate-950` untuk `dynamic-builder` guna menjamin presisi warna 100%.
