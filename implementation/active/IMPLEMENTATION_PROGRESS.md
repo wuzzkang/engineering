@@ -31,6 +31,13 @@ This document tracks the incremental progress of tasks defined in the approved `
 - [x] **Task 4.6:** Implement Mobile/Desktop view toggles in the right column.
 - [x] **Task 4.7:** Integrate `dynamic-builder` listener inside `public/preview/index.html`.
 
+### 🎨 Milestone 5: Centralized Styling Engine & Visual Theme Controls
+- [x] **Task 5.1:** Create centralized `getSectionStyle` utility helper in `wuzzkang-lp` and `wuzzkang-dashboard/public/preview`.
+- [x] **Task 5.2:** Refactor all 9 section types (`header`, `hero`, `about`, `services`, `social_proof`, `pricing`, `faq`, `contact`, `custom`) to use `getSectionStyle`.
+- [x] **Task 5.3:** Build `renderSectionStylePicker` UI component in `page.js` supporting Theme Palettes, Shading, and Background Contrast (`bg_brightness`).
+- [x] **Task 5.4:** Synchronize body background styling (`#020617` / `bg-slate-950`) between editor preview iframe and published LP renderer to ensure 100% visual fidelity.
+- [x] **Task 5.5:** Implement solid/opaque background rendering for Light variants to prevent muddy color blending with dark body background.
+
 ---
 
 ## 🛠️ Validation Logs
