@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.5 |
+| Version | 2.6 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-16 (Admin Dashboard integration with scalability layer and database migrations) |
+| Last Updated | 2026-07-21 (V2 Modular Section Builder migration & Centralized Styling Engine) |
 
 ---
 
@@ -174,6 +174,7 @@ Future designs belong to later documents.
 - **CV (Curriculum Vitae)**: `professional-dark` — ATS-friendly web CV with Export PDF support via `window.print()`. Uses direct draft save to database (no automatic global AI generation) with optional field-level AI copywriting assistance.
 - **E-Course**: `purple-academy` — Dark theme online course landing page with purple gradients, curriculum modules, mentor info, bonus/offerings, testimonials, and countdown timer.
 - **Jasa (Jasa Landing Page)**: `professional-navy` — Dark/blue professional service landing page referencing pegxy template design with sections for portfolio stats, how it works, about, services, why us, deliverables, pricing plans, guarantee, testimonials, FAQ, and contact form.
+- **V2 Modular Section Builder**: `dynamic-builder` — Flexible section-based builder supporting 9 modular ES Module section types (`header`, `hero`, `about`, `services`, `social_proof`, `pricing`, `faq`, `contact`, `custom`). Features 12-column responsive split-screen UI grid, section manager (add, remove, reorder), per-section AI assist, centralized styling engine (`getSectionStyle`), and live sandbox preview sync.
 
 
 ---
