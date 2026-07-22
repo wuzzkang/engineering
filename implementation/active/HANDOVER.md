@@ -1,3 +1,3 @@
-# Handover Verification Proofs
+# Handover
 
-*(No handover proofs pending)*
+*(No active handover notes)*
