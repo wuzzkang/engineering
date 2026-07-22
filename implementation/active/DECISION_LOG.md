@@ -52,13 +52,18 @@
 
 ### DEC-009: Form Editor Input Blocks Integration for Domain Components
 * **Date:** 2026-07-22
-* **Context:** The editor panel was only showing `TAMPILAN SECTION` without input fields when editing cards for `wedding_couple`, `wedding_events`, `digital_gift`, `product_grid`, `store_guarantee`, `course_curriculum`, and `course_mentor`.
-* **Decision:** Added rich form editor JSX blocks in `page.js` for all 7 native components:
-  - `wedding_couple`: Groom & Bride names, nicknames, parent details, Instagram handles, and bismillah quote textarea.
-  - `wedding_events`: Akad & Resepsi dates, times, venue names, addresses, and Google Maps URL fields.
-  - `digital_gift`: RSVP WA and Bank Account repeater (Bank name, account number, account holder).
-  - `product_grid`: WA order number and product repeater (Name, sale price, original price, description).
-  - `store_guarantee`: Store guarantee headline.
-  - `course_curriculum`: Course syllabus headline.
-  - `course_mentor`: Mentor name, role title, and bio textarea.
-* **Impact:** 100% editable input fields in the left editor panel with real-time live preview update.
+* **Decision:** Added rich form editor JSX blocks in `page.js` for all 7 native components.
+
+---
+
+### DEC-010: V2 Section Editor Component Modularization & Refactoring
+* **Date:** 2026-07-22
+* **Context:** `page.js` contained >11,000 lines of code due to inline V2 section editor forms.
+* **Decision:** Extracted all 16 inline V2 section form blocks into dedicated React sub-components inside `src/components/v2-editor/`:
+  - `V2SectionWeddingCoupleForm.jsx`
+  - `V2SectionWeddingEventsForm.jsx`
+  - `V2SectionDigitalGiftForm.jsx`
+  - `V2SectionProductGridForm.jsx`
+  - `V2SectionStandardForms.jsx`
+  - `V2SectionFormDispatcher.jsx`
+* **Impact:** Reduced `page.js` length by 1,416 lines (down to 9,781 lines) while achieving 100% clean build compilation in 5.1s.
