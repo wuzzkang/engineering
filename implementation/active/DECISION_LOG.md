@@ -58,12 +58,16 @@
 
 ### DEC-010: V2 Section Editor Component Modularization & Refactoring
 * **Date:** 2026-07-22
-* **Context:** `page.js` contained >11,000 lines of code due to inline V2 section editor forms.
-* **Decision:** Extracted all 16 inline V2 section form blocks into dedicated React sub-components inside `src/components/v2-editor/`:
-  - `V2SectionWeddingCoupleForm.jsx`
-  - `V2SectionWeddingEventsForm.jsx`
-  - `V2SectionDigitalGiftForm.jsx`
-  - `V2SectionProductGridForm.jsx`
-  - `V2SectionStandardForms.jsx`
-  - `V2SectionFormDispatcher.jsx`
-* **Impact:** Reduced `page.js` length by 1,416 lines (down to 9,781 lines) while achieving 100% clean build compilation in 5.1s.
+* **Decision:** Extracted all 16 inline V2 section form blocks into dedicated React sub-components inside `src/components/v2-editor/`.
+
+---
+
+### DEC-011: Phase A Wedding Kit Upgrade (Visual Aesthetics & Specialized Interactive Features)
+* **Date:** 2026-07-22
+* **Context:** The Undangan Pernikahan (Wedding) domain required visual aesthetics polish and specialized interactive features to feel like a high-end digital invitation.
+* **Decision:** Created and integrated 4 new specialized wedding section components:
+  1. `wedding_countdown`: Live 4-box ticking countdown timer (Hari, Jam, Menit, Detik).
+  2. `wedding_story`: Love Story Timeline card (Awal Pertemuan, Lamaran, Pernikahan).
+  3. `wedding_gallery`: Prewedding photo album grid.
+  4. `wedding_wishes`: Guest Wishbook & RSVP form feed (Nama Tamu, Status Kehadiran, Pesan Ucapan).
+* **Impact:** 100% clean production build (5.8s compilation). Enriched the Undangan Pernikahan starter kit preset with a complete 10-section flow.

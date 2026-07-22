@@ -1,22 +1,22 @@
-# Implementation Progress - Phase 2 Native Section Expansion (Wedding, Toko Online, E-Course)
+# Implementation Progress - Phase A: Visual Aesthetics & Fitur Khas Undangan Pernikahan (Wedding Kit Upgrade)
 
 ## Milestones
 
-### Milestone 1: Domain Undangan Pernikahan (Wedding Native Components)
-- [x] `[1.1]` Create `wedding_couple-navy.js` in `wuzzkang-lp` and sync to `wuzzkang-dashboard` preview.
-- [x] `[1.2]` Create `wedding_events-navy.js` in `wuzzkang-lp` and sync to `wuzzkang-dashboard` preview.
-- [x] `[1.3]` Create `digital_gift-navy.js` with 1-Click Copy and QRIS preview in `wuzzkang-lp` and `wuzzkang-dashboard`.
+### Milestone 1: Visual Aesthetics Polish for Existing Wedding Sections
+- [x] `[1.1]` Upgrade `wedding_couple-navy.js` (Romantic typography, glowing avatar rings, Instagram chips) in `wuzzkang-lp` & sync to preview.
+- [x] `[1.2]` Upgrade `wedding_events-navy.js` (Glassmorphism event cards, venue address, Google Maps CTA) in `wuzzkang-lp` & sync to preview.
 
-### Milestone 2: Domain Toko Online Katalog (E-Commerce Native Components)
-- [x] `[2.1]` Create `product_grid-navy.js` with category pills & WA checkout in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
-- [x] `[2.2]` Create `store_guarantee-navy.js` trust badges in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
+### Milestone 2: New Specialized Interactive Wedding Components
+- [x] `[2.1]` Create `wedding_countdown-navy.js` (Live 4-box countdown timer) in `wuzzkang-lp` & sync to preview.
+- [x] `[2.2]` Create `wedding_story-navy.js` (Love Story Timeline card) in `wuzzkang-lp` & sync to preview.
+- [x] `[2.3]` Create `wedding_gallery-navy.js` (Prewedding photo album grid) in `wuzzkang-lp` & sync to preview.
+- [x] `[2.4]` Create `wedding_wishes-navy.js` (Buku Tamu & Form Ucapan Doa Restu) in `wuzzkang-lp` & sync to preview.
 
-### Milestone 3: Domain E-Course Kelas Online (Education Native Components)
-- [x] `[3.1]` Create `course_curriculum-navy.js` accordion modules in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
-- [x] `[3.2]` Create `course_mentor-navy.js` instructor card in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
+### Milestone 3: Catalog, Preset & Editor Integration
+- [x] `[3.1]` Register cards in `V2VisualSectionPickerModal.jsx`.
+- [x] `[3.2]` Enrich `wedding` preset in `v2Presets.js`.
+- [x] `[3.3]` Create editor form blocks in `src/components/v2-editor/V2SectionWeddingForms.jsx` and dispatch in `V2SectionFormDispatcher.jsx`.
 
-### Milestone 4: Editor Integration, AI Assist & Verification
-- [x] `[4.1]` Update `V2VisualSectionPickerModal.jsx` catalog cards for new section types.
-- [x] `[4.2]` Update `v2Presets.js` presets (`wedding`, `toko-online`, `e-course`) to consume native components.
-- [x] `[4.3]` Add form editor blocks in `page.js` with `renderSectionStylePicker` and `renderAIV2Button`.
-- [/] `[4.4]` Run `npm run build` in `wuzzkang-dashboard` to verify clean compilation (In Progress).
+### Milestone 4: Build Verification & Documentation
+- [/] `[4.1]` Run `npm run build` in Node 20 environment (In Progress).
+- [ ] `[4.2]` Update `DECISION_LOG.md` and `HANDOVER.md`.
