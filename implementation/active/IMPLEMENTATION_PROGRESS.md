@@ -1,18 +1,22 @@
-# Implementation Progress - V2 Generator & Editor UI/UX Upgrade
+# Implementation Progress - Phase 2 Native Section Expansion (Wedding, Toko Online, E-Course)
 
 ## Milestones
 
-### Milestone 1: Starter Kit Presets & Component Foundations
-- [x] `[1.1]` Create `wuzzkang-dashboard/src/app/generate/v2Presets.js` containing deterministic starter kit arrays (`jasa`, `campaign`, `toko-online`, `wedding`, `birthday`, `e-course`, `cv`, `custom`).
-- [x] `[1.2]` Create `wuzzkang-dashboard/src/components/V2VisualSectionPickerModal.jsx` for visual catalog selection of section types.
+### Milestone 1: Domain Undangan Pernikahan (Wedding Native Components)
+- [x] `[1.1]` Create `wedding_couple-navy.js` in `wuzzkang-lp` and sync to `wuzzkang-dashboard` preview.
+- [x] `[1.2]` Create `wedding_events-navy.js` in `wuzzkang-lp` and sync to `wuzzkang-dashboard` preview.
+- [x] `[1.3]` Create `digital_gift-navy.js` with 1-Click Copy and QRIS preview in `wuzzkang-lp` and `wuzzkang-dashboard`.
 
-### Milestone 2: Generator Page Integration & Onboarding Wizard
-- [x] `[2.1]` Add Onboarding Goal Wizard Modal to `/generate` in `wuzzkang-dashboard/src/app/generate/page.js`.
-- [x] `[2.2]` Integrate `v2Presets.js` starter kit initializers when goal preset is selected.
-- [x] `[2.3]` Replace section `<select>` dropdown with `V2VisualSectionPickerModal` trigger button.
-- [x] `[2.4]` Add Global Theme Palette Switcher to update all V2 section styles cohesively.
-- [x] `[2.5]` Add Interactive Focus Sync between section editor cards and preview iframe.
+### Milestone 2: Domain Toko Online Katalog (E-Commerce Native Components)
+- [x] `[2.1]` Create `product_grid-navy.js` with category pills & WA checkout in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
+- [x] `[2.2]` Create `store_guarantee-navy.js` trust badges in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
 
-### Milestone 3: Verification & Documentation Sync
-- [x] `[3.1]` Run build test in `wuzzkang-dashboard` (`npm run build`). Verified clean compilation in 5.1s.
-- [x] `[3.2]` Update `docs/02_CURRENT_STATE.md` and `HANDOVER.md`.
+### Milestone 3: Domain E-Course Kelas Online (Education Native Components)
+- [x] `[3.1]` Create `course_curriculum-navy.js` accordion modules in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
+- [x] `[3.2]` Create `course_mentor-navy.js` instructor card in `wuzzkang-lp` and sync to `wuzzkang-dashboard`.
+
+### Milestone 4: Editor Integration, AI Assist & Verification
+- [x] `[4.1]` Update `V2VisualSectionPickerModal.jsx` catalog cards for new section types.
+- [x] `[4.2]` Update `v2Presets.js` presets (`wedding`, `toko-online`, `e-course`) to consume native components.
+- [x] `[4.3]` Add form editor blocks in `page.js` with `renderSectionStylePicker` and `renderAIV2Button`.
+- [/] `[4.4]` Run `npm run build` in `wuzzkang-dashboard` to verify clean compilation (In Progress).

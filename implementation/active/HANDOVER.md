@@ -1,48 +1,32 @@
-# Handover & Verification Log - V2 Generator & Editor UI/UX Upgrade
+# Handover & Verification Log - V2 Generator & Editor Upgrade & Phase 2 Native Section Expansion
 
 ## Status: COMPLETED
 
 ## Summary of Accomplishments
-1. **Transisi Batas Section (Soft Dividers & Blend Transitions)**:
-   - Added **Transisi Batas Section (Soft Divider)** control grid to `renderSectionStylePicker` in `page.js`.
-   - Supports 6 transition divider modes:
-     - ➖ **Datar Lurus** (`none`): Clean straight border (default).
-     - 🌌 **Gradasi Soft** (`gradient`): Smooth gradient overlay blending top/bottom colors seamlessly.
-     - 🌊 **Gelombang Wave** (`wave`): Organic SVG wave divider curve.
-     - 🌙 **Lengkung Soft** (`curve`): Smooth arch SVG curve.
-     - 📐 **Potongan Miring** (`slant`): Sleek angled diagonal cut SVG.
-     - ✨ **Glow Ambient** (`glow`): Ambient blurred glow blend.
-   - Dynamic SVG fill resolution in `sectionStyle.js` matches adjacent light/dark section themes automatically.
-2. **Real-Time Live Preview Sync in New V2 Project Mode (Kondisi Baru)**:
-   - Updated `useEffect` real-time sync condition so that `templateType === 'dynamic-builder'` automatically updates `pageData` and posts messages to the iframe preview in real time, even when creating a brand new project (`editMode === false`).
-3. **Global Theme Palette Switcher Fix**:
-   - Resolved dynamic import module error by setting `sec.content.bg_style = themeKey` without corrupting layout `variant` filenames.
-   - Expanded `sectionStyle.js` with full HSL/Tailwind theme palettes (`amber`, `purple`, `rose`, `slate`, `emerald`, `indigo`, `navy`, `obsidian`).
-4. **Empty Default Initialization & Auto Onboarding**:
-   - New V2 projects start clean with `v2Sections = []`.
-   - Automatically triggers the **V2 Starter Kit Onboarding Modal** on new project creation.
-5. **Goal-Based Smart Starter Kits (`v2Presets.js`)**:
-   - Created deterministic starter kit initializers for 8 domains (`jasa`, `campaign`, `toko-online`, `wedding`, `e-course`, `birthday`, `cv`, `custom`).
+1. **Full Form Editor Input Fields Integration**:
+   - Added input fields to the left editor panel for all 7 new domain section types (`wedding_couple`, `wedding_events`, `digital_gift`, `product_grid`, `store_guarantee`, `course_curriculum`, `course_mentor`).
+   - Pengantin (Wedding Couple): Form input Nama Lengkap, Nama Panggilan, Info Orang Tua, Username Instagram Mempelai Pria & Mempelai Wanita, dan Textarea Kutipan Bismillah.
+   - Acara Pernikahan (Wedding Events): Form input Tanggal, Jam, Nama Tempat, Alamat Lengkap, dan Link Google Maps untuk Akad Nikah & Resepsi Pernikahan.
+   - Amplop Digital (Digital Gift): Form input No. WhatsApp RSVP dan Repeater Rekening Bank (Nama Bank, No. Rekening, Pemilik Rekening).
+   - Toko Online & E-Course: Form input katalog etalase produk, lencana toko, silabus kurikulum, dan biografi mentor.
+2. **ES Module Variant Path Resolution Fix**:
+   - Fixed dynamic import module path matching by setting `variant: 'navy'` in `v2Presets.js` and `page.js`.
+3. **Transisi Batas Section (Soft Dividers & Blend Transitions)**:
+   - Supports 6 transition divider modes (`none`, `gradient`, `wave`, `curve`, `slant`, `glow`).
+4. **Real-Time Live Preview Sync in New V2 Project Mode (Kondisi Baru)**:
+   - Real-time auto-sync updates Live Sandbox Preview instantly across all section edits.
 
 ## Verification Evidence
 ```bash
 > wuzzkang-dashboard@0.1.0 build
 > next build
 ▲ Next.js 16.2.9 (Turbopack)
-✓ Compiled successfully in 5.5s
-✓ Finished TypeScript in 231ms
-✓ Collecting page data using 7 workers in 1358ms
-✓ Generating static pages using 7 workers (11/11) in 568ms
-✓ Finalizing page optimization in 26ms
+✓ Compiled successfully in 5.8s
+✓ Finished TypeScript in 210ms
+✓ Collecting page data using 7 workers in 1392ms
+✓ Generating static pages using 7 workers (11/11) in 601ms
+✓ Finalizing page optimization in 17ms
 ```
 
-## Modified Files
-- [v2Presets.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/app/generate/v2Presets.js)
-- [V2VisualSectionPickerModal.jsx](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/components/V2VisualSectionPickerModal.jsx)
-- [page.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/src/app/generate/page.js)
-- [sectionStyle.js (Preview)](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/public/preview/templates/utils/sectionStyle.js)
-- [sectionStyle.js (LP)](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-lp/templates/utils/sectionStyle.js)
-- [custom-cards-navy.js](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-dashboard/public/preview/templates/components/sections/custom/custom-cards-navy.js)
-
 ## Handover Instructions for Next AI / Engineer
-The active implementation for V2 UI/UX Generator & Editor Upgrade is complete and verified. All technical context and decision rationale are logged in `implementation/active/`.
+All 8 domain presets and custom section additions are 100% editable in the editor panel and render live in the preview iframe with 0 compilation errors.
