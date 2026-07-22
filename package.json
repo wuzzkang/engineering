@@ -1,0 +1,9 @@
+{
+    "name": "wuzzkang",
+    "scripts": {
+        "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && concurrently \"npm run dev --prefix wuzzkang-api\" \"npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp\"'"
+    },
+    "devDependencies": {
+        "concurrently": "^8.0.0"
+    }
+}
