@@ -1,0 +1,59 @@
+---
+name: wuzzkang-implementation-protocol
+description: Standard Operating Procedure (SOP) untuk siklus implementasi aktif (implementation/active/), pelacak milestone, log keputusan teknis, self-review mandatory, dan pengarsipan otomatis (implementation/archive/) pada ekosistem Wuzzkang.
+---
+
+# SOP Implementation Protocol & Workspace Lifecycle — Wuzzkang Ecosystem
+
+Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer dalam mengelola siklus pengerjaan fitur, refactoring, perbaikan bug, serta sinkronisasi dokumentasi pada monorepo Wuzzkang.
+
+---
+
+## 🎯 1. Struktur Workspace Implementasi
+
+Seluruh aktivitas teknis wajib dikelola di bawah folder:
+`[workspace-root]/implementation/`
+
+### 1.1 `implementation/active/` (Hanya 1 Pengerjaan Aktif)
+Tempat melacak implementasi yang sedang berlangsung. File yang wajib dipelihara:
+* `AI_CONTEXT.md`: Batasan codebase, repositori target, dan dependensi lingkungan.
+* `IMPLEMENTATION_SUMMARY.md`: Ringkasan snapshot status, milestone aktif, progres, dan keputusan utama.
+* `IMPLEMENTATION_PLAN.md`: Target tujuan, daftar file yang diubah/dibuat, dan strategi verifikasi.
+* `IMPLEMENTATION_PROGRESS.md`: Checklist detail task atomik dengan tag status (`[ ]`, `[/]`, `[x]`).
+* `DECISION_LOG.md`: Catatan kronologis *why* dan pertimbangan keputusan teknis (format `DEC-[ID]`).
+* `HANDOVER.md`: Bukti verifikasi, log eksekusi, screenshot, dan instruksi penyerahan tugas.
+
+### 1.2 `implementation/archive/` (Catatan Histori Permanen)
+Folder arsip berbasis tanggal dan nama fitur. Contoh: `implementation/archive/2026-07-04-ai-platform/`.
+* Tidak boleh diubah atau dihapus setelah dipindahkan.
+* Menjadi *source of truth* histori teknis proyek.
+
+---
+
+## 🛠️ 2. Milestone Lifecycle Protocol
+
+Setiap *Milestone* wajib melewati tahapan berikut tanpa ada yang dilewati:
+
+```text
+Prepare -> Implement -> Self Review -> Automatic Remediation -> Sync Docs -> Close Milestone -> Next Milestone Plan -> WAIT FOR USER APPROVAL
+```
+
+1. **Prepare & Implement**: Operasikan task satu per satu dari `IMPLEMENTATION_PROGRESS.md`.
+2. **Mandatory Self Review**: Lakukan audit internal mencakup arsitektur, *Clean Architecture*, SOLID, keamanan, performa, dan konsistensi dokumentasi. Klasifikasikan temuan (*Critical*, *Major*, *Minor*).
+3. **Automatic Remediation**: Perbaiki temuan *Critical* dan *Major* secara otomatis sebelum menutup milestone.
+4. **Documentation Synchronization**: Wajib memperbarui dokumen terkait di `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, `05_API_SPECIFICATION.md`, `09_DATABASE_ARCHITECTURE.md`, `07_RENDER_ENGINE.md`, `08_REPOSITORY_MAP.md`).
+5. **Next Milestone Planning & Stop**: Siapkan rencana milestone berikutnya, lalu **STOP** dan minta persetujuan (*approval*) pengguna sebelum mengeksekusi.
+
+---
+
+## 📋 3. Definition of Done (DoD) & Archive Procedure
+
+Implementasi dianggap selesai 100% (*Done*) jika:
+- [ ] Seluruh item di `IMPLEMENTATION_PROGRESS.md` berstatus `[x] Completed`.
+- [ ] Kode berhasil di-build tanpa eror/warning sintaks.
+- [ ] Seluruh skema Zod memvalidasi payload batas.
+- [ ] `HANDOVER.md` berisi bukti eksekusi dan verifikasi nyata.
+- [ ] Dokumentasi di `wuzzkang-engineering/docs/` sinkron dengan kode.
+- [ ] Tidak ada sisa `console.log` debug atau `TODO` menggantung.
+- [ ] Pindahkan isi `implementation/active/` ke `implementation/archive/YYYY-MM-DD-feature-name/`.
+- [ ] Inisialisasi ulang file template di `implementation/active/` untuk pengerjaan berikutnya.
