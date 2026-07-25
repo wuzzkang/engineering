@@ -26,7 +26,7 @@ Before executing code, inspect the corresponding skill under `wuzzkang-engineeri
 4. **Database Protection:** NEVER drop tables, truncate databases, or alter sensitive schemas without explicit user approval.
 5. **User Confirmation:** Any technical action or suggestion outside explicit user commands MUST be confirmed first.
 6. **Credential Protection:** Inspect all code to guarantee NO API keys, Private keys, or secrets are exposed or committed to Git.
-7. **Mandatory Local Git Commit (Strictly NO Push):** Every time a task or milestone is completed, AI MUST execute a local `git commit` with a clean Conventional Commit message. AI is STRICTLY FORBIDDEN from executing `git push`.
+7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
 
 ## 4. Critical UI & Database Rules
 - **UI Component Reuse:** Re-use `<ImagePickerField>` linked to `handleUploadImage` (signed URL flow).

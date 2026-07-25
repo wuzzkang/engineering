@@ -41,7 +41,7 @@ Before writing code or proposing changes, check the user prompt intent and inspe
 4. **Database & Sensitive Data Protection:** NEVER drop tables, truncate databases, delete structural data, or alter sensitive schemas without explicit user confirmation and approval.
 5. **Confirmation for Unsolicited Actions:** Any suggestion or technical action outside the user's explicit command MUST be confirmed with the user for approval first.
 6. **Credential & Secret Protection:** Strictly verify every code change to ensure NO API keys, Private keys, passwords, or sensitive credentials are ever exposed in public code, frontend logs, or committed to Git repository.
-7. **Mandatory Local Git Commit (Strictly NO Push):** Every time a task or milestone is completed, AI MUST execute a local `git commit` with a clean Conventional Commit message. AI is STRICTLY FORBIDDEN from executing `git push`.
+7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
 
 ## CRITICAL PROJECT RULES:
 - **UI Component Reuse (Strict):** Never write custom image pickers or upload controls from scratch. You MUST reuse `<ImagePickerField>` linked to `handleUploadImage` as detailed in `docs/14_COMPONENT_LIBRARY.md`.
