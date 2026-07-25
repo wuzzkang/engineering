@@ -56,6 +56,7 @@ Implementasi dikelola dalam **2 Fase Terpisah**:
 3. **MANDATORY USER COMPLETION QUESTION**: AI **WAJIB BERTANYA** kepada pengguna:
    > *"Apakah pekerjaan ini sudah dianggap selesai dan sesuai dengan keinginan Anda?"*
    > ⚠️ **DILARANG LANGSUNG MENGARSIPKAN** sebelum pengguna menjawab konfirmasi selesai!
+4. **Active Session Continuity Rule**: Selama pengguna **belum menjawab selesai**, seluruh perintah/request lanjutan masih dianggap satu sesi implementasi aktif di `implementation/active/`. AI terus memperbarui artefak aktif tanpa melakukan arsip.
 
 ### 📦 Fase 2: Pengarsipan Berkelanjutan (Archiving Phase)
 HANYA setelah pengguna mengonfirmasi bahwa pengerjaan **"selesai"** / **"sudah sesuai"**:

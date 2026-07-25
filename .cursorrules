@@ -49,6 +49,7 @@ Before writing code or proposing changes, check the user prompt intent and inspe
      b. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, etc.).
      c. Execute local `git commit` in affected repositories.
      d. **MUST ASK THE USER:** Explicitly ask the user: *"Apakah pekerjaan ini sudah dianggap selesai/sesuai?"*. DO NOT archive yet!
+     e. **Active Continuity Rule:** As long as the user has NOT answered "selesai", all subsequent requests/commands remain part of the SAME active implementation session in `implementation/active/`. AI continues updating active artifacts without archiving.
    - **Phase 2 (Archive Phase - Executed ONLY After User Confirms Completion):**
      When the user explicitly confirms the task is complete (e.g. "selesai", "sudah sesuai"):
      a. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.

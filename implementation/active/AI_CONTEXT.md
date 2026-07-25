@@ -1,17 +1,17 @@
-# AI Context — SOP Update: 2-Phase Implementation Protocol & User Completion Confirmation
+# AI Context — SOP Update: 2-Phase Implementation Protocol & Active Session Continuity Rule
 
 ---
 
 ## 🎯 Target Repositories & Components
 - **`root`**:
-  - `/.cursorrules`: Updated Rule #8 to mandate 2-Phase Implementation Protocol (Phase 1 Active Tracking + Ask User Completion, Phase 2 User-Approved Archiving).
-  - `/.clinerules`: Updated Rule #8 to mandate 2-Phase Implementation Protocol.
-  - `/wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md`: Bumped version to 3.1.0 and detailed Phase 1 vs Phase 2 lifecycle rules.
+  - `/.cursorrules`: Updated Rule #8 with 2-Phase Implementation Protocol & Active Session Continuity Rule.
+  - `/.clinerules`: Updated Rule #8 with Active Session Continuity Rule.
+  - `/wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md`: Updated Section 12 Rule 13 with Active Session Continuity Rule.
   - `/wuzzkang-engineering/skills/wuzzkang-implementation-protocol/SKILL.md`: Updated SOP skill definition.
 - **`~/.gemini/config/skills/wuzzkang-implementation-protocol/SKILL.md`**: Updated global skill definition.
 
 ---
 
 ## 🛠️ Validation & Invariants
-- AI must run `implementation/active/` tracking first.
-- AI must NOT move `active/` to `archive/` until asking the user and receiving explicit completion confirmation.
+- As long as the user has NOT answered "selesai", all subsequent commands remain part of the SAME active implementation session in `implementation/active/`.
+- AI continues updating active artifacts without archiving.
