@@ -1,3 +1,5 @@
-# Decision Log — Ready for Next Feature
+# Decision Log — [Implementasi Berikutnya]
 
 ---
+
+_(Kosong - Siap untuk implementasi berikutnya)_

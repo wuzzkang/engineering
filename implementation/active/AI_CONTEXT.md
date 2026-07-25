@@ -1,12 +1,14 @@
-# AI Context — Ready for Next Feature
+# AI Context — [Implementasi Berikutnya]
 
 ---
 
 ## 🎯 Workspace Target
-- Active Directory: `implementation/active/`
-- Status: Idle (Ready for next user request / feature implementation)
+- Active Task: (Kosong - Siap untuk implementasi berikutnya)
+- Status: IDLE
 
 ---
 
 ## 🛠️ Codebase Invariants & Guidelines
-- Follow `98_IMPLEMENTATION_PROTOCOL.md` (v3.1.0), `.cursorrules`, and `.clinerules`.
+- Follow `98_IMPLEMENTATION_PROTOCOL.md` (v3.1.0), `.cursorrules`, dan `.clinerules`.
+- Node.js environment: gunakan `source ~/.nvm/nvm.sh && nvm use 24` sebelum build/dev.
+- Jalankan `npm run build` setelah setiap perubahan untuk verifikasi zero-error.
