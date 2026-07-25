@@ -1,8 +1,8 @@
-# Wuzzkang AI Bootstrap
+# Wuzzkang AI Bootstrap & Master Orchestrator
 
 You are an AI Engineer working on the Wuzzkang repositories.
 
-Before performing any task, you MUST read and follow these documents in order:
+Before performing any task, you MUST read and follow these entry points in order:
 
 1. wuzzkang-engineering/AI_BOOTSTRAP.md
 2. wuzzkang-engineering/docs/00_FOUNDATION.md
@@ -10,22 +10,45 @@ Before performing any task, you MUST read and follow these documents in order:
 4. wuzzkang-engineering/docs/10_AI_GUIDE.md
 5. wuzzkang-engineering/docs/02_CURRENT_STATE.md
 
-## CRITICAL RULES FOR NEW PRODUCTS & UI DEVELOPMENT:
-- **Add Product & V2 Section Guide:** When adding any new template, product, or V2 section component, you **MUST** read and follow the guides in `wuzzkang-engineering/docs/prompt_tambah_produk.md` and `wuzzkang-engineering/docs/prompt_tambah_section_v2.md`.
-- **UI Component Reuse (Strict):** Never write custom image pickers or custom file uploads from scratch in the dashboard. You **MUST** reuse `<ImagePickerField>` and link it to the central `handleUploadImage` signed URL pipeline as detailed in `wuzzkang-engineering/docs/14_COMPONENT_LIBRARY.md`.
-- **FAQ AI Generation (Strict Merging):** When adding or modifying FAQ AI generation logic in the dashboard frontend, you **MUST** implement the safe merging algorithm (similar to campaign, e-course, and jasa) to ensure user-filled questions and answers are never overwritten or deleted by the AI response.
-- **Database Cost Fields:** The `cost` field in the database represents **Credits**, not IDR Rupiah. Do not insert raw Rupiah values into the cost column.
+## MASTER SKILL ORCHESTRATOR & AUTOMATIC SKILL ROUTING:
+Before writing code or proposing changes, check the user prompt intent and inspect the corresponding SKILL.md file under `wuzzkang-engineering/skills/`:
 
-Follow all engineering standards, implementation workflow, and documentation requirements defined in those documents.
+- **Token Optimization & Context Window Efficiency**:
+  Read `wuzzkang-engineering/skills/wuzzkang-token-optimization-guard/SKILL.md`
+- **Code Refactoring & Codebase Modernization**:
+  Read `wuzzkang-engineering/skills/wuzzkang-code-refactor/SKILL.md`
+- **Senior Tech Lead Code Reviewer & Quality Gatekeeper**:
+  Read `wuzzkang-engineering/skills/wuzzkang-code-reviewer/SKILL.md`
+- **Multi-Version Architecture & Refactoring (`/generate/v1`, `/v2`, `/v3`)**:
+  Read `wuzzkang-engineering/skills/wuzzkang-multi-version-architecture/SKILL.md`
+- **Implementation Active/Archive Lifecycle Tracking**:
+  Read `wuzzkang-engineering/skills/wuzzkang-implementation-protocol/SKILL.md`
+- **Adding New Products or Templates**:
+  Read `wuzzkang-engineering/skills/wuzzkang-product-template-generator/SKILL.md`
+- **Building / Editing V2 Modular Builder Sections**:
+  Read `wuzzkang-engineering/skills/wuzzkang-v2-section-builder/SKILL.md`
+- **AI Platform Compilers, BullMQ Worker & Redis Cache**:
+  Read `wuzzkang-engineering/skills/wuzzkang-ai-platform-compiler/SKILL.md`
+- **UI Component Reuse, FAQ Safe-Merging, & Database Credit Safeguards**:
+  Read `wuzzkang-engineering/skills/wuzzkang-ui-standards-guard/SKILL.md`
+- **Definition of Done (DoD) & Documentation Synchronization**:
+  Read `wuzzkang-engineering/skills/wuzzkang-doc-sync-auditor/SKILL.md`
 
-Implementation active/archive workspace is located under:
+## 🛡️ STRICT USER OPERATIONAL & SAFETY RULES:
+1. **Mandatory Testing (Performance, Security, & Scalability):** Every code change or feature addition MUST be tested (`npm run build` or execution test) after completion before declaring done. All testing MUST evaluate three core dimensions: Performance (latency/memory), Security (injection/auth/leaks), and Scalability.
+2. **Node.js Environment (>= 24):** Always use Node.js version >= 24. Run `nvm use 24` before running build or test scripts if needed.
+3. **Test Server Cleanup (Mandatory Process Kill):** Whenever AI starts a dev/test server (e.g. `npm run dev`, `node server.js`) for debugging, AI MUST terminate/kill the process immediately after testing to prevent port conflicts with user's local server.
+4. **Database & Sensitive Data Protection:** NEVER drop tables, truncate databases, delete structural data, or alter sensitive schemas without explicit user confirmation and approval.
+5. **Confirmation for Unsolicited Actions:** Any suggestion or technical action outside the user's explicit command MUST be confirmed with the user for approval first.
+6. **Credential & Secret Protection:** Strictly verify every code change to ensure NO API keys, Private keys, passwords, or sensitive credentials are ever exposed in public code, frontend logs, or committed to Git repository.
+7. **Mandatory Local Git Commit (Strictly NO Push):** Every time a task or milestone is completed, AI MUST execute a local `git commit` with a clean Conventional Commit message. AI is STRICTLY FORBIDDEN from executing `git push`.
 
-implementation/
+## CRITICAL PROJECT RULES:
+- **UI Component Reuse (Strict):** Never write custom image pickers or upload controls from scratch. You MUST reuse `<ImagePickerField>` linked to `handleUploadImage` as detailed in `docs/14_COMPONENT_LIBRARY.md`.
+- **FAQ AI Generation (Safe-Merging):** User-filled Q&A must NEVER be overwritten or deleted by AI responses.
+- **Database Cost Fields:** The `cost` field in the database represents **Credits**, not raw IDR Rupiah nominals.
+- **Implementation Workspace:** Active work must be tracked in `implementation/active/` and archived upon completion to `implementation/archive/` as defined in `docs/98_IMPLEMENTATION_PROTOCOL.md`.
 
-Always follow the active/archive workflow in implementation/ as defined in wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md. Treat implementation artifacts as the primary source of project context.
-
-For conversational responses:
-- Use Bahasa Indonesia.
-
-For engineering artifacts:
-- Use English unless explicitly requested otherwise.
+## Conversational & Engineering Language:
+- Conversational responses: **Bahasa Indonesia**
+- Engineering artifacts & code comments: **English**

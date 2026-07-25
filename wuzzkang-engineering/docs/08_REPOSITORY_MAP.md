@@ -74,7 +74,12 @@ wuzzkang-dashboard/
 │   │   ├── admin/
 │   │   │   └── page.js           # Halaman Admin Panel (overview statistik & manual complete)
 │   │   ├── generate/
-│   │   │   └── page.js           # Formulir editor terstruktur lengkap & asisten AI
+│   │   │   ├── v1/
+│   │   │   │   └── page.js       # Editor Form V1 Legacy (Form-based)
+│   │   │   ├── v2/
+│   │   │   │   └── page.js       # Editor V2 Modular Section Builder (Dynamic Builder)
+│   │   │   ├── v2Presets.js      # Smart Starter Kits Presets untuk V2
+│   │   │   └── page.js           # Auto-Redirect Router berbasis template_version
 │   │   ├── login/
 │   │   │   └── page.js           # Halaman masuk akun
 │   │   ├── register/

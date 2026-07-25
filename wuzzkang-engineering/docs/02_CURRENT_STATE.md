@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.6 |
+| Version | 2.7 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-21 (V2 Modular Section Builder migration & Centralized Styling Engine) |
+| Last Updated | 2026-07-25 (Multi-Version Route Isolation: /generate/v1, /generate/v2, & Auto-Redirect Router) |
 
 ---
 
@@ -116,6 +116,7 @@ Future designs belong to later documents.
 - Live preview
 - Direct-to-Storage Upload with Folder Categorization (organizes uploads into nested category subfolders under `uploads/userId/category/`)
 - Storage Sync Media Deletion (secure, ownership-validated physical file deletion on Supabase Storage via `DELETE /api/media`)
+- **Multi-Version Route Isolation**: Isolated the monolithic editor into dedicated Next.js App Router routes (`/generate/v1` for legacy V1 form-based templates, `/generate/v2` for V2 Modular Section Builder), and refactored `/generate/page.js` into a lightweight Auto-Redirect Router that inspects `template_version` and seamlessly routes requests with zero breaking changes for existing live sites or drafts.
 - **Focus-Triggered Re-render Prevention**: Prevented redundant re-renders and page resets by optimizing the global `AuthContext` to restrict state updates only when the token actually changes, and changing page-level `useEffect` dependencies from `session` object to primitive `session?.access_token`.
 - **Self-Healing Storage Asset Deletion**: Solved the issue where browser crashes/kills left orphaned images in Supabase Storage by tracking newly uploaded unsaved URLs in `localStorage` (`wuzzkang_unsaved_uploads`) and automatically clearing/deleting them via `DELETE /api/media` on next session initialization.
 - **Custom Domain / Subdomain System (Phase 1)** (Zod name validation, 10 credits wallet billing with automatic refund rollback logic, claim & release API endpoints, wildcard DNS ready)

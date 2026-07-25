@@ -1,31 +1,44 @@
-# Wuzzkang AI Coding Rules & Definition of Done
+# Wuzzkang AI Coding Rules & Master Orchestrator
 
 You are an AI Assistant working on the Wuzzkang monorepo.
-To ensure quality and consistency, you MUST follow the rules in this workspace:
+To ensure quality, architectural consistency, and strict compliance, you MUST follow the rules in this workspace:
 
 ## 1. Onboarding & Core Philosophy
-- Before making any code changes, read the entry point: `wuzzkang-engineering/AI_BOOTSTRAP.md`.
-- Read and adhere to the engineering constitution defined in `wuzzkang-engineering/docs/00_FOUNDATION.md`.
+- Before making any code changes, read `wuzzkang-engineering/AI_BOOTSTRAP.md` and `wuzzkang-engineering/docs/00_FOUNDATION.md`.
 
-## 2. Critical Rules for New Products & UI Development
-- **New Products/Templates:** You **MUST** read and follow the implementation instructions in `wuzzkang-engineering/docs/prompt_tambah_produk.md`.
-- **UI Component Reuse:** Do **NOT** recreate image pickers/upload controls from scratch. Re-use `<ImagePickerField>` and link uploads to `handleUploadImage` (signed URL flow) as detailed in `wuzzkang-engineering/docs/14_COMPONENT_LIBRARY.md`.
-- **FAQ AI Generation (Strict Merging):** When adding or modifying FAQ AI generation logic in the dashboard frontend, you **MUST** implement the safe merging algorithm (similar to campaign, e-course, and jasa) to ensure user-filled questions and answers are never overwritten or deleted by the AI response.
-- **Credit Cost:** Database `cost` fields must be set in Credit units, not raw IDR Rupiah nominals.
+## 2. Master Skill Orchestrator (Automatic Skill Execution)
+Before executing code, inspect the corresponding skill under `wuzzkang-engineering/skills/`:
+- **Token Optimization & Efficiency Guard**: `wuzzkang-token-optimization-guard/SKILL.md`
+- **Code Refactoring & Modernization**: `wuzzkang-code-refactor/SKILL.md`
+- **Senior Tech Lead Code Reviewer**: `wuzzkang-code-reviewer/SKILL.md`
+- **Refactoring & Multi-Version Architecture**: `wuzzkang-multi-version-architecture/SKILL.md`
+- **Active Workspace & Progress Tracking**: `wuzzkang-implementation-protocol/SKILL.md`
+- **New Products / Templates**: `wuzzkang-product-template-generator/SKILL.md`
+- **V2 Modular Section Builder**: `wuzzkang-v2-section-builder/SKILL.md`
+- **AI Platform Compilers & BullMQ Worker**: `wuzzkang-ai-platform-compiler/SKILL.md`
+- **UI Component Guard & Credit Safety**: `wuzzkang-ui-standards-guard/SKILL.md`
+- **DoD Audit & Doc Sync**: `wuzzkang-doc-sync-auditor/SKILL.md`
 
-## 3. Definition of Done (Document Updates)
-Every time you complete a task or modify the codebase, you MUST identify and update the corresponding documentation files in `wuzzkang-engineering/docs/` before ending your turn:
-- **Routes / API Changes**: Update `wuzzkang-engineering/docs/05_API_SPECIFICATION.md` (schemas, parameters, response status).
-- **Database / Schema / Trigger Changes**: Update `wuzzkang-engineering/docs/09_DATABASE_ARCHITECTURE.md`.
-- **Render Engine / Product Templates / Design Keys**: Update `wuzzkang-engineering/docs/07_RENDER_ENGINE.md`.
-- **General Project Status / Tech Debt Tracker**: Update `wuzzkang-engineering/docs/02_CURRENT_STATE.md`.
-- **Monorepo Folder Structures**: Update `wuzzkang-engineering/docs/08_REPOSITORY_MAP.md`.
+## 3. STRICT USER SAFETY & OPERATIONAL RULES
+1. **Mandatory Testing (Performance, Security, & Scalability):** Every code change or feature addition MUST be tested after completion before declaring done. All testing MUST evaluate three core dimensions: Performance, Security, and Scalability.
+2. **Node.js Environment (>= 24):** Always use Node.js version >= 24 (`nvm use 24`).
+3. **Test Server Cleanup:** After finishing debug/test execution of any local dev server (`npm run dev`, `node server.js`), AI MUST kill/terminate the background process to prevent port conflicts with local servers.
+4. **Database Protection:** NEVER drop tables, truncate databases, or alter sensitive schemas without explicit user approval.
+5. **User Confirmation:** Any technical action or suggestion outside explicit user commands MUST be confirmed first.
+6. **Credential Protection:** Inspect all code to guarantee NO API keys, Private keys, or secrets are exposed or committed to Git.
+7. **Mandatory Local Git Commit (Strictly NO Push):** Every time a task or milestone is completed, AI MUST execute a local `git commit` with a clean Conventional Commit message. AI is STRICTLY FORBIDDEN from executing `git push`.
 
-## 4. Implementation Protocol & Workspace Lifecycle
-You MUST follow the active/archive workflow in the `./implementation/` directory as defined in `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md`:
-- **Active Workspace**: Use `implementation/active/` to populate `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, and `HANDOVER.md` for the current task. Do not make code modifications without updating these active tracking documents first.
-- **Archive on Completion**: When a task is complete, move the entire contents of `implementation/active/` to a timestamped folder under `implementation/archive/` and reinitialize the active folder template files.
+## 4. Critical UI & Database Rules
+- **UI Component Reuse:** Re-use `<ImagePickerField>` linked to `handleUploadImage` (signed URL flow).
+- **FAQ AI Generation:** Implement safe-merging so user-filled Q&A are never overwritten by AI.
+- **Credit Cost:** Database `cost` fields must be in Credit units, not raw IDR Rupiah nominals.
 
-## 5. Communication
-- Respond to the user in **Bahasa Indonesia** for chat communication.
-- Keep engineering documentation files in **English** unless requested otherwise.
+## 5. Definition of Done (Document Updates)
+Before ending your turn, verify and update the corresponding documentation files in `wuzzkang-engineering/docs/` (`05_API_SPECIFICATION.md`, `09_DATABASE_ARCHITECTURE.md`, `07_RENDER_ENGINE.md`, `02_CURRENT_STATE.md`, `08_REPOSITORY_MAP.md`).
+
+## 6. Implementation Workspace Lifecycle
+Always follow the active/archive workflow in `./implementation/` (`implementation/active/` for ongoing work, `implementation/archive/YYYY-MM-DD-feature-name/` on completion).
+
+## 7. Communication
+- Respond to the user in **Bahasa Indonesia**.
+- Keep engineering artifacts in **English**.
