@@ -1,12 +1,17 @@
-# AI Context — Ready for Next Feature
+# AI Context — SOP Update: 2-Phase Implementation Protocol & User Completion Confirmation
 
 ---
 
-## 🎯 Workspace Target
-- Active Directory: `implementation/active/`
-- Status: Idle (Ready for next user request / feature implementation)
+## 🎯 Target Repositories & Components
+- **`root`**:
+  - `/.cursorrules`: Updated Rule #8 to mandate 2-Phase Implementation Protocol (Phase 1 Active Tracking + Ask User Completion, Phase 2 User-Approved Archiving).
+  - `/.clinerules`: Updated Rule #8 to mandate 2-Phase Implementation Protocol.
+  - `/wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md`: Bumped version to 3.1.0 and detailed Phase 1 vs Phase 2 lifecycle rules.
+  - `/wuzzkang-engineering/skills/wuzzkang-implementation-protocol/SKILL.md`: Updated SOP skill definition.
+- **`~/.gemini/config/skills/wuzzkang-implementation-protocol/SKILL.md`**: Updated global skill definition.
 
 ---
 
-## 🛠️ Codebase Invariants & Guidelines
-- Follow `98_IMPLEMENTATION_PROTOCOL.md`, `.cursorrules`, and `.clinerules`.
+## 🛠️ Validation & Invariants
+- AI must run `implementation/active/` tracking first.
+- AI must NOT move `active/` to `archive/` until asking the user and receiving explicit completion confirmation.

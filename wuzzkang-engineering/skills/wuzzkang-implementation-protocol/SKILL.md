@@ -46,14 +46,19 @@ Prepare -> Implement -> Self Review -> Automatic Remediation -> Sync Docs -> Clo
 
 ---
 
-## 📋 3. Definition of Done (DoD) & Archive Procedure
+## 📋 3. 2-Phase Implementation Lifecycle & Archive Procedure
 
-Implementasi dianggap selesai 100% (*Done*) jika:
-- [ ] Seluruh item di `IMPLEMENTATION_PROGRESS.md` berstatus `[x] Completed`.
-- [ ] Kode berhasil di-build tanpa eror/warning sintaks.
-- [ ] Seluruh skema Zod memvalidasi payload batas.
-- [ ] `HANDOVER.md` berisi bukti eksekusi dan verifikasi nyata.
-- [ ] Dokumentasi di `wuzzkang-engineering/docs/` sinkron dengan kode.
-- [ ] Tidak ada sisa `console.log` debug atau `TODO` menggantung.
-- [ ] Pindahkan isi `implementation/active/` ke `implementation/archive/YYYY-MM-DD-feature-name/`.
+Implementasi dikelola dalam **2 Fase Terpisah**:
+
+### 🔄 Fase 1: Pengerjaan Aktif & Verifikasi (Active Phase)
+1. **Active Tracking Execution**: Saat mengerjakan fitur atau bugfix, AI **wajib mengupdate 6 dokumen pelacak di `implementation/active/` duluan**.
+2. **Docs Sync & Local Git Commit**: AI wajib mensinkronkan `docs/02_CURRENT_STATE.md` dan melakukan local `git commit` di repositori terkait.
+3. **MANDATORY USER COMPLETION QUESTION**: AI **WAJIB BERTANYA** kepada pengguna:
+   > *"Apakah pekerjaan ini sudah dianggap selesai dan sesuai dengan keinginan Anda?"*
+   > ⚠️ **DILARANG LANGSUNG MENGARSIPKAN** sebelum pengguna menjawab konfirmasi selesai!
+
+### 📦 Fase 2: Pengarsipan Berkelanjutan (Archiving Phase)
+HANYA setelah pengguna mengonfirmasi bahwa pengerjaan **"selesai"** / **"sudah sesuai"**:
+- [ ] Pindahkan/salin isi `implementation/active/` ke `implementation/archive/YYYY-MM-DD-feature-name/`.
 - [ ] Inisialisasi ulang file template di `implementation/active/` untuk pengerjaan berikutnya.
+- [ ] Eksekusi local `git commit` untuk siklus pengarsipan.

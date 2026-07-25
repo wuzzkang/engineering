@@ -6,7 +6,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 3.0.0 |
+| Version | 3.1.0 |
 | Status | Released |
 | Target | All Wuzzkang Repository Implementations |
 
@@ -535,7 +535,9 @@ Architectural changes require:
 - updating DECISION_LOG.md
 - obtaining user approval before implementation continues.
 
-13. AI must never rely on conversation history as the primary source of implementation context.
+13. **Two-Phase Active Tracking & User-Approved Archiving:** AI MUST execute `implementation/active/` tracking updates immediately when performing code changes or bug fixes. AI is strictly forbidden from archiving `implementation/active/` into `implementation/archive/` until AI asks the user: *"Apakah pekerjaan ini sudah dianggap selesai/sesuai?"* and receives explicit user confirmation. Only after the user confirms completion shall AI copy `implementation/active/` into `implementation/archive/YYYY-MM-DD-feature-name/`, re-initialize empty active templates, and execute local git commits.
+
+14. AI must never rely on conversation history as the primary source of implementation context.
 
 Implementation artifacts always take precedence over conversation history.
 
