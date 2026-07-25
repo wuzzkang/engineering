@@ -27,6 +27,14 @@ Before executing code, inspect the corresponding skill under `wuzzkang-engineeri
 5. **User Confirmation:** Any technical action or suggestion outside explicit user commands MUST be confirmed first.
 6. **Credential Protection:** Inspect all code to guarantee NO API keys, Private keys, or secrets are exposed or committed to Git.
 7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
+8. **Mandatory Implementation Protocol & Archive Cycle (Strict SOP):**
+   Before declaring ANY feature or fix complete/Done, AI MUST autonomously execute the complete protocol in `docs/98_IMPLEMENTATION_PROTOCOL.md`:
+   a. Update all 6 tracking artifacts in `implementation/active/` (`AI_CONTEXT.md`, `IMPLEMENTATION_SUMMARY.md`, `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, `HANDOVER.md`).
+   b. Perform Mandatory Self-Review & Automatic Remediation.
+   c. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, `05_API_SPECIFICATION.md`, `07_RENDER_ENGINE.md`, etc.).
+   d. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.
+   e. Re-initialize empty tracking templates in `implementation/active/` for the next task.
+   f. Execute local `git commit` in affected repositories including `root`.
 
 ## 4. Critical UI & Database Rules
 - **UI Component Reuse:** Re-use `<ImagePickerField>` linked to `handleUploadImage` (signed URL flow).
