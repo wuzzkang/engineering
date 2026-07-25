@@ -1,9 +1,14 @@
 {
-    "name": "wuzzkang",
-    "scripts": {
-        "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && concurrently \"npm run dev --prefix wuzzkang-api\" \"npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp\"'"
-    },
-    "devDependencies": {
-        "concurrently": "^8.0.0"
-    }
+  "name": "wuzzkang",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && concurrently \"npm run dev --prefix wuzzkang-api\" \"npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp -l 3001\"'",
+    "build": "npm run build --prefix wuzzkang-dashboard",
+    "test": "npm run test --prefix wuzzkang-api",
+    "sync:templates": "npm run sync:templates --prefix wuzzkang-dashboard"
+  },
+  "devDependencies": {
+    "concurrently": "^8.0.0"
+  }
 }
