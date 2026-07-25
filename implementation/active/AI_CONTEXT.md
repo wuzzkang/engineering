@@ -9,4 +9,4 @@
 ---
 
 ## 🛠️ Codebase Invariants & Guidelines
-- Follow `98_IMPLEMENTATION_PROTOCOL.md` and `.cursorrules` entry points.
+- Follow `98_IMPLEMENTATION_PROTOCOL.md`, `.cursorrules`, and `.clinerules`.
