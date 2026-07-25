@@ -42,6 +42,14 @@ Before writing code or proposing changes, check the user prompt intent and inspe
 5. **Confirmation for Unsolicited Actions:** Any suggestion or technical action outside the user's explicit command MUST be confirmed with the user for approval first.
 6. **Credential & Secret Protection:** Strictly verify every code change to ensure NO API keys, Private keys, passwords, or sensitive credentials are ever exposed in public code, frontend logs, or committed to Git repository.
 7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
+8. **Mandatory Implementation Protocol & Archive Cycle (Strict SOP):**
+   Before declaring ANY feature or fix complete/Done, AI MUST autonomously execute the complete protocol in `docs/98_IMPLEMENTATION_PROTOCOL.md`:
+   a. Update all 6 tracking artifacts in `implementation/active/` (`AI_CONTEXT.md`, `IMPLEMENTATION_SUMMARY.md`, `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, `HANDOVER.md`).
+   b. Perform Mandatory Self-Review & Automatic Remediation.
+   c. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, `05_API_SPECIFICATION.md`, `07_RENDER_ENGINE.md`, etc.).
+   d. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.
+   e. Re-initialize empty tracking templates in `implementation/active/` for the next task.
+   f. Execute local `git commit` in affected repositories including `root`.
 
 ## CRITICAL PROJECT RULES:
 - **UI Component Reuse (Strict):** Never write custom image pickers or upload controls from scratch. You MUST reuse `<ImagePickerField>` linked to `handleUploadImage` as detailed in `docs/14_COMPONENT_LIBRARY.md`.
