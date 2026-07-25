@@ -50,16 +50,16 @@ Prepare -> Implement -> Self Review -> Automatic Remediation -> Sync Docs -> Clo
 
 Implementasi dikelola dalam **2 Fase Terpisah**:
 
-### 🔄 Fase 1: Pengerjaan Aktif & Verifikasi (Active Phase)
+### 🔄 Fase 1: Pengerjaan Aktif & Verifikasi (Active Phase - Tanpa Git Commit)
 1. **Active Tracking Execution**: Saat mengerjakan fitur atau bugfix, AI **wajib mengupdate 6 dokumen pelacak di `implementation/active/` duluan**.
-2. **Docs Sync & Local Git Commit**: AI wajib mensinkronkan `docs/02_CURRENT_STATE.md` dan melakukan local `git commit` di repositori terkait.
-3. **MANDATORY USER COMPLETION QUESTION**: AI **WAJIB BERTANYA** kepada pengguna:
+2. **Docs Sync**: AI wajib mensinkronkan `docs/02_CURRENT_STATE.md`.
+3. **STRICT NO GIT COMMIT & NO ARCHIVING**: AI **DILARANG MENGESEKUSI `git commit` ATAU MENGARSIPKAN** pada fase ini.
+4. **MANDATORY USER COMPLETION QUESTION**: AI **WAJIB BERTANYA** kepada pengguna:
    > *"Apakah pekerjaan ini sudah dianggap selesai dan sesuai dengan keinginan Anda?"*
-   > ⚠️ **DILARANG LANGSUNG MENGARSIPKAN** sebelum pengguna menjawab konfirmasi selesai!
-4. **Active Session Continuity Rule**: Selama pengguna **belum menjawab selesai**, seluruh perintah/request lanjutan masih dianggap satu sesi implementasi aktif di `implementation/active/`. AI terus memperbarui artefak aktif tanpa melakukan arsip.
+5. **Active Session Continuity Rule**: Selama pengguna **belum menjawab selesai**, seluruh perintah/request lanjutan masih dianggap satu sesi implementasi aktif di `implementation/active/`. AI terus memperbarui artefak aktif tanpa melakukan arsip atau git commit.
 
-### 📦 Fase 2: Pengarsipan Berkelanjutan (Archiving Phase)
+### 📦 Fase 2: Pengarsipan & Git Commit (Archive & Commit Phase)
 HANYA setelah pengguna mengonfirmasi bahwa pengerjaan **"selesai"** / **"sudah sesuai"**:
 - [ ] Pindahkan/salin isi `implementation/active/` ke `implementation/archive/YYYY-MM-DD-feature-name/`.
 - [ ] Inisialisasi ulang file template di `implementation/active/` untuk pengerjaan berikutnya.
-- [ ] Eksekusi local `git commit` untuk siklus pengarsipan.
+- [ ] **Eksekusi local `git commit`** di seluruh repositori yang terdampak termasuk `root`.

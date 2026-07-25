@@ -26,20 +26,21 @@ Before executing code, inspect the corresponding skill under `wuzzkang-engineeri
 4. **Database Protection:** NEVER drop tables, truncate databases, or alter sensitive schemas without explicit user approval.
 5. **User Confirmation:** Any technical action or suggestion outside explicit user commands MUST be confirmed first.
 6. **Credential Protection:** Inspect all code to guarantee NO API keys, Private keys, or secrets are exposed or committed to Git.
-7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
-8. **Mandatory 2-Phase Implementation Protocol & User-Approved Archive Cycle (Strict SOP):**
+7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made and confirmed finished by the user, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
+8. **Mandatory 2-Phase Implementation Protocol & User-Approved Archive & Commit Cycle (Strict SOP):**
    AI MUST execute technical implementations in 2 distinct phases according to `docs/98_IMPLEMENTATION_PROTOCOL.md`:
-   - **Phase 1 (Active Phase - Executed Immediately):**
-     a. Update all 6 tracking artifacts in `implementation/active/` (`AI_CONTEXT.md`, `IMPLEMENTATION_SUMMARY.md`, `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, `HANDOVER.md`).
-     b. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, etc.).
-     c. Execute local `git commit` in affected repositories.
-     d. **MUST ASK THE USER:** Explicitly ask the user: *"Apakah pekerjaan ini sudah dianggap selesai/sesuai?"*. DO NOT archive yet!
-     e. **Active Continuity Rule:** As long as the user has NOT answered "selesai", all subsequent requests/commands remain part of the SAME active implementation session in `implementation/active/`. AI continues updating active artifacts without archiving.
-   - **Phase 2 (Archive Phase - Executed ONLY After User Confirms Completion):**
+   - **Phase 1 (Active Phase - Executed Immediately, NO Git Commit):**
+     a. Write code & verify build/test output.
+     b. Update all 6 tracking artifacts in `implementation/active/` (`AI_CONTEXT.md`, `IMPLEMENTATION_SUMMARY.md`, `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, `HANDOVER.md`).
+     c. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, etc.).
+     d. **STRICTLY NO GIT COMMIT & NO ARCHIVING AT THIS STAGE!**
+     e. **MUST ASK THE USER:** Explicitly ask the user: *"Apakah pekerjaan ini sudah dianggap selesai/sesuai?"*.
+     f. **Active Continuity Rule:** As long as the user has NOT answered "selesai", all subsequent requests/commands remain part of the SAME active implementation session in `implementation/active/`. AI continues updating active artifacts without archiving or committing git.
+   - **Phase 2 (Archive & Commit Phase - Executed ONLY After User Confirms Completion):**
      When the user explicitly confirms the task is complete (e.g. "selesai", "sudah sesuai"):
      a. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.
      b. Re-initialize empty tracking templates in `implementation/active/` for the next task.
-     c. Execute local `git commit` for the archive lifecycle.
+     c. **Execute local `git commit`** in all affected repositories including `root` for the completed task and archive.
 
 ## 4. Critical UI & Database Rules
 - **UI Component Reuse:** Re-use `<ImagePickerField>` linked to `handleUploadImage` (signed URL flow).
