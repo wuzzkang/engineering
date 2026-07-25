@@ -257,6 +257,16 @@ Future designs belong to later documents.
 
 > Status: COMPLETED — All template types (`wedding`, `campaign`, `birthday`, and `toko-online`) are fully migrated and implemented on the async AI Platform queue flow. No template types use the legacy synchronous `/generate` route anymore.
 
+## V2 Section Builder — UI/UX Redesign & 3-Theme Reactivity System
+
+> Status: COMPLETED — The V2 Section Builder (`/generate/v2`) has been completely redesigned with an ultra-compact, modern UI layout, 100% dynamic CSS theme variable reactivity (`Clean`, `Retro`, `Classic Dark`), sticky bottom action bars, and an interactive touch-draggable mobile split-screen resizer.
+
+- **100% Theme Reactivity**: All V2 section forms (`V2SectionWeddingForms`, `V2SectionStandardForms`, `ImagePickerField`, and `V2SectionFormDispatcher`) seamlessly adapt to the 3 global dashboard themes (`Clean`, `Retro`, `Classic Dark`) using `--theme-bg`, `--theme-surface`, `--theme-card`, `--theme-border`, `--theme-text`, and `--theme-accent`.
+- **Compact Field System**: Sleek rounded-lg inputs with compact paddings (`px-2.5 py-1.5`) and micro action buttons replace bulky inputs.
+- **Mobile Touch-Draggable Resizer**: Added a touch-drag divider bar (`↕️ Seret Atas / Bawah`) allowing mobile users to dynamically adjust the height ratio between Form Editor and Live Sandbox Preview (15% - 85%).
+- **Mobile View Controller Tabs**: Quick-switch tabs on mobile (`📝 Form`, `↕️ Split Screen`, `👁️ Full Preview`).
+- **Prominent Sticky Deploy Bar**: Added a fixed bottom action bar containing `🚀 Publikasikan / Deploy` and `💾 Simpan Draft` buttons for instant visibility.
+
 ---
 
 # Known Technical Debt

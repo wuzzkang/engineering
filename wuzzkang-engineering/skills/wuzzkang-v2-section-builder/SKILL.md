@@ -27,6 +27,10 @@ Setiap seksi V2 dalam `dynamic-builder` terdiri dari 4 bagian yang saling terhub
    Setiap perubahan pada komponen perenderan di `wuzzkang-lp/` wajib disinkronkan secara identik ke `wuzzkang-dashboard/public/preview/`.
 3. **Solid Background pada Varian Light**:
    Varian background `light` harus berupa warna solid (`bg-white` / `bg-emerald-50`) tanpa opacity (`/40`) agar tidak membaur dengan latar body gelap (`#020617`).
+4. **100% Dynamic Theme CSS Variable Reactivity**:
+   Semua form pengisian seksi V2 (`V2SectionWeddingForms`, `V2SectionStandardForms`, `ImagePickerField`, `V2SectionFormDispatcher`) **WAJIB** menggunakan variabel tema CSS (`bg-theme-bg`, `bg-theme-surface`, `bg-theme-card`, `border-theme-border`, `text-theme-text`, `bg-theme-accent`) agar responsif terhadap 3 Tema Dashboard Global (`Clean`, `Retro`, `Classic Dark`).
+5. **Mobile Touch Split Resizer & Sticky Action Bar**:
+   Editor V2 pada layar HP wajib mendukung bilah resizer interaktif yang dapat diseret (`↕️ Seret Atas / Bawah`), switcher tab mobile (`Form`, `Split`, `Preview`), dan sticky action bar untuk tombol `🚀 Publikasikan / Deploy`.
 
 ---
 
