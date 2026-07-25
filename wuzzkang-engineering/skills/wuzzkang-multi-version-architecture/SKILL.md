@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk arsitektur multi-versi din
 
 # SOP Multi-Version Architecture & Refactoring Guard — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-MULTI-VERSION-AGENT]`
+
 Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer dalam merancang, memisahkan, dan mengelola arsitektur multi-versi dinamis di seluruh repositori Wuzzkang (`wuzzkang-dashboard`, `wuzzkang-api`, dan `wuzzkang-lp`).
 
 ---

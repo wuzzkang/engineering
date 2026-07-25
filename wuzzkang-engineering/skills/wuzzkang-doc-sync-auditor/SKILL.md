@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk memverifikasi dan memperba
 
 # SOP Documentation Synchronization & DoD Audit — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-DOC-SYNC-AGENT]`
+
 Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer dalam melakukan audit *Definition of Done* (DoD) serta menjaga sinkronisasi dokumentasi teknik di folder `wuzzkang-engineering/docs/` setiap kali perubahan kode selesai dilakukan.
 
 ---

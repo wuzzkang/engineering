@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk memaksimalkan efisiensi to
 
 # SOP Token Optimization & Efficiency Guard — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-TOKEN-GUARD-AGENT]`
+
 Dokumen ini adalah acuan standar bagi AI Assistant untuk menghemat konsumsi token *context window* saat koding maupun mengoptimalkan efisiensi token pada API runtime Wuzzkang.
 
 ---

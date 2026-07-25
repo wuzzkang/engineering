@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk aturan ketat UI/UX Dashboa
 
 # SOP UI Standards & Guardrails — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-UI-GUARD-AGENT]`
+
 Dokumen ini adalah acuan aturan ketat (*strict guardrails*) bagi AI Assistant dan Engineer ketika membangun komponen UI frontend di `wuzzkang-dashboard` maupun mengelola skema validasi.
 
 ---

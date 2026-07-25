@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk membuat dan mengelola seks
 
 # SOP V2 Modular Section Builder (`dynamic-builder`) — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-V2-BUILDER-AGENT]`
+
 Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer ketika membuat seksi komponen baru, menambahkan palet warna tema baru, atau memodifikasi komponen dalam sistem **V2 Modular Section Builder**.
 
 ---

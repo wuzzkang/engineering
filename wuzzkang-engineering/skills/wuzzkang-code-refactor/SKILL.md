@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk refactoring kode Wuzzkang,
 
 # SOP Code Refactoring & Modernization — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-REFACTOR-AGENT]`
+
 Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer saat melakukan penyederhanaan kode, pemecahan file *monolithic* (seperti `generate/page.js`), eliminasi *code smell*, dan optimasi performa pada repositori Wuzzkang.
 
 ---

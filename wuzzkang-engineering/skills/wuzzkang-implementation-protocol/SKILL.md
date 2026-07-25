@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk siklus implementasi aktif 
 
 # SOP Implementation Protocol & Workspace Lifecycle — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-PROTOCOL-AGENT]`
+
 Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer dalam mengelola siklus pengerjaan fitur, refactoring, perbaikan bug, serta sinkronisasi dokumentasi pada monorepo Wuzzkang.
 
 ---

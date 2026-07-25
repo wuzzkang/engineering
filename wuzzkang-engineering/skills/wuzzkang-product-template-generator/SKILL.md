@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk menambah Produk atau Templ
 
 # SOP Product & Template Generator — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-PRODUCT-TEMPLATE-AGENT]`
+
 Dokumen ini adalah panduan standar bagi AI Assistant dan Engineer ketika menambah produk/template baru atau memigrasikan template ke ekosistem Wuzzkang AI Platform.
 
 ---

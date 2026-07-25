@@ -5,6 +5,9 @@ description: Standard Operating Procedure (SOP) untuk pengembangan dan pemelihar
 
 # SOP AI Platform & Task Compiler — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-AI-PLATFORM-AGENT]`
+
 Dokumen ini adalah acuan teknis bagi AI Assistant dan Engineer saat membuat task compiler AI baru, memodifikasi alur antrean asinkron (BullMQ), mengonfigurasi provider AI, atau mengelola billing kuota/saldo wallet.
 
 ---

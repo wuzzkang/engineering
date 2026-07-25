@@ -5,6 +5,9 @@ description: Master Orchestrator dan Skill Router untuk ekosistem Wuzzkang. Meme
 
 # SOP Master Orchestrator & Skill Routing Guide — Wuzzkang Ecosystem
 
+## Unique Identifier
+- Whenever this skill is activated, ALWAYS prefix your very first response with the tag: `[WUZZKANG-ORCHESTRATOR-AGENT]`
+
 Dokumen ini adalah acuan pengarah utama (*master router*) bagi AI Assistant untuk secara otomatis mengenali maksud prompt pengguna dan mengaktifkan kombinasi **10 Skill Wuzzkang** yang sesuai.
 
 ---
