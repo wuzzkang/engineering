@@ -5,11 +5,11 @@
 | Field | Value |
 |------|------|
 | Document | 02_CURRENT_STATE.md |
-| Version | 2.7 |
+| Version | 2.8 |
 | Status | Active |
 | Purpose | Describe the current implementation state of Wuzzkang |
 | Audience | Engineers, AI Assistants |
-| Last Updated | 2026-07-25 (Multi-Version Route Isolation: /generate/v1, /generate/v2, & Auto-Redirect Router) |
+| Last Updated | 2026-07-26 (SOP Enforcement Hardening: Pre-flight Checklist & Zero-Exception Rule) |
 
 ---
 
@@ -178,6 +178,8 @@ Future designs belong to later documents.
 - **V2 Modular Section Builder**: `dynamic-builder` — Flexible section-based builder supporting 9 modular ES Module section types (`header`, `hero`, `about`, `services`, `social_proof`, `pricing`, `faq`, `contact`, `custom`). Features 12-column responsive split-screen UI grid, Goal-Based Smart Starter Kits (`v2Presets.js` for Jasa, Campaign, Toko Online, Wedding, Custom with 0% token waste), Visual Catalog Section Picker Modal (`V2VisualSectionPickerModal.jsx`), Dedicated Global Theme Color Palette Selector Card (`v2/page.js`), Interactive Focus Sync preview, section manager (add, remove, reorder), per-section AI assist, centralized styling engine (`getSectionStyle`), and mode kontras / brightness controls (`default` / `light` / `dark`).
 - **V2 Deploy Fix, Interactive Slug Validation & AI Assist Protection**: Resolved HTTP 400 deploy failure on V2 Builder by integrating `{ slug, couponCode: null }` payload into `POST /api/projects/:id/deploy`. Added `buildSlugSuggestion` helper and interactive URL Slug input bar with real-time sanitization (`a-z, 0-9, -`, max 40 chars) displaying live domain preview (`?slug=...`). Added `Deskripsi / Brief Bisnis (Konteks AI)` card UI in V2 Editor and wired per-section `✨ AI Assist` buttons to `/api/generate/field` with automatic UI disable protection when AI Brief is empty. Fixed `fieldType` enum mapping (`v2_hero`, `v2_services`, etc.), registered `v2_` in backend `isJson` check, bumped cache key to `v5`, and added a frontend JSON string parsing shield to eliminate raw JSON text in inputs. Added flexible Hero CTA controls, Header Navbar dynamic navigation, and upgraded Pricing Editor Form with dual-mode toggle (Plans Table vs CTA Only), plan cards manager (price, period, popular tag, feature list), quick target section dropdown selector (`🎯 Ke Section...`), clean zero-item empty menu support, and dual-layer auto-pruning section deletion sync. Guaranteed 100% anti-collision slug uniqueness via backend `${slug}-${uuidSuffix}` UUID prefixing.
 - **V2 Section Global Theme & Mode Kontras Unification**: Centralized color palette selection to 1x globally with a dedicated **🎨 Tema Warna Landing Page (Global)** card in the Left Column Editor Manager and an always-visible top header bar (`v2GlobalTheme`). Replaced per-section individual color buttons in `V2SectionFormDispatcher.jsx` with a simplified per-section Mode Kontras Warna (`bg_brightness`: `default` / `light` / `dark`) control bar.
+- **Dashboard Stats Category Count Fix**: Fixed stats header (Total Halaman, Aktif Deploy, Draft/Proses) incorrectly reflecting the active filter tab. Added `fetchGlobalStats()` fetching 3 parallel endpoints to maintain persistent global counts independent of active category filter. Tab Undangan and Toko/Bisnis now display badge counts.
+- **SOP Enforcement Hardening (98_IMPLEMENTATION_PROTOCOL.md v3.2.0)**: Added MANDATORY PRE-FLIGHT CHECKLIST section to `.cursorrules` requiring `implementation/active/` initialization BEFORE writing any code. Added Zero-Exception Rule (#15) to `98_IMPLEMENTATION_PROTOCOL.md` explicitly invalidating justifications like "simple fix" or "minor change" as reasons to bypass artifact initialization. Bumped protocol version from 3.1.0 → 3.2.0.
 
 
 ---

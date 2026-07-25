@@ -6,7 +6,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 3.1.0 |
+| Version | 3.2.0 |
 | Status | Released |
 | Target | All Wuzzkang Repository Implementations |
 
@@ -517,7 +517,7 @@ An implementation is officially closed only when:
 8. If one exists, AI must resume it instead of creating a new implementation.
 9. AI must never overwrite an archived implementation.
 10. Archived implementations are immutable historical records.
-11. When starting a brand new implementation, AI must initialize the active implementation workspace by creating all required tracking documents inside:
+11. When starting a brand new implementation, AI must initialize the active implementation workspace **BEFORE writing any code** by creating all required tracking documents inside:
 
 implementation/active/
 
@@ -540,6 +540,8 @@ Architectural changes require:
 14. AI must never rely on conversation history as the primary source of implementation context.
 
 Implementation artifacts always take precedence over conversation history.
+
+15. **Zero-Exception Rule:** This protocol applies equally to ALL implementation tasks regardless of perceived complexity, size, or urgency. There is no category of task small enough to skip artifact initialization. A one-line bug fix carries the same protocol obligations as a major feature implementation. Justifications such as "simple fix", "minor change", "small task", or "quick patch" are explicitly invalid reasons to bypass this protocol. Any AI that skips artifact initialization for any reason is in direct violation of this protocol.
 
 # 13. Implementation Continuity Guarantee
 

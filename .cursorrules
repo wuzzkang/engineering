@@ -10,6 +10,30 @@ Before performing any task, you MUST read and follow these entry points in order
 4. wuzzkang-engineering/docs/10_AI_GUIDE.md
 5. wuzzkang-engineering/docs/02_CURRENT_STATE.md
 
+## 🚦 MANDATORY PRE-FLIGHT CHECKLIST (WAJIB SEBELUM MENULIS SATU BARIS KODE APAPUN):
+
+AI HARUS menyelesaikan checklist ini secara berurutan sebelum menulis atau memodifikasi kode apapun:
+
+1. Baca `wuzzkang-engineering/AI_BOOTSTRAP.md`
+2. Baca `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md` (minimal Section 4 & 12)
+3. Scan `implementation/active/` — apakah ada implementasi aktif yang sedang berjalan?
+   - **Jika aktif ada** → resume dari `IMPLEMENTATION_PROGRESS.md`, jangan buat workspace baru
+   - **Jika kosong** → lanjut ke langkah 4
+4. Inisialisasi SEMUA 6 artifact di `implementation/active/` **TERLEBIH DAHULU**:
+   - `AI_CONTEXT.md` — scope task, file target, konteks sesi
+   - `IMPLEMENTATION_PLAN.md` — status `Approved for Implementation`, daftar milestones
+   - `IMPLEMENTATION_PROGRESS.md` — milestone `[/] In Progress` yang sedang dikerjakan
+   - `IMPLEMENTATION_SUMMARY.md` — snapshot singkat implementasi
+   - `DECISION_LOG.md` — keputusan teknis awal
+   - `HANDOVER.md` — status pending
+5. **BARU boleh menulis kode**
+
+### ⛔ LARANGAN ABSOLUT:
+- **DILARANG KERAS** menulis atau memodifikasi kode sebelum langkah 1–4 selesai
+- **TIDAK ADA PENGECUALIAN** untuk "bug fix kecil", "perubahan minor", "task sederhana", atau alasan apapun
+- **DILARANG** mengisi `implementation/active/` setelah kode selesai ditulis — ini melanggar tujuan utama SOP
+- Pelanggaran checklist ini adalah **violation langsung** terhadap `docs/98_IMPLEMENTATION_PROTOCOL.md` Section 12 Rule #11 dan Rule #15
+
 ## MASTER SKILL ORCHESTRATOR & AUTOMATIC SKILL ROUTING:
 Before writing code or proposing changes, check the user prompt intent and inspect the corresponding SKILL.md file under `wuzzkang-engineering/skills/`:
 
