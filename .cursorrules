@@ -82,6 +82,7 @@ Before writing code or proposing changes, check the user prompt intent and inspe
      c. **Execute local `git commit`** in all affected repositories including `root` for the completed task and archive.
 
 ## CRITICAL PROJECT RULES:
+- **Rules Synchronization (Strict):** `.cursorrules` is the single source of truth for AI instructions. Whenever `.cursorrules` is modified or updated, `.clinerules` MUST be updated immediately to mirror `.cursorrules` 100%.
 - **UI Component Reuse (Strict):** Never write custom image pickers or upload controls from scratch. You MUST reuse `<ImagePickerField>` linked to `handleUploadImage` as detailed in `docs/14_COMPONENT_LIBRARY.md`.
 - **FAQ AI Generation (Safe-Merging):** User-filled Q&A must NEVER be overwritten or deleted by AI responses.
 - **Database Cost Fields:** The `cost` field in the database represents **Credits**, not raw IDR Rupiah nominals.

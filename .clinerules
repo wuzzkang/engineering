@@ -1,31 +1,70 @@
-# Wuzzkang AI Coding Rules & Master Orchestrator
+# Wuzzkang AI Bootstrap & Master Orchestrator
 
-You are an AI Assistant working on the Wuzzkang monorepo.
-To ensure quality, architectural consistency, and strict compliance, you MUST follow the rules in this workspace:
+You are an AI Engineer working on the Wuzzkang repositories.
 
-## 1. Onboarding & Core Philosophy
-- Before making any code changes, read `wuzzkang-engineering/AI_BOOTSTRAP.md` and `wuzzkang-engineering/docs/00_FOUNDATION.md`.
+Before performing any task, you MUST read and follow these entry points in order:
 
-## 2. Master Skill Orchestrator (Automatic Skill Execution)
-Before executing code, inspect the corresponding skill under `wuzzkang-engineering/skills/`:
-- **Token Optimization & Efficiency Guard**: `wuzzkang-token-optimization-guard/SKILL.md`
-- **Code Refactoring & Modernization**: `wuzzkang-code-refactor/SKILL.md`
-- **Senior Tech Lead Code Reviewer**: `wuzzkang-code-reviewer/SKILL.md`
-- **Refactoring & Multi-Version Architecture**: `wuzzkang-multi-version-architecture/SKILL.md`
-- **Active Workspace & Progress Tracking**: `wuzzkang-implementation-protocol/SKILL.md`
-- **New Products / Templates**: `wuzzkang-product-template-generator/SKILL.md`
-- **V2 Modular Section Builder**: `wuzzkang-v2-section-builder/SKILL.md`
-- **AI Platform Compilers & BullMQ Worker**: `wuzzkang-ai-platform-compiler/SKILL.md`
-- **UI Component Guard & Credit Safety**: `wuzzkang-ui-standards-guard/SKILL.md`
-- **DoD Audit & Doc Sync**: `wuzzkang-doc-sync-auditor/SKILL.md`
+1. wuzzkang-engineering/AI_BOOTSTRAP.md
+2. wuzzkang-engineering/docs/00_FOUNDATION.md
+3. wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md
+4. wuzzkang-engineering/docs/10_AI_GUIDE.md
+5. wuzzkang-engineering/docs/02_CURRENT_STATE.md
 
-## 3. STRICT USER SAFETY & OPERATIONAL RULES
-1. **Mandatory Testing (Performance, Security, & Scalability):** Every code change or feature addition MUST be tested after completion before declaring done. All testing MUST evaluate three core dimensions: Performance, Security, and Scalability.
-2. **Node.js Environment (>= 24):** Always use Node.js version >= 24 (`nvm use 24`).
-3. **Test Server Cleanup:** After finishing debug/test execution of any local dev server (`npm run dev`, `node server.js`), AI MUST kill/terminate the background process to prevent port conflicts with local servers.
-4. **Database Protection:** NEVER drop tables, truncate databases, or alter sensitive schemas without explicit user approval.
-5. **User Confirmation:** Any technical action or suggestion outside explicit user commands MUST be confirmed first.
-6. **Credential Protection:** Inspect all code to guarantee NO API keys, Private keys, or secrets are exposed or committed to Git.
+## 🚦 MANDATORY PRE-FLIGHT CHECKLIST (WAJIB SEBELUM MENULIS SATU BARIS KODE APAPUN):
+
+AI HARUS menyelesaikan checklist ini secara berurutan sebelum menulis atau memodifikasi kode apapun:
+
+1. Baca `wuzzkang-engineering/AI_BOOTSTRAP.md`
+2. Baca `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md` (minimal Section 4 & 12)
+3. Scan `implementation/active/` — apakah ada implementasi aktif yang sedang berjalan?
+   - **Jika aktif ada** → resume dari `IMPLEMENTATION_PROGRESS.md`, jangan buat workspace baru
+   - **Jika kosong** → lanjut ke langkah 4
+4. Inisialisasi SEMUA 6 artifact di `implementation/active/` **TERLEBIH DAHULU**:
+   - `AI_CONTEXT.md` — scope task, file target, konteks sesi
+   - `IMPLEMENTATION_PLAN.md` — status `Approved for Implementation`, daftar milestones
+   - `IMPLEMENTATION_PROGRESS.md` — milestone `[/] In Progress` yang sedang dikerjakan
+   - `IMPLEMENTATION_SUMMARY.md` — snapshot singkat implementasi
+   - `DECISION_LOG.md` — keputusan teknis awal
+   - `HANDOVER.md` — status pending
+5. **BARU boleh menulis kode**
+
+### ⛔ LARANGAN ABSOLUT:
+- **DILARANG KERAS** menulis atau memodifikasi kode sebelum langkah 1–4 selesai
+- **TIDAK ADA PENGECUALIAN** untuk "bug fix kecil", "perubahan minor", "task sederhana", atau alasan apapun
+- **DILARANG** mengisi `implementation/active/` setelah kode selesai ditulis — ini melanggar tujuan utama SOP
+- Pelanggaran checklist ini adalah **violation langsung** terhadap `docs/98_IMPLEMENTATION_PROTOCOL.md` Section 12 Rule #11 dan Rule #15
+
+## MASTER SKILL ORCHESTRATOR & AUTOMATIC SKILL ROUTING:
+Before writing code or proposing changes, check the user prompt intent and inspect the corresponding SKILL.md file under `wuzzkang-engineering/skills/`:
+
+- **Token Optimization & Context Window Efficiency**:
+  Read `wuzzkang-engineering/skills/wuzzkang-token-optimization-guard/SKILL.md`
+- **Code Refactoring & Codebase Modernization**:
+  Read `wuzzkang-engineering/skills/wuzzkang-code-refactor/SKILL.md`
+- **Senior Tech Lead Code Reviewer & Quality Gatekeeper**:
+  Read `wuzzkang-engineering/skills/wuzzkang-code-reviewer/SKILL.md`
+- **Multi-Version Architecture & Refactoring (`/generate/v1`, `/v2`, `/v3`)**:
+  Read `wuzzkang-engineering/skills/wuzzkang-multi-version-architecture/SKILL.md`
+- **Implementation Active/Archive Lifecycle Tracking**:
+  Read `wuzzkang-engineering/skills/wuzzkang-implementation-protocol/SKILL.md`
+- **Adding New Products or Templates**:
+  Read `wuzzkang-engineering/skills/wuzzkang-product-template-generator/SKILL.md`
+- **Building / Editing V2 Modular Builder Sections**:
+  Read `wuzzkang-engineering/skills/wuzzkang-v2-section-builder/SKILL.md`
+- **AI Platform Compilers, BullMQ Worker & Redis Cache**:
+  Read `wuzzkang-engineering/skills/wuzzkang-ai-platform-compiler/SKILL.md`
+- **UI Component Reuse, FAQ Safe-Merging, & Database Credit Safeguards**:
+  Read `wuzzkang-engineering/skills/wuzzkang-ui-standards-guard/SKILL.md`
+- **Definition of Done (DoD) & Documentation Synchronization**:
+  Read `wuzzkang-engineering/skills/wuzzkang-doc-sync-auditor/SKILL.md`
+
+## 🛡️ STRICT USER OPERATIONAL & SAFETY RULES:
+1. **Mandatory Testing (Performance, Security, & Scalability):** Every code change or feature addition MUST be tested (`npm run build` or execution test) after completion before declaring done. All testing MUST evaluate three core dimensions: Performance (latency/memory), Security (injection/auth/leaks), and Scalability.
+2. **Node.js Environment (>= 24):** Always use Node.js version >= 24. Run `nvm use 24` before running build or test scripts if needed.
+3. **Test Server Cleanup (Mandatory Process Kill):** Whenever AI starts a dev/test server (e.g. `npm run dev`, `node server.js`) for debugging, AI MUST terminate/kill the process immediately after testing to prevent port conflicts with user's local server.
+4. **Database & Sensitive Data Protection:** NEVER drop tables, truncate databases, delete structural data, or alter sensitive schemas without explicit user confirmation and approval.
+5. **Confirmation for Unsolicited Actions:** Any suggestion or technical action outside the user's explicit command MUST be confirmed with the user for approval first.
+6. **Credential & Secret Protection:** Strictly verify every code change to ensure NO API keys, Private keys, passwords, or sensitive credentials are ever exposed in public code, frontend logs, or committed to Git repository.
 7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made and confirmed finished by the user, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
 8. **Mandatory 2-Phase Implementation Protocol & User-Approved Archive & Commit Cycle (Strict SOP):**
    AI MUST execute technical implementations in 2 distinct phases according to `docs/98_IMPLEMENTATION_PROTOCOL.md`:
@@ -42,17 +81,13 @@ Before executing code, inspect the corresponding skill under `wuzzkang-engineeri
      b. Re-initialize empty tracking templates in `implementation/active/` for the next task.
      c. **Execute local `git commit`** in all affected repositories including `root` for the completed task and archive.
 
-## 4. Critical UI & Database Rules
-- **UI Component Reuse:** Re-use `<ImagePickerField>` linked to `handleUploadImage` (signed URL flow).
-- **FAQ AI Generation:** Implement safe-merging so user-filled Q&A are never overwritten by AI.
-- **Credit Cost:** Database `cost` fields must be in Credit units, not raw IDR Rupiah nominals.
+## CRITICAL PROJECT RULES:
+- **Rules Synchronization (Strict):** `.cursorrules` is the single source of truth for AI instructions. Whenever `.cursorrules` is modified or updated, `.clinerules` MUST be updated immediately to mirror `.cursorrules` 100%.
+- **UI Component Reuse (Strict):** Never write custom image pickers or upload controls from scratch. You MUST reuse `<ImagePickerField>` linked to `handleUploadImage` as detailed in `docs/14_COMPONENT_LIBRARY.md`.
+- **FAQ AI Generation (Safe-Merging):** User-filled Q&A must NEVER be overwritten or deleted by AI responses.
+- **Database Cost Fields:** The `cost` field in the database represents **Credits**, not raw IDR Rupiah nominals.
+- **Implementation Workspace:** Active work must be tracked in `implementation/active/` and archived upon completion to `implementation/archive/` as defined in `docs/98_IMPLEMENTATION_PROTOCOL.md`.
 
-## 5. Definition of Done (Document Updates)
-Before ending your turn, verify and update the corresponding documentation files in `wuzzkang-engineering/docs/` (`05_API_SPECIFICATION.md`, `09_DATABASE_ARCHITECTURE.md`, `07_RENDER_ENGINE.md`, `02_CURRENT_STATE.md`, `08_REPOSITORY_MAP.md`).
-
-## 6. Implementation Workspace Lifecycle
-Always follow the active/archive workflow in `./implementation/` (`implementation/active/` for ongoing work, `implementation/archive/YYYY-MM-DD-feature-name/` on completion).
-
-## 7. Communication
-- Respond to the user in **Bahasa Indonesia**.
-- Keep engineering artifacts in **English**.
+## Conversational & Engineering Language:
+- Conversational responses: **Bahasa Indonesia**
+- Engineering artifacts & code comments: **English**

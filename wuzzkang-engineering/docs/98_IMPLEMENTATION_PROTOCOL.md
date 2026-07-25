@@ -543,6 +543,8 @@ Implementation artifacts always take precedence over conversation history.
 
 15. **Zero-Exception Rule:** This protocol applies equally to ALL implementation tasks regardless of perceived complexity, size, or urgency. There is no category of task small enough to skip artifact initialization. A one-line bug fix carries the same protocol obligations as a major feature implementation. Justifications such as "simple fix", "minor change", "small task", or "quick patch" are explicitly invalid reasons to bypass this protocol. Any AI that skips artifact initialization for any reason is in direct violation of this protocol.
 
+16. **Rules File Synchronization Invariant:** `.cursorrules` is defined as the canonical single source of truth for repository AI instructions. Whenever `.cursorrules` is modified, created, or updated, `.clinerules` MUST be synchronized immediately to mirror `.cursorrules` 100% without divergence.
+
 # 13. Implementation Continuity Guarantee
 
 One of the primary objectives of this protocol is guaranteeing implementation continuity across different AI models, different AI vendors, different user accounts, and different engineering sessions.
