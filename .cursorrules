@@ -15,24 +15,25 @@ Before performing any task, you MUST read and follow these entry points in order
 AI HARUS menyelesaikan checklist ini secara berurutan sebelum menulis atau memodifikasi kode apapun:
 
 1. Baca `wuzzkang-engineering/AI_BOOTSTRAP.md`
-2. Baca `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md` (minimal Section 4 & 12)
+2. Baca `wuzzkang-engineering/docs/98_IMPLEMENTATION_PROTOCOL.md` (minimal Section 4, 12 & Rule #17)
 3. Scan `implementation/active/` — apakah ada implementasi aktif yang sedang berjalan?
    - **Jika aktif ada** → resume dari `IMPLEMENTATION_PROGRESS.md`, jangan buat workspace baru
    - **Jika kosong** → lanjut ke langkah 4
 4. Inisialisasi SEMUA 6 artifact di `implementation/active/` **TERLEBIH DAHULU**:
    - `AI_CONTEXT.md` — scope task, file target, konteks sesi
-   - `IMPLEMENTATION_PLAN.md` — status `Approved for Implementation`, daftar milestones
-   - `IMPLEMENTATION_PROGRESS.md` — milestone `[/] In Progress` yang sedang dikerjakan
+   - `IMPLEMENTATION_PLAN.md` — status `Awaiting User Approval`, daftar milestones lengkap
+   - `IMPLEMENTATION_PROGRESS.md` — daftar task checklist
    - `IMPLEMENTATION_SUMMARY.md` — snapshot singkat implementasi
    - `DECISION_LOG.md` — keputusan teknis awal
    - `HANDOVER.md` — status pending
-5. **BARU boleh menulis kode**
+5. **⛔ STOP — Presentasikan rencana dan TUNGGU persetujuan eksplisit pengguna** sebelum melanjutkan
+6. Setelah pengguna memberi persetujuan ("setuju", "lanjut", "ok", "eksekusi", dll) **BARU boleh menulis kode**
 
 ### ⛔ LARANGAN ABSOLUT:
-- **DILARANG KERAS** menulis atau memodifikasi kode sebelum langkah 1–4 selesai
+- **DILARANG KERAS** menulis atau memodifikasi kode sebelum langkah 1–5 selesai **DAN** sebelum mendapat persetujuan eksplisit pengguna
 - **TIDAK ADA PENGECUALIAN** untuk "bug fix kecil", "perubahan minor", "task sederhana", atau alasan apapun
 - **DILARANG** mengisi `implementation/active/` setelah kode selesai ditulis — ini melanggar tujuan utama SOP
-- Pelanggaran checklist ini adalah **violation langsung** terhadap `docs/98_IMPLEMENTATION_PROTOCOL.md` Section 12 Rule #11 dan Rule #15
+- Pelanggaran checklist ini adalah **violation langsung** terhadap `docs/98_IMPLEMENTATION_PROTOCOL.md` Section 12 Rule #11, Rule #15, dan **Rule #17**
 
 ## MASTER SKILL ORCHESTRATOR & AUTOMATIC SKILL ROUTING:
 Before writing code or proposing changes, check the user prompt intent and inspect the corresponding SKILL.md file under `wuzzkang-engineering/skills/`:
@@ -66,16 +67,23 @@ Before writing code or proposing changes, check the user prompt intent and inspe
 5. **Confirmation for Unsolicited Actions:** Any suggestion or technical action outside the user's explicit command MUST be confirmed with the user for approval first.
 6. **Credential & Secret Protection:** Strictly verify every code change to ensure NO API keys, Private keys, passwords, or sensitive credentials are ever exposed in public code, frontend logs, or committed to Git repository.
 7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made and confirmed finished by the user, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
-8. **Mandatory 2-Phase Implementation Protocol & User-Approved Archive & Commit Cycle (Strict SOP):**
-   AI MUST execute technical implementations in 2 distinct phases according to `docs/98_IMPLEMENTATION_PROTOCOL.md`:
-   - **Phase 1 (Active Phase - Executed Immediately, NO Git Commit):**
-     a. Write code & verify build/test output.
-     b. Update all 6 tracking artifacts in `implementation/active/` (`AI_CONTEXT.md`, `IMPLEMENTATION_SUMMARY.md`, `IMPLEMENTATION_PLAN.md`, `IMPLEMENTATION_PROGRESS.md`, `DECISION_LOG.md`, `HANDOVER.md`).
-     c. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, etc.).
-     d. **STRICTLY NO GIT COMMIT & NO ARCHIVING AT THIS STAGE!**
-     e. **MUST ASK THE USER:** Explicitly ask the user: *"Apakah pekerjaan ini sudah dianggap selesai/sesuai?"*.
-     f. **Active Continuity Rule:** As long as the user has NOT answered "selesai", all subsequent requests/commands remain part of the SAME active implementation session in `implementation/active/`. AI continues updating active artifacts without archiving or committing git.
-   - **Phase 2 (Archive & Commit Phase - Executed ONLY After User Confirms Completion):**
+8. **Mandatory 3-Phase Implementation Protocol & User-Approved Execution & Archive/Commit Cycle (Strict SOP):**
+   AI MUST execute technical implementations in 3 distinct phases according to `docs/98_IMPLEMENTATION_PROTOCOL.md`:
+   - **Phase 1 (Planning Gate — Executed First, NO Code Written):**
+     a. Create and populate ALL 6 tracking artifacts in `implementation/active/`.
+     b. Set `IMPLEMENTATION_PLAN.md` status to `Awaiting User Approval`.
+     c. Present the complete plan to the user.
+     d. **⛔ STRICTLY NO CODE WRITING AT THIS STAGE!**
+     e. **MUST WAIT FOR USER EXPLICIT APPROVAL:** AI must stop and wait. Valid approvals: *"setuju", "lanjut", "ok", "oke", "silakan", "eksekusi", "jalankan", "mulai", "go", "proceed", "approved", "yes", "ya"*.
+   - **Phase 2 (Active Phase — Executed Only After User Approves, NO Git Commit):**
+     a. Set `IMPLEMENTATION_PLAN.md` status to `Approved for Implementation`.
+     b. Write code & verify build/test output.
+     c. Update all 6 tracking artifacts in `implementation/active/`.
+     d. Synchronize technical engineering documentation under `wuzzkang-engineering/docs/` (`02_CURRENT_STATE.md`, etc.).
+     e. **STRICTLY NO GIT COMMIT & NO ARCHIVING AT THIS STAGE!**
+     f. **MUST ASK THE USER:** Explicitly ask the user: *"Apakah pekerjaan ini sudah dianggap selesai/sesuai?"*.
+     g. **Active Continuity Rule:** As long as the user has NOT answered "selesai", all subsequent requests/commands remain part of the SAME active implementation session in `implementation/active/`. AI continues updating active artifacts without archiving or committing git.
+   - **Phase 3 (Archive & Commit Phase — Executed ONLY After User Confirms Completion):**
      When the user explicitly confirms the task is complete (e.g. "selesai", "sudah sesuai"):
      a. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.
      b. Re-initialize empty tracking templates in `implementation/active/` for the next task.

@@ -6,7 +6,7 @@
 
 | Field | Value |
 |---|---|
-| Version | 3.2.0 |
+| Version | 3.3.0 |
 | Status | Released |
 | Target | All Wuzzkang Repository Implementations |
 
@@ -204,13 +204,13 @@ The execution of any task must follow the systematic lifecycle stages below:
 [ Phase 1: Research & Plan ]
             │
             ▼
-[ Phase 2: User Approval ]
+[ Phase 2: Create All Active Tracking Documents ]
             │
             ▼
-[ Phase 3: Task Checklist Initialization ]
+[ Phase 3: STOP — Present Plan & Wait for User Approval ]
             │
-            ▼
-[ Phase 4: Incremental Code & Test Cycles ]
+            ▼ (User approves)
+[ Phase 4: Task Checklist Initialization & Code Execution ]
             │
             ▼
 [ Phase 5: Documentation Synchronization ]
@@ -218,6 +218,11 @@ The execution of any task must follow the systematic lifecycle stages below:
             ▼
 [ Phase 6: Handover Verification ]
 ```
+
+> [!IMPORTANT]
+> AI is strictly forbidden from writing any code before receiving explicit user approval on the plan.
+> Approval keywords include: `"setuju"`, `"lanjut"`, `"ok"`, `"eksekusi"`, or equivalent.
+> The presence of a completed IMPLEMENTATION_PLAN.md alone does NOT grant execution permission.
 
 ## 3.1 Milestone Lifecycle
 
@@ -543,7 +548,22 @@ Implementation artifacts always take precedence over conversation history.
 
 15. **Zero-Exception Rule:** This protocol applies equally to ALL implementation tasks regardless of perceived complexity, size, or urgency. There is no category of task small enough to skip artifact initialization. A one-line bug fix carries the same protocol obligations as a major feature implementation. Justifications such as "simple fix", "minor change", "small task", or "quick patch" are explicitly invalid reasons to bypass this protocol. Any AI that skips artifact initialization for any reason is in direct violation of this protocol.
 
-16. **Rules File Synchronization Invariant:** `.cursorrules` is defined as the canonical single source of truth for repository AI instructions. Whenever `.cursorrules` is modified, created, or updated, `.clinerules` MUST be synchronized immediately to mirror `.cursorrules` 100% without divergence.
+17. **Mandatory Plan Approval Gate (Pre-Code Execution):** Before writing any code, AI must:
+    - [ ] Create and populate ALL 6 tracking documents in `implementation/active/` (including a complete `IMPLEMENTATION_PLAN.md` and `IMPLEMENTATION_PROGRESS.md`).
+    - [ ] Present the completed plan to the user.
+    - [ ] **STOP** and wait for explicit user approval.
+    
+    Only after the user provides an explicit approval signal (e.g., *"setuju"*, *"lanjut"*, *"ok"*, *"eksekusi"*, or equivalent) may AI begin writing any source code.
+    
+    **A completed plan document does NOT constitute self-approval.** AI is forbidden from treating plan completion as implicit permission to start coding.
+    
+    This rule applies equally to all implementation tasks regardless of size, urgency, or complexity.
+    
+    **Valid approval signals (case-insensitive):** *setuju, lanjut, ok, oke, silakan, eksekusi, jalankan, mulai, go, proceed, approved, yes, ya*.
+    
+    **Invalid approval signals:** silence, continued user request without explicit approval, or the absence of a rejection.
+
+18. **Rules File Synchronization Invariant:** `.cursorrules` is defined as the canonical single source of truth for repository AI instructions. Whenever `.cursorrules` is modified, created, or updated, `.clinerules` MUST be synchronized immediately to mirror `.cursorrules` 100% without divergence.
 
 # 13. Implementation Continuity Guarantee
 
