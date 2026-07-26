@@ -51,10 +51,12 @@ Dokumen ini adalah acuan aturan ketat (*strict guardrails*) bagi AI Assistant da
 > - `${theme.cardNum}` = `bg-emerald-500 text-white shadow-emerald-500/20` → muncul **background** jika dipakai di `<span>` teks biasa!
 > - `${theme.badge}` = `bg-rose-500/10 text-rose-400 border-rose-500/20` → muncul **background+border** jika dipakai di teks polos!
 
-### 1.5 Penggunaan Terpusat File Konfigurasi Branding (`BRAND_NAME`, `BRAND_DOMAIN`)
-- **DILARANG KERAS** melakukan hardcoding nama brand (misalnya menuliskan string `"Siluet"`, `"Wuzzkang"`, dll) secara langsung pada komponen UI, halaman dashboard, maupun landing page.
-- **WAJIB MENGGUNAKAN CONFIG**: Seluruh elemen visual publik (nama brand, domain publik, email dukungan, copyright footer) wajib mengimpor dan mengonsumsi konstanta konfigurasi terpusat (misal `BRAND_NAME`, `BRAND_DOMAIN` dari `@/config/branding`).
-- Hal ini bertujuan agar perubahan nama brand atau domain publik di masa depan dapat dilakukan dengan sangat mudah dan instan dari satu titik pusat tanpa risiko regresi kode.
+### 1.6 Proteksi Rasio Kontras Teks per Tema Dashboard (`text-theme-success`, `bg-theme-success-bg`, `border-theme-success-border`)
+- **DILARANG KERAS** meng-hardcode kelas warna terang ber-saturasi tinggi secara kaku di komponen dashboard (seperti `text-emerald-400` atau `text-green-400`). Warna terang seperti `emerald-400` sangat silau dan menyakitkan mata jika dirender di atas latar belakang putih/terang pada **Clean Light Theme**.
+- **WAJIB MENGGUNAKAN DYNAMIC THEME VARIABLES**: Seluruh elemen status/success, total biaya, badge gratis, dan jumlah credit wajib menggunakan variabel CSS tema semantik:
+  - `text-theme-success`: Menghasilkan warna Emerald-700 (`#047857`) pada Clean Light Theme (kontras tinggi, nyaman di mata di latar putih), Emerald-500 (`#10b981`) pada Retro Theme, dan Emerald-400 (`#34d399`) pada Classic Dark Theme.
+  - `bg-theme-success-bg`: Latar belakang badge yang otomatis menyesuaikan kecerahan latar belakang tema.
+  - `border-theme-success-border`: Border subtle semantik tema.
 
 ---
 
