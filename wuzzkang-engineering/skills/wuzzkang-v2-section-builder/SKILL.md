@@ -69,3 +69,21 @@ Setiap seksi V2 dalam `dynamic-builder` terdiri dari 4 bagian yang saling terhub
 1. Update `themes` di `sectionStyle.js` pada **KEDUA** path (`wuzzkang-lp/templates/utils/sectionStyle.js` & `wuzzkang-dashboard/public/preview/templates/utils/sectionStyle.js`).
 2. Pasang override `bg_brightness === 'light'` untuk palet baru tersebut.
 3. Daftarkan opsi warna baru di picker UI `renderSectionStylePicker` di `page.js`.
+
+### Skenario C: Menambah Starter Kit Preset V2 Baru (`v2Presets.js`)
+1. Buka file `wuzzkang-dashboard/src/app/generate/v2Presets.js`.
+2. Jika memerlukan kategori baru, daftarkan di array `V2_STARTER_CATEGORIES` (misal: `{ id: 'fotografi', name: 'Web Fotografi', icon: '📸' }`).
+3. Tambahkan objek preset baru ke dalam array `V2_STARTER_PRESETS` dengan struktur **WAJIB**:
+   - `id`: identifier unik preset (misal: `'photo-portfolio-dark'`)
+   - `category`: id kategori terdaftar di `V2_STARTER_CATEGORIES`
+   - `name`: nama judul preset (misal: `'Dark Elegance Photography'`)
+   - `icon`: emoji visual ikon (misal: `'📸'`)
+   - `badge`: badge singkat (misal: `'High Impact'`)
+   - `description`: ringkasan visual & gaya layout
+   - `suitableFor`: tag rekomendasi peruntukan (misal: `'Fotografer, wedding studio, & videografer'`)
+   - `keywords`: **[WAJIB]** array sinonim & kata kunci pencarian (misal: `['fotografi', 'photo', 'camera', 'lensa', 'studio', 'portfolio', 'gallery']`)
+   - `defaultBrandName` & `defaultBrief`: nilai awal deskripsi bisnis
+   - `sections`: array tumpukan seksi awal
+4. Mesin pencari Tokenized Smart Search Engine (`wuzzkang-dashboard/src/app/generate/v2/page.js`) akan **otomatis mencocokkan, memfilter, dan mengurutkan** preset baru tersebut secara presisi tanpa perlu mengubah kode UI.
+5. Utilitas mesin pencari terisolasi di `wuzzkang-dashboard/src/utils/v2PresetSearch.js` dan komponen modal onboarding terenkapsulasi di `wuzzkang-dashboard/src/components/v2-editor/V2PresetOnboardingModal.js` dengan optimasi `useMemo`.
+
