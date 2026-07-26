@@ -52,3 +52,19 @@ Sebuah task atau milestone dianggap **Done** secara sah jika:
 - [ ] Perubahan kode telah lolos linting/build tanpa warning sintaks.
 - [ ] Seluruh dokumen terpengaruh di `wuzzkang-engineering/docs/` telah diperbarui.
 - [ ] Dokumen `HANDOVER.md` di folder `implementation/active/` memuat bukti audit dokumentasi ini.
+
+---
+
+## 🔄 4. Aturan Sinkronisasi Skill (Skill Dual-Sync Rule)
+
+> ⚠️ **WAJIB**: Jika dalam suatu task AI **memperbarui atau menambahkan aturan di file `SKILL.md`** manapun, maka **SEBELUM** menutup turn, wajib sync ke dua lokasi:
+
+| Lokasi | Path |
+|--------|------|
+| **Global** | `~/.gemini/config/skills/[nama-skill]/SKILL.md` |
+| **Project Root** | `wuzzkang-engineering/skills/[nama-skill]/SKILL.md` |
+
+**Checklist Skill Sync (tambahkan ke DoD jika ada perubahan skill):**
+- [ ] File `SKILL.md` di lokasi Global (`~/.gemini/config/skills/`) sudah diupdate.
+- [ ] File `SKILL.md` di lokasi Project Root (`wuzzkang-engineering/skills/`) sudah disync identik — verifikasi dengan `diff` atau `wc -l`.
+- [ ] Perubahan skill di-commit ke git: `git commit -m "docs(skills): [deskripsi perubahan]"`.

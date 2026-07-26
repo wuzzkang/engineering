@@ -70,3 +70,30 @@ Saat pengguna memberikan prompt:
 2. **Load Relevant Skills**: Gunakan `view_file` untuk membaca [wuzzkang-engineering/skills/[nama-skill]/SKILL.md](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/skills/) terkait.
 3. **Execute Implementation Protocol**: Operasikan alur kerja di `implementation/active/` sesuai [wuzzkang-implementation-protocol](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/skills/wuzzkang-implementation-protocol/SKILL.md).
 4. **Audit DoD & Doc Sync**: Sebelum mengakhiri giliran (*ending turn*), perbarui dokumen di `wuzzkang-engineering/docs/` sesuai [wuzzkang-doc-sync-auditor](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/skills/wuzzkang-doc-sync-auditor/SKILL.md).
+
+---
+
+## 🔄 3. Aturan Wajib Sinkronisasi Skill (Mandatory Skill Dual-Sync Rule)
+
+> ⚠️ **CRITICAL**: Skill Wuzzkang disimpan di **DUA lokasi** yang harus selalu identik:
+> - **Global**: `~/.gemini/config/skills/[nama-skill]/SKILL.md`
+> - **Project Root**: `wuzzkang-engineering/skills/[nama-skill]/SKILL.md`
+
+**Kapan wajib sync:** Setiap kali AI **memperbarui, menambahkan aturan, atau mengubah konten** file `SKILL.md` manapun, wajib mengikuti prosedur berikut:
+
+```bash
+# Setelah update global → sync ke project:
+cp ~/.gemini/config/skills/[nama-skill]/SKILL.md \
+   /path/to/wuzzkang/wuzzkang-engineering/skills/[nama-skill]/SKILL.md
+
+# Verifikasi identik:
+diff ~/.gemini/config/skills/[nama-skill]/SKILL.md \
+     /path/to/wuzzkang/wuzzkang-engineering/skills/[nama-skill]/SKILL.md
+```
+
+**Checklist sebelum menutup turn jika ada skill yang diupdate:**
+- [ ] Global skill (`~/.gemini/config/skills/`) sudah diupdate
+- [ ] Project skill (`wuzzkang-engineering/skills/`) sudah disync (identik)
+- [ ] Perubahan di-commit ke git dengan pesan `docs(skills): ...`
+
+**Aturan ini berlaku tanpa pengecualian.** Tidak mensinkronkan skill ke project root adalah pelanggaran prosedur yang setara dengan tidak melakukan sync dual-directory template LP.
