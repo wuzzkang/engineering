@@ -1,4 +1,4 @@
 # Handover Document
 
 - **Status**: Idle
-- **Next Steps**: Awaiting new task instructions.
+- **Next Steps**: Waiting for next user prompt.

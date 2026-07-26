@@ -35,13 +35,9 @@ Sebelum mengeksekusi perintah atau menulis kode, AI Assistant **WAJIB** membaca 
 │    "Review kode", "Cek bug", "Audit keamanan",│ • wuzzkang-ui-standards-guard                          │
 │    "Self review", "Check DoD"                 │ • wuzzkang-doc-sync-auditor                            │
 ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
-│ 4. Tambah Produk / Template Landing Page      │ • wuzzkang-product-template-generator                  │
-│    "Tambah produk", "Template baru",          │ • wuzzkang-ui-standards-guard                          │
-│    "Khitanan", "Style baru", "Migrasi produk" │ • wuzzkang-doc-sync-auditor                            │
-├───────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
-│ 5. Tambah / Edit Seksi V2 (Modular Builder)   │ • wuzzkang-v2-section-builder                          │
-│    "Tambah section V2", "Dynamic builder",    │ • wuzzkang-ui-standards-guard                          │
-│    "Testimonial slider", "Preset warna baru"  │                                                        │
+│ 4. Tambah / Edit Preset & Seksi V2 (Modular Builder) │ • wuzzkang-v2-section-builder                          │
+│    "Tambah preset V2", "Starter kit baru",    │ • wuzzkang-ui-standards-guard                          │
+│    "Tambah section V2", "Preset warna baru"   │ • wuzzkang-doc-sync-auditor                            │
 ├───────────────────────────────────────────────┼────────────────────────────────────────────────────────┤
 │ 6. Integrasi AI / BullMQ Queue / Worker       │ • wuzzkang-ai-platform-compiler                        │
 │    "Task Compiler", "BullMQ worker",          │ • wuzzkang-ai-platform-compiler                        │
