@@ -1,3 +1,3 @@
-# Handover Document — [Implementasi Berikutnya]
+# Handover — [Implementasi Berikutnya]
 
 (Kosong - Siap untuk implementasi berikutnya)
