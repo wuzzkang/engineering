@@ -24,10 +24,29 @@ Setiap seksi V2 dalam `dynamic-builder` terdiri dari 4 bagian yang saling terhub
 
 ## 🛑 2. Invariansi & Aturan Penting V2
 
-1. **WAJIB Menggunakan `getSectionStyle`**:
-   Semua komponen seksi V2 **DILARANG KERAS** menggunakan hardcoded class background/text internal yang tidak melewati `getSectionStyle`. Selalu teruskan `(data.bg_style, data.bg_shade, data.bg_brightness)`.
-2. **WAJIB Sync Dual Directory**:
-   Setiap perubahan pada komponen perenderan di `wuzzkang-lp/` wajib disinkronkan secara identik ke `wuzzkang-dashboard/public/preview/`.
+1. **WAJIB Menggunakan `getSectionStyle` & Dynamic Theme Variables**:
+   Semua komponen seksi V2 **DILARANG KERAS** menggunakan hardcoded class background (`bg-slate-900`, `bg-rose-950`, `bg-amber-950`, dll), border, atau warna teks (`text-white`, `text-slate-400`, `text-amber-400`, `text-rose-300`, `text-emerald-300`, dll) pada kontainer card, elemen form, judul, deskripsi, badge, atau label. **WAJIB** menggunakan variabel warna dinamis dari `getSectionStyle` sesuai dengan **semantik elemen** berikut:
+
+   | Elemen | Key yang Benar | Contoh Output |
+   |--------|---------------|---------------|
+   | Judul section (h2) | `${theme.heading}` | `text-white` / `text-slate-900` |
+   | Subtitle / deskripsi section | `${theme.subtitle}` | `text-slate-400` / `text-stone-600` |
+   | Judul di dalam card | `${theme.cardTitle}` | `text-white` / `text-slate-900` |
+   | Deskripsi / teks muted di dalam card | `${theme.cardDesc}` | `text-slate-400` / `text-emerald-200/70` |
+   | Background container card / border card | `${theme.cardBg}` | `bg-slate-900/60 border-slate-800 ...` |
+   | Pill badge (bg + teks + border sekaligus) | `${theme.badge}` | `bg-rose-500/10 text-rose-400 border-rose-500/20` |
+   | Tombol CTA utama | `${theme.btnPrimary}` | `bg-orange-500 hover:bg-orange-600 text-white ...` |
+   | Tombol sekunder / outline | `${theme.btnSecondary}` | `bg-slate-900 hover:bg-slate-800 ...` |
+   | **Teks accent tanpa background** (label, tanggal, caption, dekoratif) | `${theme.topLine.replace('bg-', 'text-')}` | `text-emerald-500` / `text-rose-500` |
+   | Lingkaran nomor berbg accent (numbered circles) | `${theme.cardNum}` | `bg-emerald-500 text-white shadow-...` |
+
+   > ⚠️ **CRITICAL RULE**: `${theme.cardNum}` mengandung class GABUNGAN (`bg-{color} text-white shadow-{color}`) — **HANYA** dipakai pada elemen lingkaran nomor (`div` bulat). **JANGAN** dipakai pada `<span>` teks biasa, label, atau caption karena akan memunculkan background yang tidak diinginkan.
+   >
+   > ⚠️ **CRITICAL RULE**: `${theme.badge}` mengandung class GABUNGAN (`bg-{color}/10 text-{color} border border-{color}/20`) — cocok untuk pill badge section header. Jika elemen HANYA butuh warna teks saja (tanpa bg+border), gunakan `${theme.topLine.replace('bg-', 'text-')}`.
+
+   Agar responsif 100% saat pengguna mengganti `Tema Warna Landing Page (Global)` (`bg_style`: navy, emerald, amber, purple, rose, slate, light, white, cream, obsidian).
+2. **WAJIB Sync Dual Directory (`wuzzkang-lp` & `wuzzkang-dashboard`)**:
+   Setiap pembuatan, perbaikan bug, atau perubahan pada komponen perenderan di `wuzzkang-lp/templates/components/sections/` **WAJIB SINKRON 100%** secara identik ke `wuzzkang-dashboard/public/preview/templates/components/sections/` agar tampilan Live Sandbox Preview di Dashboard `/generate/v2` selalu presisi dengan hasil akhir terdeploy.
 3. **Solid Background pada Varian Light**:
    Varian background `light` harus berupa warna solid (`bg-white` / `bg-emerald-50`) tanpa opacity (`/40`) agar tidak membaur dengan latar body gelap (`#020617`).
 4. **100% Dynamic Theme CSS Variable Reactivity**:

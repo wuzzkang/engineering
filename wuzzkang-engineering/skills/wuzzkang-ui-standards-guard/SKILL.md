@@ -27,6 +27,31 @@ Dokumen ini adalah acuan aturan ketat (*strict guardrails*) bagi AI Assistant da
 - Kolom `cost` pada tabel `products` di database adalah satuan **Credit**, bukan nominal Rupiah IDR.
 - **DILARANG KERAS** memasukkan nilai nominal Rupiah (misalnya `15000`) ke kolom `cost`. Selalu gunakan nilai credit (misal `150`).
 
+### 1.4 Proteksi Reaktivitas Warna & Dual Template Directory Sync
+- **DILARANG KERAS** melakukan hardcoding pada background card, border, maupun warna teks pada komponen perenderan seksi V2. Ini mencakup class seperti `bg-slate-900`, `bg-rose-950`, `text-amber-400`, `text-rose-300`, `text-emerald-300`, `text-amber-100`, `text-rose-100`, dll.
+- **WAJIB SINKRON 100%**: Setiap pengeditan perenderan seksi di `wuzzkang-lp/templates/` wajib disinkronkan identik ke `wuzzkang-dashboard/public/preview/templates/`.
+- Perubahan pada warna UI dashboard **WAJIB** menggunakan CSS variable tokens (`bg-theme-bg`, `bg-theme-surface`, `bg-theme-card`, `border-theme-border`, `text-theme-text`, `bg-theme-accent`).
+
+**📌 Peta Semantik Key `theme` Object (dari `getSectionStyle`):**
+
+| Elemen | Key Wajib | Output (Compound?) |
+|--------|-----------|--------------------|
+| Judul section `<h2>` | `${theme.heading}` | Text only ✅ |
+| Subtitle / desc section | `${theme.subtitle}` | Text only ✅ |
+| Judul dalam card `<h3>` | `${theme.cardTitle}` | Text only ✅ |
+| Desc muted dalam card | `${theme.cardDesc}` | Text only ✅ |
+| Container/border card | `${theme.cardBg}` | Compound (bg+border) |
+| Pill badge (bg+text+border) | `${theme.badge}` | Compound (bg+text+border) |
+| Tombol CTA utama | `${theme.btnPrimary}` | Compound |
+| Tombol outline/sekunder | `${theme.btnSecondary}` | Compound |
+| **Accent text ONLY** (label, tanggal, caption, dekoratif ✦) | `${theme.topLine.replace('bg-', 'text-')}` | Text only ✅ |
+| Lingkaran nomor (numbered circle `div` bulat) | `${theme.cardNum}` | Compound (bg+text+shadow) ⛔ jangan pada `<span>` |
+
+> ⚠️ **CRITICAL — Jangan salah gunakan `theme.cardNum` dan `theme.badge`**:
+> - `${theme.cardNum}` = `bg-emerald-500 text-white shadow-emerald-500/20` → muncul **background** jika dipakai di `<span>` teks biasa!
+> - `${theme.badge}` = `bg-rose-500/10 text-rose-400 border-rose-500/20` → muncul **background+border** jika dipakai di teks polos!
+> - Untuk label, caption, tanggal, atau teks dekoratif yang hanya butuh **warna teks accent tanpa background**, selalu gunakan: `${theme.topLine.replace('bg-', 'text-')}`
+
 ---
 
 ## ⚡ 2. Optimasi Performa & Form Handling

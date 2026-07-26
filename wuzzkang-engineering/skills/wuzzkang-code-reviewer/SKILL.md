@@ -38,6 +38,11 @@ Setiap pengajuan perubahan kode wajib diaudit berdasarkan 6 dimensi utama:
 - [ ] **Safe-Merging FAQ AI**: Memastikan respons AI FAQ tidak menimpa Q&A isi pengguna.
 - [ ] **Credit Cost DB**: Memastikan kolom `cost` pada database menggunakan satuan **Credit** (bukan nominal IDR Rupiah).
 - [ ] **Multi-Version Isolation**: Memastikan perubahan V2/V3 tidak merusak perenderan situs V1 legacy yang sudah tayang.
+- [ ] **Theme Reactivity & Dual Directory Sync**: Memastikan seksi V2 tidak mengandung hardcoded background card/teks (wajib memakai `${theme}` dari `getSectionStyle`) dan file perenderan di `wuzzkang-lp/templates/` 100% identik dengan `wuzzkang-dashboard/public/preview/templates/`.
+- [ ] **Semantik Theme Key yang Benar**: Memastikan setiap key `theme.*` dipakai sesuai semantiknya:
+    - `theme.cardNum` (`bg-{color} text-white shadow-{color}`) ⛔ HANYA untuk elemen lingkaran nomor berbg — **DILARANG** di `<span>` teks biasa/label/caption (akan menyebabkan background muncul)
+    - `theme.badge` (`bg-{color}/10 text-{color} border...`) ⛔ HANYA untuk pill badge header section — **DILARANG** di teks polos
+    - Untuk teks accent TANPA background: WAJIB pakai `${theme.topLine.replace('bg-', 'text-')}` → menghasilkan `text-{accentColor}` saja
 
 ### 1.6 Kualitas Arsitektur & Clean Code
 - [ ] Mengikuti SOLID principles & Clean Architecture.
