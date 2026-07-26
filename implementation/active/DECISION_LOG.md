@@ -1,3 +1,1 @@
-# Technical Decision Log
-
-No active decisions logged.
+# DECISION_LOG
