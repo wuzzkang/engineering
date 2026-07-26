@@ -88,8 +88,8 @@ Before writing code or proposing changes, check the user prompt intent and inspe
      a. **Execute `npm run sync:templates`** to guarantee 100% template synchronization between `wuzzkang-lp` and `wuzzkang-dashboard/public/preview/`.
      b. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.
      c. Re-initialize empty tracking templates in `implementation/active/` for the next task.
-     d. **Execute `git status`** across all affected repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`) to inspect and verify all uncommitted files.
-     e. **Execute local `git commit`** in all affected repositories including `root` for the completed task and archive.
+     d. **Execute `git status`** across ALL 4 repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`) using the mandatory 4-repo audit command: `for dir in . wuzzkang-dashboard wuzzkang-api wuzzkang-lp; do echo "=== $dir ===" && (cd $dir && git status); done` to inspect and verify all uncommitted files before committing.
+     e. **Execute local `git commit`** in every affected repository including `root` for the completed task and archive.
 
 ## CRITICAL PROJECT RULES:
 - **Rules Synchronization (Strict):** `.cursorrules` is the single source of truth for AI instructions. Whenever `.cursorrules` is modified or updated, `.clinerules` MUST be updated immediately to mirror `.cursorrules` 100%.
