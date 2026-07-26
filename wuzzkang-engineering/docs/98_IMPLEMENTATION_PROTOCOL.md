@@ -565,6 +565,8 @@ Implementation artifacts always take precedence over conversation history.
 
 18. **Rules File Synchronization Invariant:** `.cursorrules` is defined as the canonical single source of truth for repository AI instructions. Whenever `.cursorrules` is modified, created, or updated, `.clinerules` MUST be synchronized immediately to mirror `.cursorrules` 100% without divergence.
 
+19. **Centralized Branding Configuration Invariant:** All user-facing branding attributes (brand name, brand domain, support email, copyright notice, etc.) MUST NEVER be hardcoded as raw string literals in UI components, landing pages, or dashboard screens. They MUST strictly consume centralized configuration constants (e.g. `BRAND_NAME`, `BRAND_DOMAIN` from `@/config/branding`). Any hardcoded branding text is strictly forbidden to ensure seamless, single-point brand rebranding across the entire platform.
+
 # 13. Implementation Continuity Guarantee
 
 One of the primary objectives of this protocol is guaranteeing implementation continuity across different AI models, different AI vendors, different user accounts, and different engineering sessions.

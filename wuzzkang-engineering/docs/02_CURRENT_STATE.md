@@ -147,6 +147,8 @@ Future designs belong to later documents.
 - Transaction (Logs Credit amount and stores IDR raw values in metadata)
 - Dynamic Payment Methods (Database-driven toggle and config for QRIS & Virtual Accounts)
 - QRIS (Supports Gateway Mode and Image Mode with Admin WhatsApp manual verification button)
+- **V2 Top Up & 100% Dynamic System Settings Integration**: Redesigned `/topup` pricing accordion to consume 100% dynamic settings directly from database (`products` table and `system_settings` table via newly added `GET /api/system-settings` API endpoint). Completely removed legacy V1 per-template product hardcoding in favor of unified V2 ecosystem fee schedule (AI Copywriting Draft cost, Publication fee, Subdomain claim cost, Edit quota, and Hosting).
+
 
 ## Authentication
 

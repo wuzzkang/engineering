@@ -50,7 +50,11 @@ Dokumen ini adalah acuan aturan ketat (*strict guardrails*) bagi AI Assistant da
 > ⚠️ **CRITICAL — Jangan salah gunakan `theme.cardNum` dan `theme.badge`**:
 > - `${theme.cardNum}` = `bg-emerald-500 text-white shadow-emerald-500/20` → muncul **background** jika dipakai di `<span>` teks biasa!
 > - `${theme.badge}` = `bg-rose-500/10 text-rose-400 border-rose-500/20` → muncul **background+border** jika dipakai di teks polos!
-> - Untuk label, caption, tanggal, atau teks dekoratif yang hanya butuh **warna teks accent tanpa background**, selalu gunakan: `${theme.topLine.replace('bg-', 'text-')}`
+
+### 1.5 Penggunaan Terpusat File Konfigurasi Branding (`BRAND_NAME`, `BRAND_DOMAIN`)
+- **DILARANG KERAS** melakukan hardcoding nama brand (misalnya menuliskan string `"Siluet"`, `"Wuzzkang"`, dll) secara langsung pada komponen UI, halaman dashboard, maupun landing page.
+- **WAJIB MENGGUNAKAN CONFIG**: Seluruh elemen visual publik (nama brand, domain publik, email dukungan, copyright footer) wajib mengimpor dan mengonsumsi konstanta konfigurasi terpusat (misal `BRAND_NAME`, `BRAND_DOMAIN` dari `@/config/branding`).
+- Hal ini bertujuan agar perubahan nama brand atau domain publik di masa depan dapat dilakukan dengan sangat mudah dan instan dari satu titik pusat tanpa risiko regresi kode.
 
 ---
 

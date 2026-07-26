@@ -401,16 +401,33 @@ Represents discount validations:
     "success": true,
     "data": [
       {
-        "id": "wedding",
-        "cost": 190,
-        "active": true
-      },
-      {
-        "id": "birthday",
-        "cost": 190,
-        "active": true
+        "id": "landing-page",
+        "name": "Landing Page V2",
+        "cost": 100,
+        "unit": "Halaman",
+        "is_active": true
       }
     ]
+  }
+  ```
+
+#### `GET /api/system-settings`
+* **Purpose:** Retrieve all global system configuration key-value settings (e.g. edit quotas, subdomain costs, daily AI limits, edit pricing).
+* **Authentication Required:** Yes (Bearer JWT).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "success": true,
+    "data": {
+      "daily_ai_limit": 15,
+      "ai_generate_cost": 0,
+      "max_project_edits": 3,
+      "project_edit_cost": 1,
+      "subdomain_pricing": {
+        "cost": 10,
+        "is_active": true
+      }
+    }
   }
   ```
 

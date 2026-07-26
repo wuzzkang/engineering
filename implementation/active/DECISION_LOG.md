@@ -1,3 +1,4 @@
-# Decision Log — [Implementasi Berikutnya]
+# Decision Log
 
-(Kosong - Siap untuk implementasi berikutnya)
+- **Status**: Idle
+- **Decisions**: None

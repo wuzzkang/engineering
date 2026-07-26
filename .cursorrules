@@ -93,6 +93,7 @@ Before writing code or proposing changes, check the user prompt intent and inspe
 
 ## CRITICAL PROJECT RULES:
 - **Rules Synchronization (Strict):** `.cursorrules` is the single source of truth for AI instructions. Whenever `.cursorrules` is modified or updated, `.clinerules` MUST be updated immediately to mirror `.cursorrules` 100%.
+- **Centralized Branding Configuration (Strict SOP Invariant):** All user-facing branding elements (brand name, brand domain, support email, copyright notice, etc.) MUST NEVER be hardcoded as raw string literals in UI components, landing pages, or dashboard screens. They MUST strictly consume centralized configuration constants (e.g. `BRAND_NAME`, `BRAND_DOMAIN` from `@/config/branding`). Any hardcoded branding text is strictly forbidden to ensure seamless, single-point brand rebranding across the entire platform.
 - **UI Component Reuse (Strict):** Never write custom image pickers or upload controls from scratch. You MUST reuse `<ImagePickerField>` linked to `handleUploadImage` as detailed in `docs/14_COMPONENT_LIBRARY.md`.
 - **FAQ AI Generation (Safe-Merging):** User-filled Q&A must NEVER be overwritten or deleted by AI responses.
 - **Database Cost Fields:** The `cost` field in the database represents **Credits**, not raw IDR Rupiah nominals.
