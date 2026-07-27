@@ -1,11 +1,35 @@
 import React, { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom/client';
 import { DocumentInterpreter, TokenResolver } from '@wuzzkang/renderer-core';
-import { HeroBasicRenderer } from '../../../sections/hero-basic/Renderer.jsx';
 
-// Section Component Registry
+// 12 Built-in Section Renderers
+import { HeroBasicRenderer } from '../../../sections/hero-basic/Renderer.jsx';
+import { HeaderNavRenderer } from '../../../sections/header-nav/Renderer.jsx';
+import { AboutStandardRenderer } from '../../../sections/about-standard/Renderer.jsx';
+import { FeaturesGridRenderer } from '../../../sections/features-grid/Renderer.jsx';
+import { FaqStandardRenderer } from '../../../sections/faq-standard/Renderer.jsx';
+import { PricingTableRenderer } from '../../../sections/pricing-table/Renderer.jsx';
+import { GalleryGridRenderer } from '../../../sections/gallery-grid/Renderer.jsx';
+import { TestimonialsRenderer } from '../../../sections/testimonials/Renderer.jsx';
+import { TimelineRenderer } from '../../../sections/timeline/Renderer.jsx';
+import { CtaCenteredRenderer } from '../../../sections/cta-centered/Renderer.jsx';
+import { ContactFormRenderer } from '../../../sections/contact-form/Renderer.jsx';
+import { FooterStandardRenderer } from '../../../sections/footer-standard/Renderer.jsx';
+
+// 12 Section Component Registry
 const RENDERER_REGISTRY = {
-  'hero-basic': HeroBasicRenderer
+  'hero-basic': HeroBasicRenderer,
+  'header-nav': HeaderNavRenderer,
+  'about-standard': AboutStandardRenderer,
+  'features-grid': FeaturesGridRenderer,
+  'faq-standard': FaqStandardRenderer,
+  'pricing-table': PricingTableRenderer,
+  'gallery-grid': GalleryGridRenderer,
+  'testimonials': TestimonialsRenderer,
+  'timeline': TimelineRenderer,
+  'cta-centered': CtaCenteredRenderer,
+  'contact-form': ContactFormRenderer,
+  'footer-standard': FooterStandardRenderer
 };
 
 function PreviewApp() {
@@ -15,7 +39,6 @@ function PreviewApp() {
   const [isDarkMode, setIsDarkMode] = useState(false);
 
   useEffect(() => {
-    // 1. Notify parent host window that preview iframe is ready
     if (window.parent && window.parent !== window) {
       window.parent.postMessage({
         source: 'wuzzkang-preview',
@@ -26,7 +49,6 @@ function PreviewApp() {
       }, '*');
     }
 
-    // 2. PostMessage Listener for Host Messages
     const handleMessage = (event) => {
       const msg = event.data;
       if (!msg || msg.source !== 'wuzzkang-builder') return;
@@ -57,13 +79,11 @@ function PreviewApp() {
     return () => window.removeEventListener('message', handleMessage);
   }, [document]);
 
-  // Inject CSS custom properties when designSystem updates
   useEffect(() => {
     if (!designSystem) return;
 
     try {
       const root = window.document.documentElement;
-      // Inject basic brand variables
       const brandPrimary = TokenResolver.resolveToken('semantic.color.brand.primary', designSystem, isDarkMode);
       const bgPrimary = TokenResolver.resolveToken('semantic.color.background.primary', designSystem, isDarkMode);
       const textPrimary = TokenResolver.resolveToken('semantic.color.text.primary', designSystem, isDarkMode);
@@ -97,7 +117,6 @@ function PreviewApp() {
     );
   }
 
-  // Resolve Document using DocumentInterpreter
   const resolvedTree = DocumentInterpreter.interpret(document, designSystem, {}, isDarkMode);
 
   return (

@@ -1,0 +1,32 @@
+{
+  "id": "pricing-table",
+  "namespace": "wuzzkang.core",
+  "schemaVersion": "1.0.0",
+  "displayName": "Pricing Table Tiers",
+  "description": "Subscription and pricing plan tiers with feature checklists.",
+  "category": "pricing",
+  "tags": ["pricing", "plans", "subscription", "tiers"],
+  "schema": [
+    { "key": "headline", "type": "text", "label": "Section Headline", "required": true, "aiGeneratable": true },
+    { "key": "subheadline", "type": "text", "label": "Section Subheadline", "required": false, "aiGeneratable": true },
+    { "key": "plansList", "type": "list", "label": "Pricing Plans List", "required": true }
+  ],
+  "defaults": {
+    "headline": { "$type": "text", "value": "Pilih Paket yang Sesuai" },
+    "subheadline": { "$type": "text", "value": "Transparan tanpa biaya tersembunyi." },
+    "plansList": {
+      "$type": "list",
+      "items": [
+        { "$type": "text", "value": "Basic - Rp 99.000 / bln" },
+        { "$type": "text", "value": "Pro - Rp 299.000 / bln" },
+        { "$type": "text", "value": "Enterprise - Custom" }
+      ]
+    }
+  },
+  "capabilities": {
+    "supportsAIGeneration": true,
+    "supportsAnimation": true,
+    "supportsChildren": false,
+    "responsiveBehavior": "fluid"
+  }
+}

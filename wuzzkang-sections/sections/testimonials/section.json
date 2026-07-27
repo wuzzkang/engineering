@@ -1,0 +1,29 @@
+{
+  "id": "testimonials",
+  "namespace": "wuzzkang.core",
+  "schemaVersion": "1.0.0",
+  "displayName": "Testimonials Reviews",
+  "description": "User quotes, feedback testimonials, and client social proof.",
+  "category": "about",
+  "tags": ["testimonials", "reviews", "quotes", "social-proof"],
+  "schema": [
+    { "key": "headline", "type": "text", "label": "Section Headline", "required": true, "aiGeneratable": true },
+    { "key": "reviewsList", "type": "list", "label": "Testimonials Quotes List", "required": true }
+  ],
+  "defaults": {
+    "headline": { "$type": "text", "value": "Apa Kata Pengguna Kami" },
+    "reviewsList": {
+      "$type": "list",
+      "items": [
+        { "$type": "text", "value": "WuzzKang V2 membuat pembuatan landing page 10x lebih cepat! — Budi, Software Agency Owner" },
+        { "$type": "text", "value": "Arsitektur token-nya sangat memudahkan branding produk kami. — Ani, Product Designer" }
+      ]
+    }
+  },
+  "capabilities": {
+    "supportsAIGeneration": true,
+    "supportsAnimation": true,
+    "supportsChildren": false,
+    "responsiveBehavior": "fluid"
+  }
+}

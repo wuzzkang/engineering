@@ -1,0 +1,30 @@
+{
+  "id": "timeline",
+  "namespace": "wuzzkang.core",
+  "schemaVersion": "1.0.0",
+  "displayName": "Timeline Milestone Tracker",
+  "description": "Chronological timeline for milestones, roadmaps, or event schedules.",
+  "category": "about",
+  "tags": ["timeline", "roadmap", "milestones", "history"],
+  "schema": [
+    { "key": "headline", "type": "text", "label": "Section Headline", "required": true, "aiGeneratable": true },
+    { "key": "eventsList", "type": "list", "label": "Timeline Events List", "required": true }
+  ],
+  "defaults": {
+    "headline": { "$type": "text", "value": "Roadmap Pengembangan" },
+    "eventsList": {
+      "$type": "list",
+      "items": [
+        { "$type": "text", "value": "Q1 2026 - Specification Lock & Kernel Engine" },
+        { "$type": "text", "value": "Q2 2026 - Builder Core UI & Preview Bridge" },
+        { "$type": "text", "value": "Q3 2026 - AI Integration & General Availability" }
+      ]
+    }
+  },
+  "capabilities": {
+    "supportsAIGeneration": true,
+    "supportsAnimation": true,
+    "supportsChildren": false,
+    "responsiveBehavior": "fluid"
+  }
+}
