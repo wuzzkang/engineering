@@ -12,13 +12,21 @@ Dokumen ini adalah acuan standar bagi AI Assistant dan Engineer ketika membuat s
 
 ---
 
-## 🎯 1. Arsitektur Komponen Section V2
+## 🎯 1. Arsitektur Komponen Section V2 & First Principles Engine
 
-Setiap seksi V2 dalam `dynamic-builder` terdiri dari 4 bagian yang saling terhubung:
-1. **ES Module Renderer (`wuzzkang-lp`)**: File perenderan HTML di `wuzzkang-lp/templates/components/sections/[section_type]/[file_name].js`.
-2. **Synced Preview Component (`wuzzkang-dashboard`)**: Duplikat file perenderan untuk sandbox live preview di `wuzzkang-dashboard/public/preview/templates/components/sections/[section_type]/[file_name].js`.
-3. **Editor Form UI (`page.js`)**: Pengisian konten di `wuzzkang-dashboard/src/app/generate/page.js` (wajib memuat `{renderSectionStylePicker(section)}` dan `{renderAIV2Button(...)}`).
-4. **Zod Validation Schema (`wuzzkang-api`)**: Validasi payload di `wuzzkang-api/src/utils/schema.js`.
+Setiap seksi V2 dalam `dynamic-builder` beroperasi di atas **First Principles Render Architecture**:
+1. **First Principles AST Core (`@wuzzkang/renderer-core`)**: Modul perenderan berbasis Abstract Syntax Tree (AST) independen di `wuzzkang-sections/packages/renderer-core/` yang mengekspor:
+   - `DocumentInterpreter`: Menerjemahkan `PageDocument` AST (`nodes`, `designSystemId`, `meta`, `formatVersion`, `checksum`) menjadi `ResolvedRenderTree` yang siap dirender (<10ms SLA).
+   - `TokenResolver`: Menyelesaikan hierarki token desain dari `primitives` ke `semantic`.
+2. **Preview Bridge Canvas**: Komunikasi dua arah via `window.postMessage` antara Builder UI (`wuzzkang-dashboard`) dan iframe Vite Preview Canvas (`http://localhost:3333` / `wuzzkang-sections/apps/preview-app`).
+3. **ES Module Renderer (`wuzzkang-lp`)**: File perenderan HTML di `wuzzkang-lp/templates/components/sections/[section_type]/[file_name].js`.
+4. **Synced Preview Component (`wuzzkang-dashboard`)**: Duplikat file perenderan untuk sandbox live preview di `wuzzkang-dashboard/public/preview/templates/components/sections/[section_type]/[file_name].js`.
+5. **Editor Form UI (`page.js` / `page.jsx`)**: Editor V2 di `wuzzkang-dashboard/src/app/generate/v2/[projectId]/page.jsx` (wajib memuat `{renderSectionStylePicker(section)}` dan `{renderAIV2Button(...)}`).
+6. **Instant Auto-Save & Main Projects Sync (`TypeRegistryService`)**:
+   - Memasuki editor `/generate/v2/[projectId]` untuk proyek baru akan otomatis menyimpan draf ke database pada detik pertama (*auto-save on mount*).
+   - Backend `TypeRegistryService.saveProjectDraft` otomatis mempublikasikan/menyinkronkan draf ke tabel utama `projects` menggunakan nama dan UUID proyek yang valid agar langsung muncul di Home Dashboard.
+   - **Safeguard SyntheticEvent**: Selalu bungkus callback simpan manual dengan `onClick={() => saveDraftToApi()}` untuk mencegah eror serialisasi JSON sirkular akibat pengoperan objek `SyntheticEvent` dari React.
+7. **Zod Validation Schema (`wuzzkang-api`)**: Validasi payload di `wuzzkang-api/src/utils/schema.js`.
 
 ---
 

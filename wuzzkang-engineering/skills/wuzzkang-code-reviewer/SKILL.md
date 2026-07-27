@@ -34,6 +34,9 @@ Setiap pengajuan perubahan kode wajib diaudit berdasarkan 6 dimensi utama:
 - [ ] **Konfirmasi Tindakan**: Setiap saran/tindakan di luar perintah eksplisit pengguna wajib dimintakan persetujuan terlebih dahulu.
 
 ### 1.5 Kepatuhan Aturan Khusus Wuzzkang (Mandatory Compliance)
+- [ ] **Centralized Branding Configuration**: Memastikan nama brand, domain, dan copyright tidak di-hardcode sebagai string literal; wajib mengonsumsi modul `@/config/branding` / `brandConfig`.
+- [ ] **V2 First Principles AST Performance**: Memastikan resolusi AST perenderan V2 via `@wuzzkang/renderer-core` memenuhi SLA < 10 ms.
+- [ ] **SyntheticEvent Safeguard**: Memastikan callback simpan manual pada tombol UI dibungkus `onClick={() => saveDraftToApi()}` untuk mencegah eror serialisasi JSON sirkular.
 - [ ] **UI Component Reuse**: Memastikan tidak ada custom upload control; wajib reuse `<ImagePickerField>` dan pipeline `handleUploadImage`.
 - [ ] **Safe-Merging FAQ AI**: Memastikan respons AI FAQ tidak menimpa Q&A isi pengguna.
 - [ ] **Credit Cost DB**: Memastikan kolom `cost` pada database menggunakan satuan **Credit** (bukan nominal IDR Rupiah).
@@ -43,6 +46,7 @@ Setiap pengajuan perubahan kode wajib diaudit berdasarkan 6 dimensi utama:
     - `theme.cardNum` (`bg-{color} text-white shadow-{color}`) ⛔ HANYA untuk elemen lingkaran nomor berbg — **DILARANG** di `<span>` teks biasa/label/caption (akan menyebabkan background muncul)
     - `theme.badge` (`bg-{color}/10 text-{color} border...`) ⛔ HANYA untuk pill badge header section — **DILARANG** di teks polos
     - Untuk teks accent TANPA background: WAJIB pakai `${theme.topLine.replace('bg-', 'text-')}` → menghasilkan `text-{accentColor}` saja
+- [ ] **Mandatory 4-Repo Git Status Audit**: Sebelum commit lokal dilakukan di Phase 3, AI wajib mengeksekusi audit 4 repository sekaligus: `for dir in . wuzzkang-dashboard wuzzkang-api wuzzkang-lp; do echo "=== $dir ===" && (cd $dir && git status); done`.
 
 ### 1.6 Kualitas Arsitektur & Clean Code
 - [ ] Mengikuti SOLID principles & Clean Architecture.
