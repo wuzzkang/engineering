@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wuzzkang.com/schemas/design-system.schema.json",
+  "title": "DesignSystem",
+  "description": "Three-Tier Token Architecture Schema (W3C Design Tokens Standard) for WuzzKang V2.",
+  "type": "object",
+  "required": ["id", "name", "primitives", "semantic"],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "name": { "type": "string" },
+    "primitives": {
+      "type": "object",
+      "required": ["color", "typography", "spacing", "radii", "shadows", "breakpoints"],
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string",
+              "pattern": "^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"
+            }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "required": ["families", "sizes", "weights", "lineHeights"],
+          "additionalProperties": false,
+          "properties": {
+            "families": {
+              "type": "object",
+              "required": ["heading", "body", "mono"],
+              "additionalProperties": false,
+              "properties": {
+                "heading": { "type": "string" },
+                "body": { "type": "string" },
+                "mono": { "type": "string" }
+              }
+            },
+            "sizes": {
+              "type": "object",
+              "additionalProperties": { "type": "string" }
+            },
+            "weights": {
+              "type": "object",
+              "additionalProperties": { "type": "integer" }
+            },
+            "lineHeights": {
+              "type": "object",
+              "additionalProperties": { "type": "number" }
+            }
+          }
+        },
+        "spacing": {
+          "type": "object",
+          "required": ["unit", "scale"],
+          "additionalProperties": false,
+          "properties": {
+            "unit": { "type": "string" },
+            "scale": {
+              "type": "object",
+              "additionalProperties": { "type": "number" }
+            }
+          }
+        },
+        "radii": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "shadows": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        },
+        "breakpoints": {
+          "type": "object",
+          "required": ["mobile", "tablet", "desktop"],
+          "additionalProperties": false,
+          "properties": {
+            "mobile": { "type": "string" },
+            "tablet": { "type": "string" },
+            "desktop": { "type": "string" }
+          }
+        }
+      }
+    },
+    "semantic": {
+      "type": "object",
+      "required": ["color", "typography"],
+      "additionalProperties": false,
+      "properties": {
+        "color": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "additionalProperties": { "type": "string" }
+          }
+        },
+        "typography": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["family", "weight"],
+            "additionalProperties": false,
+            "properties": {
+              "family": { "type": "string" },
+              "weight": { "type": "integer" }
+            }
+          }
+        }
+      }
+    },
+    "darkMode": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "userOverrides": {
+      "type": "object",
+      "additionalProperties": { "type": "string" }
+    }
+  }
+}

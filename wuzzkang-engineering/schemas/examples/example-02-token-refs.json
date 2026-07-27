@@ -1,0 +1,72 @@
+{
+  "$schema": "https://wuzzkang.com/schemas/page-document.schema.json",
+  "$version": "1.0.0",
+  "id": "22222222-2222-2222-2222-222222222222",
+  "createdAt": "2026-07-27T10:15:00Z",
+  "updatedAt": "2026-07-27T10:15:00Z",
+  "meta": {
+    "title": "Token Reference Test Page",
+    "description": "Test page for design system token overrides",
+    "slug": "token-ref-test",
+    "lang": "id",
+    "status": "published"
+  },
+  "designSystemId": "brand-purple",
+  "nodes": [
+    {
+      "id": "b2c3d4e5-f6a7-8b9c-0d1e-2f3a4b5c6d7e",
+      "typeId": "hero-basic",
+      "order": 0,
+      "parentId": null,
+      "data": {
+        "headline": {
+          "$type": "text",
+          "value": "Desain Futuristik Berbasis Token"
+        }
+      },
+      "styleOverrides": {
+        "backgroundColor": {
+          "$token": "semantic.color.background.primary",
+          "fallback": "#0F172A"
+        },
+        "textColor": {
+          "$token": "semantic.color.text.brand",
+          "fallback": "#8B5CF6"
+        }
+      },
+      "visibility": {
+        "desktop": true,
+        "tablet": true,
+        "mobile": true
+      },
+      "locked": false,
+      "label": "Custom Hero"
+    },
+    {
+      "id": "c3d4e5f6-a7b8-9c0d-1e2f-3a4b5c6d7e8f",
+      "typeId": "cta-centered",
+      "order": 1,
+      "parentId": null,
+      "data": {
+        "headline": {
+          "$type": "text",
+          "value": "Siap Mengubah Website Anda?"
+        }
+      },
+      "styleOverrides": {
+        "buttonColor": {
+          "$token": "semantic.color.brand.primary"
+        }
+      },
+      "visibility": {
+        "desktop": true,
+        "tablet": true,
+        "mobile": true
+      },
+      "locked": false,
+      "label": "Call To Action"
+    }
+  ],
+  "formatVersion": 1,
+  "checksum": "f4c0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b866"
+}

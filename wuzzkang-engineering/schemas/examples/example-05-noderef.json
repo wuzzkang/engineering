@@ -1,0 +1,63 @@
+{
+  "$schema": "https://wuzzkang.com/schemas/page-document.schema.json",
+  "$version": "1.0.0",
+  "id": "55555555-5555-5555-5555-555555555555",
+  "createdAt": "2026-07-27T11:00:00Z",
+  "updatedAt": "2026-07-27T11:00:00Z",
+  "meta": {
+    "title": "Shared Header Reference Page",
+    "description": "Test page for cross-node references via noderef",
+    "slug": "noderef-test",
+    "lang": "id",
+    "status": "published"
+  },
+  "designSystemId": "default-light",
+  "nodes": [
+    {
+      "id": "f6a7b8c9-0d1e-2f3a-4b5c-6d7e8f9a0b1c",
+      "typeId": "header-nav",
+      "order": 0,
+      "parentId": null,
+      "data": {
+        "title": {
+          "$type": "text",
+          "value": "Global Master Header"
+        }
+      },
+      "styleOverrides": {},
+      "visibility": {
+        "desktop": true,
+        "tablet": true,
+        "mobile": true
+      },
+      "locked": true,
+      "label": "Master Header Node"
+    },
+    {
+      "id": "a7b8c90d-1e2f-3a4b-5c6d-7e8f9a0b1c2d",
+      "typeId": "hero-basic",
+      "order": 1,
+      "parentId": null,
+      "data": {
+        "headerReference": {
+          "$type": "noderef",
+          "nodeId": "f6a7b8c9-0d1e-2f3a-4b5c-6d7e8f9a0b1c"
+        },
+        "headline": {
+          "$type": "text",
+          "value": "Page Linked To Shared Header"
+        }
+      },
+      "styleOverrides": {},
+      "visibility": {
+        "desktop": true,
+        "tablet": true,
+        "mobile": true
+      },
+      "locked": false,
+      "label": "Hero With Header Ref"
+    }
+  ],
+  "formatVersion": 1,
+  "checksum": "c7f0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b899"
+}

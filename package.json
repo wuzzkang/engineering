@@ -9,6 +9,8 @@
     "sync:templates": "npm run sync:templates --prefix wuzzkang-dashboard"
   },
   "devDependencies": {
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
     "concurrently": "^8.0.0"
   }
 }
