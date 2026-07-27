@@ -46,7 +46,7 @@ Setiap pengajuan perubahan kode wajib diaudit berdasarkan 6 dimensi utama:
     - `theme.cardNum` (`bg-{color} text-white shadow-{color}`) ⛔ HANYA untuk elemen lingkaran nomor berbg — **DILARANG** di `<span>` teks biasa/label/caption (akan menyebabkan background muncul)
     - `theme.badge` (`bg-{color}/10 text-{color} border...`) ⛔ HANYA untuk pill badge header section — **DILARANG** di teks polos
     - Untuk teks accent TANPA background: WAJIB pakai `${theme.topLine.replace('bg-', 'text-')}` → menghasilkan `text-{accentColor}` saja
-- [ ] **Mandatory 4-Repo Git Status Audit**: Sebelum commit lokal dilakukan di Phase 3, AI wajib mengeksekusi audit 4 repository sekaligus: `for dir in . wuzzkang-dashboard wuzzkang-api wuzzkang-lp; do echo "=== $dir ===" && (cd $dir && git status); done`.
+- [ ] **Mandatory 5-Repo Git Status Audit**: Sebelum commit lokal dilakukan di Phase 3, AI wajib mengeksekusi audit 5 repository sekaligus: `for dir in . wuzzkang-dashboard wuzzkang-api wuzzkang-lp wuzzkang-sections; do echo "=== $dir ===" && (cd $dir && git status); done`.
 
 ### 1.6 Kualitas Arsitektur & Clean Code
 - [ ] Mengikuti SOLID principles & Clean Architecture.

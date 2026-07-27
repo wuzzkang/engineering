@@ -66,7 +66,7 @@ Before writing code or proposing changes, check the user prompt intent and inspe
 4. **Database & Sensitive Data Protection:** NEVER drop tables, truncate databases, delete structural data, or alter sensitive schemas without explicit user confirmation and approval.
 5. **Confirmation for Unsolicited Actions:** Any suggestion or technical action outside the user's explicit command MUST be confirmed with the user for approval first.
 6. **Credential & Secret Protection:** Strictly verify every code change to ensure NO API keys, Private keys, passwords, or sensitive credentials are ever exposed in public code, frontend logs, or committed to Git repository.
-7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 4 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`). Whenever changes are made and confirmed finished by the user, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
+7. **Mandatory Multi-Repository Local Git Commit (Strictly NO Push):** Wuzzkang consists of 5 distinct Git repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`, `wuzzkang-sections`). Whenever changes are made and confirmed finished by the user, AI MUST execute local `git commit` in every affected repository. AI is STRICTLY FORBIDDEN from executing `git push`.
 8. **Mandatory 3-Phase Implementation Protocol & User-Approved Execution & Archive/Commit Cycle (Strict SOP):**
    AI MUST execute technical implementations in 3 distinct phases according to `docs/98_IMPLEMENTATION_PROTOCOL.md`:
    - **Phase 1 (Planning Gate — Executed First, NO Code Written):**
@@ -88,7 +88,7 @@ Before writing code or proposing changes, check the user prompt intent and inspe
      a. **Execute `npm run sync:templates`** to guarantee 100% template synchronization between `wuzzkang-lp` and `wuzzkang-dashboard/public/preview/`.
      b. Archive `implementation/active/` to `implementation/archive/YYYY-MM-DD-feature-name/`.
      c. Re-initialize empty tracking templates in `implementation/active/` for the next task.
-     d. **Execute `git status`** across ALL 4 repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`) using the mandatory 4-repo audit command: `for dir in . wuzzkang-dashboard wuzzkang-api wuzzkang-lp; do echo "=== $dir ===" && (cd $dir && git status); done` to inspect and verify all uncommitted files before committing.
+     d. **Execute `git status`** across ALL 5 repositories (`root`, `wuzzkang-dashboard`, `wuzzkang-api`, `wuzzkang-lp`, `wuzzkang-sections`) using the mandatory 5-repo audit command: `for dir in . wuzzkang-dashboard wuzzkang-api wuzzkang-lp wuzzkang-sections; do echo "=== $dir ===" && (cd $dir && git status); done` to inspect and verify all uncommitted files before committing.
      e. **Execute local `git commit`** in every affected repository including `root` for the completed task and archive.
 
 ## CRITICAL PROJECT RULES:

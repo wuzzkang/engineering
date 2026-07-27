@@ -32,7 +32,7 @@ Future designs belong to later documents.
 | wuzzkang-api | Active | Backend API (Express.js + Node.js) |
 | wuzzkang-dashboard | Active | User Dashboard (Next.js App Router) |
 | wuzzkang-lp | Active | Landing Page Runtime (Vanilla JS) |
-| wuzzkang-sections | Active | V2 Modular Section Components & `@wuzzkang/renderer-core` |
+| wuzzkang-sections | Active | Standalone Component Library & `@wuzzkang/renderer-core` AST Repository |
 
 ---
 

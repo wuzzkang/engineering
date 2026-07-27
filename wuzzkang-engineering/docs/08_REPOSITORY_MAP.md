@@ -129,7 +129,23 @@ wuzzkang-lp/
 
 ---
 
-## 4. Engineering Docs (`wuzzkang-engineering`)
+## 3b. Section Component Library & AST Core (`wuzzkang-sections`)
+
+Sub-repositori independen yang mengelola pustaka komponen seksi V2, perender berbasis Abstract Syntax Tree (AST), dan canvas pratinjau Vite.
+
+```text
+wuzzkang-sections/
+├── apps/
+│   └── preview-app/              # Canvas Pratinjau Vite (berjalan di port 3333)
+├── packages/
+│   ├── renderer-core/            # @wuzzkang/renderer-core (DocumentInterpreter & TokenResolver AST)
+│   ├── preview-bridge-client/    # Client komunikasi postMessage Preview Bridge
+│   └── types/                    # Tipe AST & v2Presets.js
+├── sections/                     # Komponen Seksi V2 Modular & JSON Schemas (hero-basic, header-nav, dll)
+├── tests/                        # Regression tests (all-12-sections.test.mjs)
+├── .gitignore                    # Ignored paths (node_modules, dist, .turbo)
+└── package.json                  # Workspace Root Config (@wuzzkang/sections-workspace)
+```
 
 Direktori dokumentasi teknis sistem dan rekaman audit database.
 
