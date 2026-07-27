@@ -34,6 +34,13 @@ export function CtaCenteredRenderer({ node, onNodeClick }) {
         )}
         <a
           href={ctaHref}
+          onClick={(e) => {
+            if (onNodeClick) {
+              e.preventDefault();
+              e.stopPropagation();
+              onNodeClick(node.id);
+            }
+          }}
           style={{
             display: 'inline-block',
             padding: '14px 36px',

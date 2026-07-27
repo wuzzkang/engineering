@@ -44,6 +44,13 @@ export function HeaderNavRenderer({ node, onNodeClick }) {
       {ctaLabel && (
         <a
           href={ctaHref}
+          onClick={(e) => {
+            if (onNodeClick) {
+              e.preventDefault();
+              e.stopPropagation();
+              onNodeClick(node.id);
+            }
+          }}
           style={{
             padding: '10px 20px',
             fontSize: '0.9rem',

@@ -107,6 +107,13 @@ export function HeroBasicRenderer({ node, onNodeClick }) {
           <a
             href={ctaHref}
             style={buttonStyle}
+            onClick={(e) => {
+              if (onNodeClick) {
+                e.preventDefault();
+                e.stopPropagation();
+                onNodeClick(node.id);
+              }
+            }}
             target={data.ctaUrl?.openInNewTab ? '_blank' : '_self'}
             rel="noopener noreferrer"
           >

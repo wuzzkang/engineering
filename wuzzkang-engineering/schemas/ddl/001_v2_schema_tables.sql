@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS section_types (
   defaults JSONB NOT NULL DEFAULT '{}'::jsonb,
   style_constraints JSONB DEFAULT '{}'::jsonb,
   capabilities JSONB NOT NULL DEFAULT '{"supportsAIGeneration": true, "supportsAnimation": true, "supportsChildren": false, "responsiveBehavior": "fluid"}'::jsonb,
-  status VARCHAR(20) NOT NULL DEFAULT 'active', -- 'draft', 'active', 'deprecated', 'archived'
+  status VARCHAR(20) NOT NULL DEFAULT 'active',
   author_id UUID,
   created_at TIMESTAMPTZ DEFAULT NOW(),
   updated_at TIMESTAMPTZ DEFAULT NOW()
@@ -50,10 +50,10 @@ CREATE TABLE IF NOT EXISTS design_systems (
 
 -- 4. Project Page Documents V2 Table
 CREATE TABLE IF NOT EXISTS project_documents_v2 (
-  project_id UUID PRIMARY KEY, -- Links 1:1 to existing projects table
+  project_id UUID PRIMARY KEY,
   document_version VARCHAR(20) NOT NULL DEFAULT '1.0.0',
   design_system_id VARCHAR(100) REFERENCES design_systems(id),
-  document_json JSONB NOT NULL, -- Conforms to page-document.schema.json
+  document_json JSONB NOT NULL,
   format_version INTEGER NOT NULL DEFAULT 1,
   checksum VARCHAR(64) NOT NULL,
   status VARCHAR(20) NOT NULL DEFAULT 'draft',
@@ -63,5 +63,28 @@ CREATE TABLE IF NOT EXISTS project_documents_v2 (
 );
 
 CREATE INDEX IF NOT EXISTS idx_project_docs_status ON project_documents_v2(status);
+
+-- 5. Supabase RLS (Row Level Security) Enablement
+ALTER TABLE section_categories ENABLE ROW LEVEL SECURITY;
+ALTER TABLE section_types ENABLE ROW LEVEL SECURITY;
+ALTER TABLE design_systems ENABLE ROW LEVEL SECURITY;
+ALTER TABLE project_documents_v2 ENABLE ROW LEVEL SECURITY;
+
+-- 6. Public Read Policies for Catalog Tables
+DO $$
+BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Allow public read section_categories') THEN
+    CREATE POLICY "Allow public read section_categories" ON section_categories FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Allow public read section_types') THEN
+    CREATE POLICY "Allow public read section_types" ON section_types FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Allow public read design_systems') THEN
+    CREATE POLICY "Allow public read design_systems" ON design_systems FOR SELECT USING (true);
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE policyname = 'Allow full access project_documents_v2') THEN
+    CREATE POLICY "Allow full access project_documents_v2" ON project_documents_v2 USING (true);
+  END IF;
+END $$;
 
 COMMIT;

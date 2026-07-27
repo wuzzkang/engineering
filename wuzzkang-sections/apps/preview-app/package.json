@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3333",
-    "build": "vite build"
+    "dev": "npx vite --port 3333",
+    "build": "npx vite build"
   },
   "dependencies": {
     "@wuzzkang/renderer-core": "file:../../packages/renderer-core",
