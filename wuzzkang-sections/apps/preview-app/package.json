@@ -8,8 +8,8 @@
     "build": "vite build"
   },
   "dependencies": {
-    "@wuzzkang/renderer-core": "workspace:*",
-    "@wuzzkang/types": "workspace:*",
+    "@wuzzkang/renderer-core": "file:../../packages/renderer-core",
+    "@wuzzkang/types": "file:../../packages/types",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
