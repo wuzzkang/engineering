@@ -1623,6 +1623,88 @@ To ensure continuity of frontend dashboard modules and rendering runtimes, all e
 
 ---
 
+### 9.6 V2 Dynamic Builder Endpoints
+
+#### `GET /api/v2/type-registry`
+* **Purpose:** List all registered modular section component definitions in the V2 registry.
+* **Authentication Required:** No (Public).
+* **Success Response (200 OK):**
+  ```json
+  {
+    "status": "success",
+    "data": [
+      {
+        "id": "hero-basic",
+        "category": "hero",
+        "displayName": "Hero Basic",
+        "schema": { ... }
+      }
+    ]
+  }
+  ```
+
+#### `GET /api/v2/type-registry/:typeId`
+* **Purpose:** Fetch JSON Schema definition and metadata for a specific section type.
+* **Authentication Required:** No (Public).
+* **Path Parameters:** `typeId` (string, e.g. `hero-basic`)
+* **Success Response (200 OK):**
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": "hero-basic",
+      "category": "hero",
+      "schema": { ... }
+    }
+  }
+  ```
+
+#### `GET /api/v2/design-systems/:id`
+* **Purpose:** Retrieve design tokens (primitives and semantic tokens) for a given design system ID.
+* **Authentication Required:** No (Public).
+* **Path Parameters:** `id` (string, e.g. `default-light`)
+
+#### `GET /api/projects/:id/v2/draft`
+* **Purpose:** Retrieve the active V2 PageDocument draft for a project.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Path Parameters:** `id` (UUID)
+
+#### `PUT /api/projects/:id/v2/draft`
+* **Purpose:** Save or update the V2 PageDocument draft and automatically synchronize key metadata (title, status, page_data) to the main `projects` table.
+* **Authentication Required:** Yes (Bearer JWT).
+* **Path Parameters:** `id` (UUID)
+* **Request Body Schema:**
+  ```json
+  {
+    "document": {
+      "$schema": "https://wuzzkang.com/schemas/page-document.schema.json",
+      "$version": "1.0.0",
+      "id": "uuid",
+      "meta": { "title": "string", "status": "draft" },
+      "designSystemId": "string",
+      "nodes": [ ... ]
+    },
+    "designSystemId": "string"
+  }
+  ```
+* **Success Response (200 OK):**
+  ```json
+  {
+    "status": "success",
+    "data": { "project_id": "uuid", "status": "draft", "updated_at": "..." }
+  }
+  ```
+
+#### `POST /api/projects/:id/v2/nodes/:nodeId/generate`
+* **Purpose:** Generate AI content for a specific section node using `SchemaToPromptCompiler`.
+* **Authentication Required:** Yes (Bearer JWT).
+
+#### `POST /api/projects/:id/v2/publish`
+* **Purpose:** Validate and publish a V2 project document for static HTML runtime deployment.
+* **Authentication Required:** Yes (Bearer JWT).
+
+---
+
 ## Part 16 — Change Log
 * **Purpose:** Track version changes made to the API contracts.
 * **Scope:** Chronological release log of API changes (additions, deprecations, modifications).
@@ -1630,32 +1712,17 @@ To ensure continuity of frontend dashboard modules and rendering runtimes, all e
 
 ### 16.1 Version History
 
-#### Version 1.0.0 (Released 2026-07-01)
-* **Status:** Released
-* **Changes:** Initial release of the Wuzzkang Core API Specification including standard endpoint shapes, security headers, and webhook callback schemas.
-
-#### Version 1.1.0 (Released 2026-07-05)
+#### Version 1.4.0 (Released 2026-07-27)
 * **Status:** Released
 * **Changes:**
-  * Added **Section 9.4** — AI Platform (Task Orchestration) Endpoints:
-    * `POST /api/v1/ai/execute` — Submit AI rendering task with idempotency dedup, wallet billing, and async queue dispatch.
-    * `GET /api/v1/ai/task/:id` — Poll AI task execution status (user-scoped).
-  * Both endpoints mount under `/api` with `authMiddleware` (Bearer JWT required).
-
-#### Version 1.2.0 (Released 2026-07-08)
-* **Status:** Released
-* **Changes:**
-  * Updated **Section 11.1** — Added optional `category` parameter to `POST /api/media/upload-url` payload to support uploads to categorized user subfolders (`uploads/userId/category/filename`).
-  * Added **Section 11.4** — `DELETE /api/media` endpoint for secure, ownership-validated asset deletion from Supabase Storage.
-
-#### Version 1.3.0 (Released 2026-07-09)
-* **Status:** Released
-* **Changes:**
-  * Added **Section 9.5** — Custom Domain & Subdomain Endpoints:
-    * `POST /api/domains/claim-subdomain` — Claim subdomain with Zod format validation and 10 credits wallet deduction.
-    * `GET /api/domains/:projectId` — Fetch active domain and target URL endpoints.
-    * `DELETE /api/domains/:projectId` — Release claimed subdomain from active project.
-    * `GET /api/domains/check` — Verify subdomain prefix availability.
+  * Added **Section 9.6** — V2 Dynamic Builder Endpoints:
+    * `GET /api/v2/type-registry` — List registered section component types.
+    * `GET /api/v2/type-registry/:typeId` — Fetch JSON Schema definition for a specific section type.
+    * `GET /api/v2/design-systems/:id` — Fetch primitive & semantic design system definition.
+    * `GET /api/projects/:id/v2/draft` — Fetch V2 PageDocument draft record.
+    * `PUT /api/projects/:id/v2/draft` — Save V2 PageDocument draft & auto-sync to main `projects` table.
+    * `POST /api/projects/:id/v2/nodes/:nodeId/generate` — Trigger AI section content generation via `SchemaToPromptCompiler`.
+    * `POST /api/projects/:id/v2/publish` — Publish V2 landing page document.
 
 ---
 
@@ -1672,3 +1739,4 @@ To ensure continuity of frontend dashboard modules and rendering runtimes, all e
 - [04_DOMAIN_MODEL.md](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/docs/04_DOMAIN_MODEL.md) — Conceptual business invariant models
 - [09_DATABASE_ARCHITECTURE.md](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/docs/09_DATABASE_ARCHITECTURE.md) — Storage engine RLS & triggers spec
 - [DATABASE_AUDIT_2026_07_01.md](file:///home/bms-del112/BMS/personal-project/wuzzkang/wuzzkang-engineering/audit/DATABASE_AUDIT_2026_07_01.md) — Database schema audit report
+

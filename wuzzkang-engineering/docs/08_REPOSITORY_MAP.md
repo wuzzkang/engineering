@@ -13,6 +13,7 @@ wuzzkang/
 ├── wuzzkang-api/          # Backend API (Express.js + Node.js)
 ├── wuzzkang-dashboard/    # Frontend User Dashboard (Next.js App Router)
 ├── wuzzkang-lp/          # Perender Landing Page (Vanilla JS Runtime & Templates)
+├── wuzzkang-sections/    # V2 Modular Section Component Library & Renderer AST Core
 └── wuzzkang-engineering/ # Dokumentasi Sistem & Audit Database
 ```
 

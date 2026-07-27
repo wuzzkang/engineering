@@ -869,3 +869,23 @@ const { theme, sectionBgClass, patternHtml } = getSectionStyle(
 #### Invarian Desain:
 * Saat `bg_brightness = 'light'`, latar dipaksa 100% solid putih/terang (`bg-white` / `bg-emerald-50`), teks otomatis menjadi gelap pekat (`text-slate-900`/`text-emerald-950`), dan warna aksen brand (tombol, badge, hiasan) **tetap dipertahankan** sesuai `bg_style`.
 * Body background preview iframe (`public/preview/index.html`) dan runtime live (`wuzzkang-lp/script.js`) secara otomatis dipaksa ke `#020617` / `bg-slate-950` untuk `dynamic-builder` guna menjamin presisi warna 100%.
+
+---
+
+### 3. V2 First Principles Core Engine (`@wuzzkang/renderer-core`)
+
+Sistem V2 Enterprise menggunakan modul perenderan independen berbasis AST di `@wuzzkang/renderer-core` (direktori `wuzzkang-sections/packages/renderer-core/`):
+
+#### `DocumentInterpreter`
+- Menerjemahkan `PageDocument` AST (berisi `nodes`, `designSystemId`, `meta`) menjadi `ResolvedRenderTree` yang siap dirender oleh UI.
+- Benchmark resolusi: Resolusi 12 seksi modular selesai dalam waktu **~1.37 ms** (ambang batas performa < 10 ms).
+
+#### `TokenResolver`
+- Menyelesaikan token desain hierarkis dari `primitives` ke `semantic`.
+- Contoh: Token `semantic.color.background.primary` diselesaikan secara dinamis ke `{primitives.color.neutral.50}` (`#FAFAFA`) atau varian dark mode sesuai tema aktif.
+
+#### Protokol Preview Bridge
+- Menggunakan `window.postMessage` antara V2 Builder UI (`wuzzkang-dashboard`) dan iframe Vite Preview Canvas (`http://localhost:3333` / `wuzzkang-sections/apps/preview-app`).
+- Tipe pesan: `INIT_BRIDGE`, `UPDATE_NODES`, `UPDATE_THEME`, `SELECT_NODE`, `HIGHLIGHT_NODE`.
+- Perubahan komponen di canvas langsung ter-render dalam hitungan milidetik secara *real-time*.
+

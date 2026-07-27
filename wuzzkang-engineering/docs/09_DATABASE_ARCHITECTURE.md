@@ -56,6 +56,9 @@ The Wuzzkang database consists of the following objects, verified against migrat
 * **Tables:**
   * `public.profiles`
   * `public.projects`
+  * `public.project_documents_v2`
+  * `public.section_types_v2`
+  * `public.design_systems_v2`
   * `public.transactions`
   * `public.user_domains` *(Unused schema)*
   * `public.products`
@@ -236,6 +239,45 @@ The following table matches the conceptual business entities from `04_DOMAIN_MOD
 | `domain_provider_order_id` | `TEXT` | `NULL` | - | Domain provider identifier. |
 | `created_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Row insertion timestamp. |
 | `updated_at` | `TIMESTAMPTZ` | `NULL` | `NOW()` | Last update timestamp. |
+
+### 8.2b project_documents_v2
+* **Purpose:** Stores First Principles V2 PageDocument definitions (`nodes`, `designSystemId`, `meta`, `formatVersion`, `checksum`).
+* **Scope:** Column names, SQL data types, nullability, default values, and constraints.
+
+#### Table Definition: `public.project_documents_v2`
+| Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
+|---|---|---|---|---|
+| `project_id` | `UUID` | `NOT NULL` | - | Primary Key. References `public.projects(id)` ON DELETE CASCADE. |
+| `document_version` | `TEXT` | `NOT NULL` | `'1.0.0'` | Document schema version contract (e.g. `'1.0.0'`). |
+| `design_system_id` | `TEXT` | `NOT NULL` | `'default-light'` | References active design system theme ID. |
+| `document_json` | `JSONB` | `NOT NULL` | - | Validated V2 PageDocument JSON object. |
+| `format_version` | `INTEGER` | `NOT NULL` | `1` | Integer format version of document AST. |
+| `checksum` | `TEXT` | `NOT NULL` | - | SHA-256 integrity checksum string of document AST. |
+| `status` | `TEXT` | `NOT NULL` | `'draft'` | Lifecycle status (`'draft'`, `'published'`). |
+| `created_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Record insertion timestamp. |
+| `updated_at` | `TIMESTAMPTZ` | `NOT NULL` | `NOW()` | Record update timestamp. |
+
+### 8.2c section_types_v2
+* **Purpose:** Registry storing JSON Schema definitions and UI metadata for modular V2 section components.
+
+#### Table Definition: `public.section_types_v2`
+| Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
+|---|---|---|---|---|
+| `id` | `TEXT` | `NOT NULL` | - | Primary Key (e.g. `'hero-basic'`, `'header-nav'`, `'features-grid'`). |
+| `category` | `TEXT` | `NOT NULL` | - | Section category (`'hero'`, `'navigation'`, `'content'`, `'cta'`, `'footer'`). |
+| `display_name` | `TEXT` | `NOT NULL` | - | Human-readable section component title. |
+| `schema_json` | `JSONB` | `NOT NULL` | - | JSON Schema validation contract for section properties. |
+| `status` | `TEXT` | `NOT NULL` | `'active'` | Availability status (`'active'`, `'deprecated'`). |
+
+### 8.2d design_systems_v2
+* **Purpose:** Registry storing design token primitives and semantic mapping systems for V2 pages.
+
+#### Table Definition: `public.design_systems_v2`
+| Column Name | SQL Data Type | Nullability | Default Value | Description / Constraints |
+|---|---|---|---|---|
+| `id` | `TEXT` | `NOT NULL` | - | Primary Key (e.g. `'default-light'`, `'dark-modern'`). |
+| `name` | `TEXT` | `NOT NULL` | - | Theme display name. |
+| `tokens_json` | `JSONB` | `NOT NULL` | - | Primitives and semantic token mappings object. |
 
 
 ### 8.3 transactions
