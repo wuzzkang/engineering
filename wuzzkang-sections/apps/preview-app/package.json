@@ -1,0 +1,20 @@
+{
+  "name": "wuzzkang-preview-app",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3333",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@wuzzkang/renderer-core": "workspace:*",
+    "@wuzzkang/types": "workspace:*",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.3.1",
+    "vite": "^5.4.2"
+  }
+}

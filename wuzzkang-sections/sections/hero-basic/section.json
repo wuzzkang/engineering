@@ -1,0 +1,30 @@
+{
+  "id": "hero-basic",
+  "namespace": "wuzzkang.core",
+  "schemaVersion": "1.0.0",
+  "displayName": "Basic Hero Section",
+  "description": "Standard hero section with headline, subheadline, CTA button, and dark background overlay option.",
+  "category": "hero",
+  "tags": ["hero", "header", "banner"],
+  "schema": [
+    { "key": "headline", "type": "text", "label": "Headline", "required": true, "aiGeneratable": true },
+    { "key": "subheadline", "type": "text", "label": "Subheadline", "required": false, "aiGeneratable": true },
+    { "key": "ctaLabel", "type": "text", "label": "CTA Button Label", "required": false, "aiGeneratable": true },
+    { "key": "ctaUrl", "type": "url", "label": "CTA URL", "required": false, "aiGeneratable": false },
+    { "key": "backgroundImage", "type": "image", "label": "Background Image", "required": false },
+    { "key": "backgroundOverlay", "type": "boolean", "label": "Enable Dark Overlay", "required": false }
+  ],
+  "defaults": {
+    "headline": { "$type": "text", "value": "Selamat Datang di WuzzKang V2" },
+    "subheadline": { "$type": "text", "value": "Platform visual builder berbasis komponen modular." },
+    "ctaLabel": { "$type": "text", "value": "Mulai Sekarang" },
+    "ctaUrl": { "$type": "url", "href": "https://wuzzkang.com" },
+    "backgroundOverlay": { "$type": "boolean", "value": true }
+  },
+  "capabilities": {
+    "supportsAIGeneration": true,
+    "supportsAnimation": true,
+    "supportsChildren": false,
+    "responsiveBehavior": "fluid"
+  }
+}
