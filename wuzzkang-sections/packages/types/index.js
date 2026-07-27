@@ -29,3 +29,5 @@ export const BRIDGE_MESSAGE_TYPES = Object.freeze({
   NODE_CLICKED: 'NODE_CLICKED',
   SCROLL_TO_NODE: 'SCROLL_TO_NODE'
 });
+
+export { V2_STARTER_PRESETS } from './v2Presets.js';
