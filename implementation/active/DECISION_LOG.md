@@ -1,3 +1,3 @@
-# DECISION_LOG — Continuation Pending for Tomorrow
+# Technical Decision Log — Active Session Placeholder
 
-Lihat rincian lengkap di `HANDOVER.md`.
+N/A
