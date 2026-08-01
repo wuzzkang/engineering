@@ -889,3 +889,27 @@ Sistem V2 Enterprise menggunakan modul perenderan independen berbasis AST di `@w
 - Tipe pesan: `INIT_BRIDGE`, `UPDATE_NODES`, `UPDATE_THEME`, `SELECT_NODE`, `HIGHLIGHT_NODE`.
 - Perubahan komponen di canvas langsung ter-render dalam hitungan milidetik secara *real-time*.
 
+---
+
+### 4. SOP Penambahan & Modifikasi Seksi Komponen V2 First Principles
+
+Dokumen SOP resmi ini adalah acuan standar bagi AI Assistant dan Developer saat menambah seksi baru atau memodifikasi seksi yang ada di ekosistem V2 First Principles:
+
+#### Langkah 1: Buat/Modifikasi Folder Seksi di `wuzzkang-sections/sections/[section_type]/`
+Setiap seksi V2 disimpan sebagai modul terisolasi di `wuzzkang-sections/sections/[section_type]/`:
+- `section.json`: Berisi skema Zod, metadata (`id`, `displayName`, `category_id`), data default (`headline`, `ctaUrl`, dll.), dan deskripsi.
+- `Renderer.jsx`: Komponen tampilan React yang membaca `node.data` dan `node.styleOverrides` (`backgroundColor`, `textColor`, `paddingTop`).
+- `EditorForm.jsx` *(Opsional)*: Form editor properti kustom untuk Property Panel di Dashboard jika seksi membutuhkan kontrol khusus.
+
+#### Langkah 2: Daftarkan di Registry Canvas Preview (`wuzzkang-sections/apps/preview-app/src/main.jsx`)
+- Impor komponen `Renderer` baru (contoh: `import { NewSectionRenderer } from '../../../sections/new-section/Renderer.jsx';`).
+- Daftarkan `typeId` seksi ke dalam objek `RENDERER_REGISTRY` (contoh: `'new-section': NewSectionRenderer`).
+
+#### Langkah 3: Daftarkan di Modal Katalog & Presets Dashboard
+- **Katalog Modal**: Tambahkan item metadata seksi baru ke `FALLBACK_CATALOG` di `wuzzkang-dashboard/src/components/v2/SectionPickerModal.jsx`.
+- **Presets Selector**: Tambahkan contoh pemetaannya di `wuzzkang-dashboard/src/app/generate/v2Presets.js` jika ingin menyertakannya dalam preset halaman baru.
+
+#### Langkah 4: Verifikasi & Test Build Sync
+- Jalankan kompilasi: `bash -c '. ~/.nvm/nvm.sh && nvm use 24 && npm run build --prefix wuzzkang-dashboard'`.
+- Pastikan build tuntas 100% tanpa error, dan komponen dapat dipilih via modal `+ Add Section`.
+
