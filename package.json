@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && concurrently \"npm run dev --prefix wuzzkang-api\" \"npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp -l 3001\" \"npx vite --port 3333 wuzzkang-sections/apps/preview-app\"'",
+    "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && NEXT_PUBLIC_V2_CANVAS_URL=http://localhost:3333 concurrently \"npm run dev --prefix wuzzkang-api\" \"NEXT_PUBLIC_V2_CANVAS_URL=http://localhost:3333 npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp -l 3001\" \"npx vite --port 3333 wuzzkang-sections/apps/preview-app\"'",
+    "dev:vercel": "bash -c '. ~/.nvm/nvm.sh && nvm use && NEXT_PUBLIC_V2_CANVAS_URL=https://wuzzkang-section-preview-app.vercel.app concurrently \"npm run dev --prefix wuzzkang-api\" \"NEXT_PUBLIC_V2_CANVAS_URL=https://wuzzkang-section-preview-app.vercel.app npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp -l 3001\"'",
     "build": "npm run build --prefix wuzzkang-dashboard",
     "test": "npm run test --prefix wuzzkang-api",
     "sync:templates": "npm run sync:templates --prefix wuzzkang-dashboard"
