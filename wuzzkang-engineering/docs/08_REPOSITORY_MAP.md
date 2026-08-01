@@ -78,9 +78,13 @@ wuzzkang-dashboard/
 │   │   │   ├── v1/
 │   │   │   │   └── page.js       # Editor Form V1 Legacy (Form-based)
 │   │   │   ├── v2/
-│   │   │   │   └── page.js       # Editor V2 Modular Section Builder (Dynamic Builder)
+│   │   │   │   ├── [projectId]/
+│   │   │   │   │   └── page.jsx  # Editor V2 First Principles AST 3-Panel Visual Builder
+│   │   │   │   └── page.js       # Inisiasi Proyek V2 & Preset Selector
+│   │   │   ├── v2-legacy-notice/
+│   │   │   │   └── page.js       # Halaman Read-Only Notice untuk Proyek V2 Lama (dynamic-builder)
 │   │   │   ├── v2Presets.js      # Smart Starter Kits Presets untuk V2
-│   │   │   └── page.js           # Auto-Redirect Router berbasis template_version
+│   │   │   └── page.js           # Auto-Redirect Router berbasis template_version & format AST
 │   │   ├── login/
 │   │   │   └── page.js           # Halaman masuk akun
 │   │   ├── register/
