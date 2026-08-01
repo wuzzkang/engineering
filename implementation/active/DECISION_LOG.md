@@ -1,3 +1,3 @@
-# Technical Decision Log — Active Session Placeholder
+# Decision Log — Active Session Placeholder
 
-N/A
+Standby for next implementation task.

@@ -1,3 +1,3 @@
 # Implementation Progress — Active Session Placeholder
 
-- `[ ]` **Milestone 1**: Standing by for next task
+- [ ] Awaiting new task definition
