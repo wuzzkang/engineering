@@ -1,0 +1,60 @@
+{
+  "$schema": "https://wuzzkang.com/schemas/page-document.schema.json",
+  "$version": "1.0.0",
+  "id": "33333333-3333-3333-3333-333333333333",
+  "createdAt": "2026-07-27T10:30:00Z",
+  "updatedAt": "2026-07-27T10:30:00Z",
+  "meta": {
+    "title": "FAQ Page Document",
+    "description": "Test page for nested list schema structures",
+    "slug": "faq-test-page",
+    "lang": "id",
+    "status": "published"
+  },
+  "designSystemId": "default-light",
+  "nodes": [
+    {
+      "id": "d4e5f6a7-b8c9-0d1e-2f3a-4b5c6d7e8f9a",
+      "typeId": "faq-standard",
+      "order": 0,
+      "parentId": null,
+      "data": {
+        "title": {
+          "$type": "text",
+          "value": "Pertanyaan yang Sering Diajukan"
+        },
+        "items": {
+          "$type": "list",
+          "items": [
+            {
+              "$type": "text",
+              "value": "Apakah WuzzKang V2 mendukung komponen custom?"
+            },
+            {
+              "$type": "text",
+              "value": "Ya, seluruh arsitektur berbasis section plugin yang modular."
+            },
+            {
+              "$type": "text",
+              "value": "Bagaimana cara melakukan publish?"
+            },
+            {
+              "$type": "text",
+              "value": "Cukup klik tombol Publish di editor, LP runtime akan otomatis melakukan revalidation."
+            }
+          ]
+        }
+      },
+      "styleOverrides": {},
+      "visibility": {
+        "desktop": true,
+        "tablet": true,
+        "mobile": true
+      },
+      "locked": false,
+      "label": "FAQ Accordion"
+    }
+  ],
+  "formatVersion": 1,
+  "checksum": "a5d0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b877"
+}

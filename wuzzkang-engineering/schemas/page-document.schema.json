@@ -1,0 +1,241 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wuzzkang.com/schemas/page-document.schema.json",
+  "title": "PageDocument",
+  "description": "The foundational JSON Schema for WuzzKang V2 Page Document.",
+  "type": "object",
+  "required": [
+    "$schema",
+    "$version",
+    "id",
+    "meta",
+    "designSystemId",
+    "nodes",
+    "formatVersion",
+    "checksum"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "format": "uri"
+    },
+    "$version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "id": {
+      "type": "string",
+      "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+    },
+    "createdAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updatedAt": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "meta": {
+      "type": "object",
+      "required": ["title", "description", "slug", "lang", "status"],
+      "additionalProperties": false,
+      "properties": {
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "slug": { "type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$" },
+        "lang": { "type": "string" },
+        "ogImage": { "type": "string", "format": "uri" },
+        "canonicalUrl": { "type": "string", "format": "uri" },
+        "publishedAt": { "type": "string", "format": "date-time" },
+        "status": {
+          "type": "string",
+          "enum": ["draft", "published", "archived"]
+        }
+      }
+    },
+    "designSystemId": { "type": "string" },
+    "nodes": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/Node" }
+    },
+    "formatVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "checksum": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    }
+  },
+  "$defs": {
+    "Node": {
+      "type": "object",
+      "required": [
+        "id",
+        "typeId",
+        "order",
+        "data",
+        "styleOverrides",
+        "visibility",
+        "locked"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "typeId": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "order": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "parentId": {
+          "type": ["string", "null"],
+          "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+        },
+        "data": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/FieldValue" }
+        },
+        "styleOverrides": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["$token"],
+            "properties": {
+              "$token": { "type": "string" },
+              "fallback": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "visibility": {
+          "type": "object",
+          "required": ["desktop", "tablet", "mobile"],
+          "additionalProperties": false,
+          "properties": {
+            "desktop": { "type": "boolean" },
+            "tablet": { "type": "boolean" },
+            "mobile": { "type": "boolean" }
+          }
+        },
+        "locked": { "type": "boolean" },
+        "label": { "type": "string" }
+      }
+    },
+    "FieldValue": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": ["$type", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "text" },
+            "value": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "richtext" },
+            "value": {
+              "type": "array",
+              "items": { "type": "object" }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "number" },
+            "value": { "type": "number" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "boolean" },
+            "value": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "src", "alt"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "image" },
+            "src": { "type": "string" },
+            "alt": { "type": "string" },
+            "width": { "type": "integer" },
+            "height": { "type": "integer" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "href"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "url" },
+            "href": { "type": "string" },
+            "label": { "type": "string" },
+            "openInNewTab": { "type": "boolean" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "color" },
+            "token": { "type": "string" },
+            "fallback": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "value"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "select" },
+            "value": { "type": "string" }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "items"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "list" },
+            "items": {
+              "type": "array",
+              "items": { "$ref": "#/$defs/FieldValue" }
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": ["$type", "nodeId"],
+          "additionalProperties": false,
+          "properties": {
+            "$type": { "const": "noderef" },
+            "nodeId": {
+              "type": "string",
+              "pattern": "^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

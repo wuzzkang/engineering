@@ -42,7 +42,7 @@ Sebelum sesi pengerjaan ditutup atau milestone ditandai selesai (*completed*), A
 - [ ] Diperbarui jika ada perubahan repositori aktif, infrastruktur, atau perbaikan *technical debt*.
 
 ### 2.5 `docs/08_REPOSITORY_MAP.md`
-- [ ] Diperbarui jika ada struktur folder atau file arsitektur baru di monorepo (`wuzzkang-api`, `wuzzkang-dashboard`, `wuzzkang-lp`).
+- [ ] Diperbarui jika ada struktur folder atau file arsitektur baru di monorepo (`wuzzkang-api`, `wuzzkang-dashboard`, `wuzzkang-lp`, `wuzzkang-sections`).
 
 ---
 

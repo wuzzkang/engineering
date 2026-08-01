@@ -14,6 +14,11 @@ Dokumen ini adalah acuan aturan ketat (*strict guardrails*) bagi AI Assistant da
 
 ## 🛑 1. Aturan Ketat Komponen & UI (Strict Rules)
 
+### 1.0 Centralized Branding Configuration (Strict Invariant)
+- **DILARANG KERAS** meng-hardcode teks branding pengguna (nama aplikasi/brand, domain brand, email support, copyright notice) sebagai string literal dalam komponen UI, halaman dashboard, maupun file perenderan template landing page.
+- **WAJIB MENGGUNAKAN KONSTANTA BRANDING TERPUSAT**: Seluruh teks branding harus mengonsumsi modul konfigurasi terpusat (misalnya `BRAND_NAME`, `BRAND_DOMAIN` dari `@/config/branding` pada dashboard atau parameter `brandConfig` pada perenderan `wuzzkang-lp`).
+- Aturan ini menjamin rebranding seluruh platform dapat dilakukan dalam 1 titik secara konsisten (*single-point configuration*).
+
 ### 1.1 Reuse Komponen Unggah Gambar (`ImagePickerField`)
 - **DILARANG KERAS** membuat komponen uploader file atau image picker dari nol di dashboard.
 - **WAJIB REUSE** komponen `<ImagePickerField>` yang berlokasi di `wuzzkang-dashboard/src/components/ImagePickerField.js`.

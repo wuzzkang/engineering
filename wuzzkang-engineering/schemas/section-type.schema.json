@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://wuzzkang.com/schemas/section-type.schema.json",
+  "title": "SectionTypeDefinition",
+  "description": "Data contract schema for WuzzKang V2 Section Types.",
+  "type": "object",
+  "required": [
+    "id",
+    "namespace",
+    "schemaVersion",
+    "displayName",
+    "description",
+    "category",
+    "tags",
+    "schema",
+    "defaults",
+    "capabilities"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9-]+$"
+    },
+    "namespace": {
+      "type": "string",
+      "pattern": "^[a-z0-9.]+$"
+    },
+    "schemaVersion": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "displayName": { "type": "string" },
+    "description": { "type": "string" },
+    "category": { "type": "string" },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "schema": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/FieldSchema" }
+    },
+    "defaults": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "styleConstraints": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "capabilities": {
+      "type": "object",
+      "required": ["supportsAIGeneration", "supportsAnimation", "supportsChildren", "responsiveBehavior"],
+      "additionalProperties": false,
+      "properties": {
+        "supportsAIGeneration": { "type": "boolean" },
+        "supportsAnimation": { "type": "boolean" },
+        "supportsChildren": { "type": "boolean" },
+        "responsiveBehavior": {
+          "type": "string",
+          "enum": ["fluid", "fixed", "custom"]
+        }
+      }
+    }
+  },
+  "$defs": {
+    "FieldSchema": {
+      "type": "object",
+      "required": ["key", "type", "label"],
+      "additionalProperties": false,
+      "properties": {
+        "key": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_]+$"
+        },
+        "type": {
+          "type": "string",
+          "enum": [
+            "text",
+            "richtext",
+            "number",
+            "boolean",
+            "image",
+            "url",
+            "color",
+            "select",
+            "list",
+            "noderef"
+          ]
+        },
+        "label": { "type": "string" },
+        "description": { "type": "string" },
+        "required": { "type": "boolean" },
+        "constraints": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "aiGeneratable": { "type": "boolean" },
+        "allowsTokenOverride": { "type": "boolean" },
+        "options": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["label", "value"],
+            "properties": {
+              "label": { "type": "string" },
+              "value": { "type": "string" }
+            }
+          }
+        },
+        "itemSchema": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/FieldSchema" }
+        }
+      }
+    }
+  }
+}

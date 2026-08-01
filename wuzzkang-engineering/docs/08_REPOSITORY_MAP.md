@@ -13,6 +13,7 @@ wuzzkang/
 ├── wuzzkang-api/          # Backend API (Express.js + Node.js)
 ├── wuzzkang-dashboard/    # Frontend User Dashboard (Next.js App Router)
 ├── wuzzkang-lp/          # Perender Landing Page (Vanilla JS Runtime & Templates)
+├── wuzzkang-sections/    # V2 Modular Section Component Library & Renderer AST Core
 └── wuzzkang-engineering/ # Dokumentasi Sistem & Audit Database
 ```
 
@@ -77,9 +78,13 @@ wuzzkang-dashboard/
 │   │   │   ├── v1/
 │   │   │   │   └── page.js       # Editor Form V1 Legacy (Form-based)
 │   │   │   ├── v2/
-│   │   │   │   └── page.js       # Editor V2 Modular Section Builder (Dynamic Builder)
+│   │   │   │   ├── [projectId]/
+│   │   │   │   │   └── page.jsx  # Editor V2 First Principles AST 3-Panel Visual Builder
+│   │   │   │   └── page.js       # Inisiasi Proyek V2 & Preset Selector
+│   │   │   ├── v2-legacy-notice/
+│   │   │   │   └── page.js       # Halaman Read-Only Notice untuk Proyek V2 Lama (dynamic-builder)
 │   │   │   ├── v2Presets.js      # Smart Starter Kits Presets untuk V2
-│   │   │   └── page.js           # Auto-Redirect Router berbasis template_version
+│   │   │   └── page.js           # Auto-Redirect Router berbasis template_version & format AST
 │   │   ├── login/
 │   │   │   └── page.js           # Halaman masuk akun
 │   │   ├── register/
@@ -128,7 +133,23 @@ wuzzkang-lp/
 
 ---
 
-## 4. Engineering Docs (`wuzzkang-engineering`)
+## 3b. Section Component Library & AST Core (`wuzzkang-sections`)
+
+Sub-repositori independen yang mengelola pustaka komponen seksi V2, perender berbasis Abstract Syntax Tree (AST), dan canvas pratinjau Vite.
+
+```text
+wuzzkang-sections/
+├── apps/
+│   └── preview-app/              # Canvas Pratinjau Vite (berjalan di port 3333)
+├── packages/
+│   ├── renderer-core/            # @wuzzkang/renderer-core (DocumentInterpreter & TokenResolver AST)
+│   ├── preview-bridge-client/    # Client komunikasi postMessage Preview Bridge
+│   └── types/                    # Tipe AST & v2Presets.js
+├── sections/                     # Komponen Seksi V2 Modular & JSON Schemas (hero-basic, header-nav, dll)
+├── tests/                        # Regression tests (all-12-sections.test.mjs)
+├── .gitignore                    # Ignored paths (node_modules, dist, .turbo)
+└── package.json                  # Workspace Root Config (@wuzzkang/sections-workspace)
+```
 
 Direktori dokumentasi teknis sistem dan rekaman audit database.
 

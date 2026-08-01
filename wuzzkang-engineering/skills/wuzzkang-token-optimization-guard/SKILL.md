@@ -41,3 +41,4 @@ Untuk menghemat biaya token LLM pada backend Wuzzkang (`wuzzkang-api`):
 1. **Wajib Redis MD5 Context Caching**: Setiap panggilan `generateFieldContent` wajib mengecek cache Redis berbasis hash MD5 konteks (TTL 24 jam) sebelum memanggil API Gemini.
 2. **Granular Per-Section Prompt Over Full-Page**: Utamakan penggunaan *Smart Starter Kits* (`v2Presets.js`) dan *per-section AI assist* ketimbang melakukan generasi satu halaman penuh secara sekaligus.
 3. **Model Efisien**: Gunakan `gemini-2.5-flash` sebagai model standar yang cepat, hemat biaya, dan responsif.
+4. **V2 AST Node Delta Updates**: Pada V2 Builder, pembaruan konten AI dikirim via rute khusus node `POST /api/projects/:id/v2/nodes/:nodeId/generate` untuk memperbarui 1 node spesifik dalam AST `PageDocument`, mencegah pemborosan token prompt akibat pengiriman seluruh struktur halaman.

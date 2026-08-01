@@ -3,12 +3,18 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && concurrently \"npm run dev --prefix wuzzkang-api\" \"npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp -l 3001\"'",
+    "dev": "bash -c '. ~/.nvm/nvm.sh && nvm use && concurrently \"npm run dev --prefix wuzzkang-api\" \"npm run dev --prefix wuzzkang-dashboard\" \"npx serve wuzzkang-lp -l 3001\" \"npx vite --port 3333 wuzzkang-sections/apps/preview-app\"'",
     "build": "npm run build --prefix wuzzkang-dashboard",
     "test": "npm run test --prefix wuzzkang-api",
     "sync:templates": "npm run sync:templates --prefix wuzzkang-dashboard"
   },
   "devDependencies": {
-    "concurrently": "^8.0.0"
+    "@vitejs/plugin-react": "^4.3.1",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "concurrently": "^8.0.0",
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "vite": "^5.4.2"
   }
 }
