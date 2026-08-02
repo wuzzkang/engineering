@@ -569,6 +569,8 @@ Implementation artifacts always take precedence over conversation history.
 
 20. **Proactive Legacy Modernization Advisory Directive:** If any mechanism, component, utility, or architectural rule from an older version (V1/legacy) is complex, obsolete, or no longer aligned with the active target architecture (e.g., V2 First Principles / Dynamic Builder), AI MUST proactively inform the user, articulate the rationale, and provide concrete technical recommendations (such as refactoring, replacing with a centralized V2 component, or introducing a dedicated new module) rather than blindly maintaining obsolete legacy implementations.
 
+21. **Multi-Repository Standalone Deployment & Import Isolation Invariant:** Monorepo Wuzzkang consists of 4 distinct sub-repositories (`wuzzkang-api`, `wuzzkang-dashboard`, `wuzzkang-lp`, `wuzzkang-sections`) that are deployed independently to separate GitHub repositories and hosting platforms (e.g. Vercel, Supabase, GitHub Pages). AI is STRICTLY FORBIDDEN from importing modules or files using relative paths that navigate outside a sub-repository's root directory (e.g. `import ... from '../../../../wuzzkang-sections/sections/...'`). Every sub-repository MUST remain 100% self-contained and buildable independently (`npm run build`) in CI/CD environments (such as Vercel) without depending on external folder structures outside its git repository root.
+
 # 13. Implementation Continuity Guarantee
 
 One of the primary objectives of this protocol is guaranteeing implementation continuity across different AI models, different AI vendors, different user accounts, and different engineering sessions.
