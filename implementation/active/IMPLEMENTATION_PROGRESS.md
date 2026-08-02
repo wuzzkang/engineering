@@ -1,3 +1,3 @@
 # Implementation Progress — Active Session Placeholder
 
-- [ ] Awaiting new task definition
+- **Status**: `Awaiting New Task` ⏳
