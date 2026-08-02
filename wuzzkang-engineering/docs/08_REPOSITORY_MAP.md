@@ -48,7 +48,9 @@ wuzzkang-api/
 │   │   ├── supabase.service.js   # Wrapper query database PostgreSQL Supabase
 │   │   └── wallet.service.js     # Layanan mutasi kredit saldo wallet
 │   └── utils/
-│       ├── redis.js              # Setup koneksi Redis client (untuk limit kuota AI)
+│       ├── aiQuota.js            # ⭐ Utility kuota AI harian terpusat — checkAndIncrementDailyQuota() (Lua atomic, single source of truth)
+│       ├── helpers.js            # Fungsi pembantu umum (getSecondsToUtcMidnight, dll)
+│       ├── redis.js              # Koneksi Redis client umum (caching, quota, rate-limiter) — TERPISAH dari queues/queue.js
 │       └── schema.js             # Skema validasi PageSchema Zod global
 ├── tests/
 │   └── unit/                     # Unit testing (project, wallet, & coupon services)
@@ -94,6 +96,10 @@ wuzzkang-dashboard/
 │   │   ├── layout.js             # Layout dasar (Navbar, Sidebar container)
 │   │   └── page.js               # Berkas utama daftar landing page & filter produk
 │   ├── components/
+│   │   ├── v2/
+│   │   │   └── V2ImagePickerWidget.jsx  # ⭐ Universal image picker V2 (Unsplash/Upload/URL, 4-layer security, Canvas resize, Supabase delete)
+│   │   ├── BriefTextareaModal.jsx # Full-screen Brief AI editor modal (mobile-first, back-button interception)
+│   │   ├── Modal.jsx             # Reusable generic modal (pushState back-button intercept)
 │   │   └── Sidebar.js            # Navigasi sidebar terpadu (Mobile/Desktop)
 │   ├── hooks/
 │   │   └── useRequireAdmin.js    # Hook pelindung rute halaman khusus admin

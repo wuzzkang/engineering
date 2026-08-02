@@ -567,6 +567,8 @@ Implementation artifacts always take precedence over conversation history.
 
 19. **Centralized Branding Configuration Invariant:** All user-facing branding attributes (brand name, brand domain, support email, copyright notice, etc.) MUST NEVER be hardcoded as raw string literals in UI components, landing pages, or dashboard screens. They MUST strictly consume centralized configuration constants (e.g. `BRAND_NAME`, `BRAND_DOMAIN` from `@/config/branding`). Any hardcoded branding text is strictly forbidden to ensure seamless, single-point brand rebranding across the entire platform.
 
+20. **Proactive Legacy Modernization Advisory Directive:** If any mechanism, component, utility, or architectural rule from an older version (V1/legacy) is complex, obsolete, or no longer aligned with the active target architecture (e.g., V2 First Principles / Dynamic Builder), AI MUST proactively inform the user, articulate the rationale, and provide concrete technical recommendations (such as refactoring, replacing with a centralized V2 component, or introducing a dedicated new module) rather than blindly maintaining obsolete legacy implementations.
+
 # 13. Implementation Continuity Guarantee
 
 One of the primary objectives of this protocol is guaranteeing implementation continuity across different AI models, different AI vendors, different user accounts, and different engineering sessions.
